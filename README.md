@@ -20,7 +20,7 @@ CC:Tweaked 与 Synaxis 都是可选依赖：只装 AFN 时桥接器仍保留 GUI
 
 ## 文档
 
-- [完整函数手册](./wiki/cctweaked/FUNCTIONS.md)：每个函数的参数、返回值、成功示例、失败示例、事件与错误码。
+- [完整函数手册](./FUNCTIONS.md)：每个函数的参数、返回值、成功示例、失败示例、事件与错误码。
 - [像素风 Wiki](./index.html)：适合在浏览器中检索和阅读。
 
 ## 精确函数索引
