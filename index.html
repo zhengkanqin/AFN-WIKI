@@ -1,0 +1,326 @@
+
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="AFN 桥接器 CC:Tweaked Lua 函数手册">
+  <title>AFN 桥接器 × CC:Tweaked</title>
+  <style>
+    :root{color-scheme:dark;--bg:#0e1418;--deep:#080c0f;--panel:#20282c;--raised:#2a3338;--line:#526068;--paper:#edddbf;--muted:#afa696;--copper:#bd5c3e;--brass:#e0a653;--steel:#83a4b5;--ok:#8eb56f;--bad:#df6e60;--code:#10181d;--mono:"Cascadia Code",Consolas,"Microsoft YaHei UI",monospace;--sans:"Segoe UI","Microsoft YaHei UI",sans-serif}
+    *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:80px}body{margin:0;min-width:320px;background:radial-gradient(circle at 18% 0,rgba(89,125,145,.18),transparent 35rem),linear-gradient(180deg,#121b21,var(--deep));color:var(--paper);font-family:var(--sans);line-height:1.65}a{color:#f3bd70;text-decoration:none}a:hover{text-decoration:underline;color:#ffe2a8}code,pre,input{font-family:var(--mono)}code{color:#f3bd70}.top{position:sticky;top:0;z-index:20;border-bottom:3px solid var(--copper);background:rgba(9,14,17,.95);box-shadow:0 8px 24px #0008}.topin{width:min(1500px,calc(100% - 28px));min-height:66px;margin:auto;display:flex;align-items:center;gap:16px}.brand{display:flex;align-items:center;gap:11px;white-space:nowrap}.gear{width:39px;height:39px;display:grid;place-items:center;border:4px solid var(--brass);border-radius:50%;background:var(--panel);color:var(--brass);font:900 14px var(--mono)}.brand strong{display:block;letter-spacing:.06em}.brand small{display:block;color:var(--steel);font:12px var(--mono)}#search{margin-left:auto;width:min(370px,45vw);padding:10px 12px;border:1px solid var(--line);background:#121a1f;color:var(--paper);outline:none}#search:focus{border-color:var(--brass);box-shadow:0 0 0 2px #e0a65330}.layout{width:min(1500px,calc(100% - 28px));margin:22px auto;display:grid;grid-template-columns:270px minmax(0,1fr);gap:24px}.nav{position:sticky;top:90px;align-self:start;max-height:calc(100vh - 110px);overflow:auto;padding:15px;border:1px solid var(--line);border-top:4px solid var(--steel);background:#161e23}.nav h2{margin:0 0 9px;font-size:14px;color:var(--brass);letter-spacing:.1em}.nav a{display:block;padding:4px 7px;color:#d7cfbf;font:12px/1.45 var(--mono);border-left:2px solid transparent}.nav a:hover{border-color:var(--copper);background:#ffffff08}.nav .group{margin-top:13px;color:var(--steel);font-size:11px;text-transform:uppercase}.content{min-width:0}.hero,.concept,.card{border:1px solid var(--line);background:linear-gradient(145deg,var(--panel),#182126);box-shadow:0 9px 23px #0005}.hero{padding:28px;border-top:5px solid var(--copper)}.hero h1{margin:0;font-size:clamp(28px,5vw,52px);line-height:1.1}.hero p{max-width:870px;color:#d0c7b8}.badges{display:flex;flex-wrap:wrap;gap:7px}.badge{padding:4px 8px;border:1px solid #6c777c;background:#11191e;color:var(--steel);font:11px var(--mono)}section{margin-top:25px}section>h2{padding-bottom:8px;border-bottom:2px solid var(--copper);font-size:22px}.concept{padding:18px;margin:12px 0;scroll-margin-top:85px}.concept h3{margin:0;color:var(--brass)}.concept h4{margin:16px 0 5px;color:var(--steel)}.callout{border-left:4px solid var(--brass);padding:10px 13px;background:#e0a65313;scroll-margin-top:85px}.guide-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:13px}.guide-grid .concept{margin:0}.step{display:inline-grid;place-items:center;width:25px;height:25px;margin-right:7px;border:2px solid var(--brass);border-radius:50%;color:var(--brass);font:700 12px var(--mono)}.tag{display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border:1px solid #65737a;background:#11191e;color:var(--steel);font:11px var(--mono)}.related{margin-top:13px;padding-top:9px;border-top:1px dashed #526068;color:var(--muted);font-size:12px}.cards{display:grid;gap:13px}.card{scroll-margin-top:85px}.card summary{cursor:pointer;list-style:none;padding:14px 17px;display:flex;align-items:center;gap:11px;border-left:5px solid var(--steel)}.card summary::-webkit-details-marker{display:none}.card summary:after{content:"＋";margin-left:auto;color:var(--brass)}.card[open] summary:after{content:"−"}.sig{color:#ffd58f;font:700 14px var(--mono)}.desc{color:var(--muted);font-size:13px}.body{padding:0 18px 18px;border-top:1px solid #52606866}.body h4{margin:18px 0 6px;color:var(--steel)}.body p,.body li{color:#d4ccbd}.body table,.concept table{width:100%;border-collapse:collapse;font-size:13px}.body th,.body td,.concept th,.concept td{padding:7px 9px;border:1px solid #53606880;text-align:left;vertical-align:top}.body th,.concept th{background:#10181d;color:var(--brass)}pre{position:relative;overflow:auto;padding:14px;background:var(--code);border:1px solid #3e4a50;color:#e7ddcc;line-height:1.5}.success{border-left:4px solid var(--ok)}.failure{border-left:4px solid var(--bad)}.empty{display:none;padding:35px;text-align:center;border:1px dashed var(--line);color:var(--muted)}footer{margin:35px 0;color:var(--muted);font-size:12px}.hide{display:none!important}@media(max-width:880px){.layout{grid-template-columns:1fr}.nav{position:static;max-height:none;columns:2}.nav h2,.nav .group{column-span:all}.topin{flex-wrap:wrap;padding:8px 0}#search{order:3;width:100%;margin:0}.desc{display:none}}@media(max-width:520px){.nav{columns:1}.hero{padding:20px}.card summary{align-items:flex-start}.sig{font-size:12px}}
+  </style>
+</head>
+<body>
+  <header class="top"><div class="topin"><div class="brand"><span class="gear">AFN</span><span><strong>AFN BRIDGE</strong><small>CC:TWEAKED FUNCTION WIKI</small></span></div><input id="search" type="search" placeholder="搜索任务、函数、参数、错误码……" aria-label="搜索"></div></header>
+  <div class="layout">
+    <nav class="nav" id="nav"><h2>导航</h2>
+      <div class="group">入门</div><a href="#start">五分钟入门</a><a href="#quick">常用操作速查</a><a href="#syntax">函数签名怎么读</a><a href="#concepts">核心概念与术语</a><a href="#recipes">常用场景示例</a>
+      <div class="group">接入权限</div><a href="#access">鉴权板 ComputerID 白名单</a>
+      <div class="group">发现与查询</div><a href="#find">afn.find</a><a href="#channels">afn.channels</a><a href="#active">afn.active</a><a href="#display-channels">afn.display_channels</a><a href="#get">afn.get</a><a href="#state">afn.state</a><a href="#value">afn.value</a><a href="#channel-value">afn.channel_value</a><a href="#frequency">afn.frequency</a><a href="#information">afn.information（兼容）</a><a href="#last-error">afn.last_error</a>
+      <div class="group">CRT</div><a href="#get-display">afn.get_display_channel</a><a href="#set-display">afn.set_display_channel</a><a href="#next-display">afn.next_display_channel</a><a href="#previous-display">afn.previous_display_channel</a>
+      <div class="group">运行时和值</div><a href="#set">afn.set</a><a href="#pulse">afn.pulse</a><a href="#toggle">afn.toggle</a><a href="#clear">afn.clear</a><a href="#clear-all">afn.clear_all</a><a href="#set-value">afn.set_value</a><a href="#set-channel-value">afn.set_channel_value</a><a href="#clear-value">afn.clear_value</a><a href="#clear-channel-value">afn.clear_channel_value</a><a href="#set-information">afn.set_information（兼容）</a>
+      <div class="group">配置</div><a href="#set-primary-frequency">afn.set_primary_frequency</a><a href="#set-secondary">afn.set_secondary</a><a href="#set-channel-displayed">afn.set_channel_displayed</a><a href="#set-display-channels">afn.set_display_channels</a><a href="#create-channel">afn.create_channel</a><a href="#update-channel">afn.update_channel</a><a href="#remove-channel">afn.remove_channel</a><a href="#set-channel-type">afn.set_channel_type（兼容）</a><a href="#set-subtype">afn.set_information_subtype（兼容）</a>
+      <div class="group">接口与临时发送</div><a href="#synaxis-activation">afn.set_synaxis_activation</a><a href="#synaxis-receive">afn.set_synaxis_receive</a><a href="#synaxis-publish">afn.set_synaxis_publish</a><a href="#bind-redstone">afn.bind_redstone</a><a href="#unbind-redstone">afn.unbind_redstone</a><a href="#transmit-temporary">afn.transmit_temporary</a><a href="#pulse-temporary">afn.pulse_temporary</a><a href="#clear-temporary">afn.clear_temporary</a><a href="#clear-temporary-all">afn.clear_temporary_all</a>
+      <div class="group">参考</div><a href="#raw-api">raw 外设索引</a><a href="#events">CC 事件</a><a href="#errors">错误处理</a><a href="#troubleshoot">故障排查</a><a href="./FUNCTIONS.md">Markdown 完整手册</a><a href="https://space.bilibili.com/396190439" target="_blank" rel="noopener noreferrer">B站：高级频段网络</a>
+    </nav>
+    <main class="content">
+      <article class="hero"><h1>AFN 桥接器<br>Lua 函数知识库</h1><p><code>require("afn")</code> 与 raw <code>afn_bridge</code> 外设的函数、参数、返回值、权限、事件和错误码参考。</p><div class="badges"><span class="badge">require("afn")</span><span class="badge">peripheral type: afn_bridge</span><span class="badge">COMPUTER ID ALLOWLIST</span><span class="badge">CC:T OPTIONAL</span><span class="badge">SYNAXIS OPTIONAL</span><span class="badge">64 CHANNELS</span></div></article>
+
+      <section id="start"><h2>五分钟入门</h2>
+        <div class="callout" data-key="start channel name 主频">代码中的 <code>door</code>、<code>notice</code>、<code>yard_gate</code>、<code>boiler</code> 均为示例信道名。运行时应替换为桥接器 GUI 左侧的实际信道名；<b>信道名不是无线主频表达式</b>。</div>
+        <div class="guide-grid">
+          <div class="concept" data-key="prepare GUI unified channel primary value door notice"><h3><span class="step">1</span>准备两条统一信道</h3><table><tr><th>信道名</th><th>主频</th><th>可选值</th><th>本节用途</th></tr><tr><td><code>door</code></td><td><code>factory.door</code></td><td><code>OPEN</code></td><td>同时演示无线脉冲和值</td></tr><tr><td><code>notice</code></td><td>留空</td><td><code>候车中</code></td><td>只在本机展示和修改文字</td></tr></table><p>每条信道都可以同时拥有主频和值，`frequency` 与 `information` 不是互斥的存储类型。主频留空表示不加入无线网络，值仍可保存和显示。信道创建后始终有效；在 CC:T 页开放本节需要的读取、激活和配置权限。安装鉴权板后，还需把本机 ComputerID 加入白名单。详见<a href="#access">权限章节</a>。</p></div>
+          <div class="concept" data-key="connect attach require module ComputerID channels"><h3><span class="step">2</span>连接并确认 CC 看得到桥接器</h3><p>让电脑紧贴桥接器，或使用有线调制解调器联网，然后在 CC 终端创建程序并运行：</p><pre><code>local afn = require("afn")
+
+print("ComputerID:", os.getComputerID())
+for _, channel in ipairs(afn.channels()) do
+  print(channel.name, channel.primary_frequency, channel.value_present)
+end</code></pre><p>第一行用 CC 的 <code>require</code> 加载 AFN 模块，并把返回的函数表保存在普通局部变量 <code>afn</code> 中；之后的 <code>afn.pulse</code> 等调用都来自这张表。</p><p><b>预期：</b>终端能列出 <code>door factory.door true</code> 和主频为空的 <code>notice</code>。若提示找不到桥接器，请检查相邻连接或有线网络；若提示权限问题，请检查白名单和读取权限。</p></div>
+        </div>
+        <div class="guide-grid">
+          <div class="concept" data-key="first pulse open door one second 20 tick unknown_channel permission"><h3><span class="step">3</span>让信道发送 1 秒</h3><pre class="success"><code>local afn = require("afn")
+local result = afn.pulse("door")
+assert(result.success, result.error)</code></pre><p><code>pulse</code> 省略参数时使用 15 强度、20 tick；20 tick 通常就是 1 秒。成功后，<code>door</code> 信道会短暂激活，对应 AFN 无线接收设备应响应。若得到 <code>unknown_channel</code>，说明填的是不存在的名称（请从 GUI 复制信道名，而不是复制主频）；权限异常请检查白名单和激活权限。</p></div>
+          <div class="concept" data-key="first unified value read write text set_value simple direct"><h3><span class="step">4</span>读取并直接修改值</h3><pre class="success"><code>local afn = require("afn")
+
+local before = assert(afn.value("notice"))
+print("修改前:", before.value)
+
+local result = afn.set_value("notice", "列车即将进站")
+assert(result.success, result.error)
+
+local after = assert(afn.value("notice"))
+print("修改后:", after.value)</code></pre><p>这里只想覆盖一次内容，所以<b>不需要</b>先处理 <code>revision</code>。写值需要配置权限，而且不会激活信道。若要变成真正的无值状态，请调用 <a href="#clear-value"><code>clear_value</code></a>；写入 <code>""</code> 得到的是一个存在的空文本。</p></div>
+        </div>
+        <div class="callout" data-key="computer wireless terminal auth identity">电脑不会绕过桥接器直接变成无线终端。持久无线输出来自桥接器内填写了有效主频的统一信道；临时发送也由桥接器建立。需要鉴权时，只能附加桥接器槽内的有效鉴权板，Lua 无法提交或伪造身份数据。</div>
+      </section>
+
+      <section id="quick"><h2>常用操作速查</h2><div class="concept" data-key="quick cheatsheet common tasks 开门 修改值 查看信道"><p>以下写法假定只连接一台桥接器，且示例信道已在 GUI 中创建。每段程序先加载 <code>local afn = require("afn")</code>。</p><table><tr><th>操作</th><th>最短写法</th><th>需要的权限</th><th>详细说明</th></tr><tr><td>查看全部信道</td><td><code>afn.channels()</code></td><td>读取</td><td><a href="#channels">afn.channels</a></td></tr><tr><td>查看一条完整信道</td><td><code>afn.get("door")</code></td><td>读取</td><td><a href="#get">afn.get</a></td></tr><tr><td>读取值（含无值状态）</td><td><code>afn.value("door")</code></td><td>读取</td><td><a href="#value">afn.value</a></td></tr><tr><td>直接修改值</td><td><code>afn.set_value("door", "OPEN")</code></td><td>配置</td><td><a href="#set-value">afn.set_value</a></td></tr><tr><td>清除值</td><td><code>afn.clear_value("door")</code></td><td>配置</td><td><a href="#clear-value">afn.clear_value</a></td></tr><tr><td>激活 1 秒</td><td><code>afn.pulse("door")</code></td><td>激活</td><td><a href="#pulse">afn.pulse</a></td></tr><tr><td>持续激活</td><td><code>afn.set("door")</code></td><td>激活</td><td><a href="#set">afn.set</a></td></tr><tr><td>关闭自己的持续激活</td><td><code>afn.clear("door")</code></td><td>仍通过准入</td><td><a href="#clear">afn.clear</a></td></tr><tr><td>修改主频</td><td><code>afn.set_primary_frequency("door", "factory.door")</code></td><td>配置</td><td><a href="#set-primary-frequency">afn.set_primary_frequency</a></td></tr><tr><td>切换 CRT 当前显示项</td><td><code>afn.set_display_channel("door")</code></td><td>读取</td><td><a href="#set-display">afn.set_display_channel</a></td></tr><tr><td>向任意主频发送 1 秒</td><td><code>afn.pulse_temporary("station.bell")</code></td><td>激活</td><td><a href="#pulse-temporary">afn.pulse_temporary</a></td></tr></table></div></section>
+
+      <section id="syntax"><h2>函数签名怎么读</h2>
+        <div class="concept" data-key="signature optional argument square bracket nil bridge revision"><h3>方括号表示“可选”，不是 Lua 代码</h3><p>手册中的签名：</p><pre><code>afn.set_value(channel, value[, revision[, bridge]])</code></pre><table><tr><th>部分</th><th>含义</th></tr><tr><td><code>channel</code></td><td>必填。桥接器 GUI 中的信道名，例如 <code>notice</code>。</td></tr><tr><td><code>value</code></td><td>必填。准备写入的新值。</td></tr><tr><td><code>[revision]</code></td><td>可选。用于防止覆盖别人刚写入的值；简单覆盖时省略。</td></tr><tr><td><code>[bridge]</code></td><td>可选。CC 看到的桥接器外设名，例如 <code>left</code>；只有一台时通常省略。</td></tr></table><p>方括号不应输入。若要跳过中间的 <code>revision</code>，却指定最后的桥接器，需要用 <code>nil</code> 占位：</p><pre><code>afn.set_value("notice", "新内容", nil, "left")</code></pre></div>
+        <div class="guide-grid">
+          <div class="concept" id="variables" data-key="old current info result variable keyword"><h3><code>old</code> 到底是什么？</h3><pre><code>local old = assert(afn.value("notice"))</code></pre><p><code>old</code> 只是示例作者随意取的普通 Lua 局部变量名，换成 <code>info</code> 或 <code>current</code> 都不影响 AFN。它保存函数返回的表：</p><pre><code>{ present=true, kind="text", value="当前内容", revision=12 }</code></pre><p><code>result</code>、<code>r</code>、<code>changed</code> 也都是普通变量名，不是关键字。</p></div>
+          <div class="concept" id="multiple-bridges" data-key="multiple bridge peripheral name left right modem"><h3>最后的 <code>bridge</code> 是什么？</h3><p>它是 CC 分配给外设的名称，例如直接相邻时可能是 <code>left</code>，有线网络上可能是 <code>afn_bridge_3</code>；不是方块标题、信道名、主频，也不是 <code>afn.find()</code> 返回的代理对象。可用 CC 的 <code>peripherals</code> 命令查看名称。</p><pre><code>-- 指定名为 left 的桥接器
+afn.pulse("door", 15, 20, "left")</code></pre></div>
+        </div>
+      </section>
+
+      <section id="concepts"><h2>核心概念与术语</h2>
+        <div class="concept" data-key="unified channel primary secondary value activation wireless"><h3>统一信道模型</h3><table><tr><th>字段</th><th>说明</th></tr><tr><td>信道名</td><td>供 GUI 与 API 查找；绝大多数 <code>channel</code> 参数都填它。</td></tr><tr><td>主频</td><td>可为空。有效且信道被本地来源激活时发送无线信号。</td></tr><tr><td>副频</td><td><code>none</code>、普通 <code>manual</code> 或鉴权板 <code>auth</code>。</td></tr><tr><td>可选值</td><td>文本、布尔或 1～7 项有限实数组；可与主频同时存在。</td></tr><tr><td>激活状态</td><td>和值独立；写值不激活，激活也不要求有值。</td></tr></table><p>AFN 桥接器之间可沿同一条已放行连接携带强度和值；普通 Create 设备只处理强度。无线入站不会自动中继，只有本地红石、玩家、CC:T 或 Synaxis 激活输入驱动 TX。</p></div>
+        <div class="guide-grid">
+          <div class="concept" data-key="receive_enabled send only active displayed state"><h3>收发、激活、展示互不相同</h3><p>所有信道始终有效。<span class="tag">receive_enabled 收发</span>为 false 时仅发送，为 true 时允许发送和接收；<span class="tag">active 激活</span>表示当前至少有一个有效来源；<span class="tag">displayed 展示</span>决定是否列入 CRT。新信道默认允许收发并展示，激活不会自动改变展示清单。</p></div>
+          <div class="concept" data-key="strength tick lease source set pulse clear"><h3>强度、tick、来源与租约</h3><p>强度范围为 1～15。20 tick 通常为 1 秒。<code>set</code> 建立本电脑的持续租约，<code>pulse</code> 建立定时租约，<code>clear</code> 只清本电脑的来源；红石、其他电脑与 Synaxis 可以同时存在，实际强度取有效来源最大值。</p></div>
+          <div class="concept" id="revision" data-key="revision optimistic concurrency conflict old current version"><h3>revision：值版本号</h3><p>设置、改变或清除值时，<code>revision</code> 单调前进；无值状态也保留版本号。直接覆盖可以不传；只有“先读取、根据旧值计算、再写回”时才传入旧 revision。冲突返回 <code>revision_conflict</code>，应重新读取后再计算。</p></div>
+          <div class="concept" id="returns" data-key="return result success error assert pcall exception business rejection action config table"><h3>返回失败与 Lua 异常</h3><p>动作函数通常返回 <code>{success,error,active,strength}</code>，配置函数通常返回 <code>{success,error,channel}</code>；业务拒绝表现为 <code>success=false</code> 与错误码。最短程序可用 <code>assert(result.success, result.error)</code>。<code>assert</code> 是 Lua 自带的“失败就中止并显示原因”，不是 AFN 函数。连接、参数、白名单或权限问题可能直接抛 Lua 异常，长期运行程序应再用 <code>pcall</code> 包住调用。完整模板见<a href="#errors">错误章节</a>。</p></div>
+        </div>
+        <div class="concept" data-key="views default switch bar gauge map interaction"><h3>五种屏幕方式都是解释视图</h3><p>默认、开关、柱状图、仪表盘和地图不会限制信道存什么。无法解释时只做视觉回退：开关显示关闭、图表显示 0、地图只显示设备点；只有真实触控才写入规范值。地图读取实数组前三项或可解析文本坐标。整数模式只影响玩家屏幕触控，不影响 CC:T、Synaxis、无线或普通 GUI 写入。</p></div>
+        <div class="concept" data-key="handle snapshot schema CRT Synaxis terminology"><h3>术语</h3><p><code>snapshot</code> 是 <code>get</code>/<code>channels</code> 返回的一条完整信道状态；<code>handle</code> 是临时发送函数返回的唯一句柄，传给 <a href="#clear-temporary"><code>clear_temporary</code></a> 才能停止那一次发送；Synaxis 的 <code>Schema</code> 是接线两端必须一致的数据形状，例如 <code>vec3</code> 或 <code>quaternion</code>；CRT 是桥接器的主屏幕。</p></div>
+      </section>
+
+      <section id="recipes"><h2>常用场景示例</h2><div class="guide-grid">
+        <div class="concept" data-key="recipe five seconds set clear safe close"><h3>持续开启 5 秒，再安全关闭</h3><p><b>前置：</b><code>door</code> 已填写有效主频；电脑具有激活权限。</p><pre><code>local afn = require("afn")
+local opened = afn.set("door", 15)
+assert(opened.success, opened.error)
+
+sleep(5)
+
+local closed = afn.clear("door")
+assert(closed.success, closed.error)</code></pre><p><code>clear</code> 只移除本电脑建立的租约，不会关闭其他电脑、红石或 Synaxis 的来源。</p></div>
+        <div class="concept" data-key="recipe unified value direct write boolean number array"><h3>直接写文字、布尔和实数组</h3><p><b>前置：</b>三个信道都已存在；它们是否有主频不影响写值。电脑具有配置权限。</p><pre><code>local afn = require("afn")
+
+local text_result = afn.set_value("notice", "列车进站")
+assert(text_result.success, text_result.error)
+
+local bool_result = afn.set_value("maintenance", true)
+assert(bool_result.success, bool_result.error)
+
+local array_result = afn.set_value("target", {120.5, 64, -31.25})
+assert(array_result.success, array_result.error)</code></pre><p>仅想设置新值时，这就是完整写法，不需要先读取 <code>revision</code>。</p></div>
+        <div class="concept" data-key="recipe safe read modify write revision counter concurrency"><h3>读取—计算—防覆盖写回</h3><p><b>适用：</b><code>counter</code> 当前保存单分量实数，新值依赖旧值。其他玩家、CC、Synaxis 或无线可能在两步之间改值。</p><pre><code>local afn = require("afn")
+
+local current = assert(afn.value("counter"))
+assert(current.present and current.kind == "real", "counter 不是实数值")
+local next_value = current.value + 1
+local result = afn.set_value(
+  "counter", next_value, current.revision
+)
+
+if not result.success and result.error == "revision_conflict" then
+  printError("内容已变化，请重新读取后再试")
+else
+  assert(result.success, result.error)
+end</code></pre><p><code>current</code> 是普通变量；真正起防覆盖作用的是传入的 <code>current.revision</code>。</p></div>
+        <div class="concept" data-key="recipe pcall robust error long running"><h3>长期程序的双层错误处理</h3><pre><code>local afn = require("afn")
+
+local called, result = pcall(afn.pulse, "door", 15, 20)
+if not called then
+  printError(result)       -- 连接、参数或权限异常
+elseif not result.success then
+  printError(result.error) -- 信道业务规则拒绝
+else
+  print("已激活，强度:", result.strength)
+end</code></pre><p>一次性脚本通常用 <code>assert</code> 足够；无人值守程序更适合这个模板。</p></div>
+      </div></section>
+
+      <section id="access"><h2>鉴权板 ComputerID 白名单与权限</h2><div class="concept"><h3>先准入，再分配能力</h3><pre><code>print("ComputerID:", os.getComputerID())
+-- 也可以在 CC 终端直接运行：id</code></pre><p>ComputerID 是非负整数，<code>0</code> 合法。没有鉴权板时忽略白名单并准入所有非负 ID；安装鉴权板后启用目标桥接器 GUI <b>CC:T</b> 页的鉴权板白名单，此时空名单拒绝全部电脑。读取、激活、配置三个开关始终分别生效：读取负责查询和 CRT，激活负责租约与临时发送，配置负责信道值、主副频、展示清单、Synaxis 与红石绑定。</p><table><tr><th>变化</th><th>会话行为</th></tr><tr><td>外设刚连接</td><td>服务端推送一次当前策略；初始化完成前 fail closed</td></tr><tr><td>鉴权板、白名单或三权限改变</td><td>立即推送到已连接会话，无需重启或重新连接</td></tr><tr><td>安装鉴权板后移出白名单</td><td>停止事件，并清理该 ComputerID 的持续租约和全部临时发送</td></tr><tr><td>关闭激活权限</td><td>清理持续与临时输出；仍获准时可使用自己的故障安全清理函数</td></tr></table><p>普通函数调用只读取附件会话中的 O(1) 固定时间权限缓存，不会逐函数遍历方块实体、白名单，也不会反复读取 NBT 或玩家 ACL。<code>require("afn")</code> 与 <code>afn.find()</code> 只能证明模块或外设可见，不代表 ComputerID 已获得对应能力。</p></div></section>
+
+      <section><h2>发现与查询</h2><div class="cards">
+        <details class="card" id="find" open data-key="afn.find find bridge peripheral allowlist ComputerID"><summary><span class="sig">afn.find([name])</span><span class="desc">查找第一台或指定桥接器</span></summary><div class="body"><p><b>参数：</b><code>name</code> 可选 string。<b>返回：</b><code>bridge, peripheral_name</code>。查找本身不调用受保护方法，因此不检查读取权限或准入条件；返回的代理方法仍要求 ComputerID 通过当前准入条件并具有对应权限。</p><h4>成功</h4><pre class="success"><code>local bridge, name = afn.find("left")
+print(name)
+-- bridge.listChannels() 还需要通过准入 + 开启读取权限</code></pre><h4>失败</h4><pre class="failure"><code>local ok, err = pcall(afn.find, "missing")
+if not ok then printError(err) end
+-- no AFN bridge named missing</code></pre></div></details>
+        <details class="card" id="channels" data-key="afn.channels listChannels unified snapshot"><summary><span class="sig">afn.channels([bridge])</span><span class="desc">列出全部完整信道快照</span></summary><div class="body"><p><b>返回：</b>按配置顺序排列的快照数组。需要读取权限。新字段包含 <code>schema_version,primary_frequency,secondary_mode,secondary_frequency,value_present,value_kind,channel_value,value_revision,synaxis_activation</code>；旧 <code>type/subtype/value/attach_auth</code> 仅为兼容投影。</p><h4>成功</h4><pre class="success"><code>for _, c in ipairs(afn.channels()) do
+  print(c.name, c.primary_frequency, c.value_present, c.strength)
+end</code></pre><h4>失败</h4><pre class="failure"><code>local ok, err = pcall(afn.channels)
+if not ok then printError(err) end
+-- computer read access is disabled...</code></pre></div></details>
+        <details class="card" id="active" data-key="afn.active listActiveChannels active"><summary><span class="sig">afn.active([bridge])</span><span class="desc">列出拥有有效租约的信道名</span></summary><div class="body"><p><b>返回：</b>string 数组。红石、CC 或 Synaxis 任一来源有效即算激活；需要读取权限。</p><h4>成功</h4><pre class="success"><code>for _, n in ipairs(afn.active()) do print("active", n) end</code></pre><h4>失败</h4><pre class="failure"><code>local ok, err = pcall(afn.active, "missing")
+if not ok then printError(err) end</code></pre></div></details>
+        <details class="card" id="display-channels" data-key="afn.display_channels listDisplayChannels display order"><summary><span class="sig">afn.display_channels([bridge])</span><span class="desc">读取 CRT 展示清单与轮播顺序</span></summary><div class="body"><p><b>返回：</b>被明确设为展示的信道名数组；需要读取权限。激活状态不会改变此清单。</p><h4>成功</h4><pre class="success"><code>print(textutils.serialize(afn.display_channels("left")))</code></pre><h4>失败</h4><pre class="failure"><code>local ok, err = pcall(afn.display_channels, 123)
+if not ok then printError(err) end
+-- bridge name must be a string</code></pre></div></details>
+        <details class="card" id="get" data-key="afn.get getChannel snapshot unknown nil"><summary><span class="sig">afn.get(channel[, bridge])</span><span class="desc">读取一条完整信道快照</span></summary><div class="body"><p><b>参数：</b>信道名称。<b>返回：</b>完整快照；不存在为 <code>nil</code>。需要读取权限。</p><h4>成功</h4><pre class="success"><code>local c = assert(afn.get("boiler"))
+print(c.primary_frequency, c.value_present, c.synaxis_receive.enabled)</code></pre><h4>失败</h4><pre class="failure"><code>assert(afn.get("no_such_channel") == nil)</code></pre></div></details>
+        <details class="card" id="state" data-key="afn.state getState receive_enabled active strength displayed value"><summary><span class="sig">afn.state(channel[, bridge])</span><span class="desc">读取精简运行状态</span></summary><div class="body"><p><b>返回：</b><code>{receive_enabled,active,strength,displayed,value_present,value_kind,revision}</code>，同时保留旧 type/subtype 投影；不存在为 nil。需要读取权限。</p><h4>成功</h4><pre class="success"><code>local s = assert(afn.state("boiler"))
+print(s.active, s.strength)</code></pre><h4>失败</h4><pre class="failure"><code>local ok, err = pcall(afn.state, "boiler", "missing")
+if not ok then printError(err) end</code></pre></div></details>
+        <details class="card" id="value" open data-key="afn.value getChannelValue present kind value revision absent empty"><summary><span class="sig">afn.value(channel[, bridge])</span><span class="desc">读取统一值，并区分无值与空文本</span></summary><div class="body"><p><span class="tag">读取权限</span>返回 <code>{present,kind,value,revision}</code>；信道不存在才返回 <code>nil</code>。<code>present=false</code> 时 <code>value=""</code> 只是 CC 表占位，不能当成空文本；是否有值必须看 <code>present</code>。</p><pre class="success"><code>local v = assert(afn.value("door"))
+if not v.present then
+  print("没有值，版本", v.revision)
+elseif v.kind == "text" and v.value == "" then
+  print("这是存在的空文本")
+else
+  print(v.kind, textutils.serialize(v.value))
+end</code></pre></div></details>
+        <details class="card" id="channel-value" data-key="afn.channel_value alias value"><summary><span class="sig">afn.channel_value(channel[, bridge])</span><span class="desc">afn.value 的同义别名</span></summary><div class="body"><p>参数、权限和返回值与 <a href="#value"><code>afn.value</code></a> 完全相同。</p><pre class="success"><code>local v = afn.channel_value("door")
+print(v and v.present)</code></pre></div></details>
+        <details class="card" id="frequency" data-key="afn.frequency getFrequency primary secondary mode auth"><summary><span class="sig">afn.frequency(channel[, bridge])</span><span class="desc">读取主频和副频配置</span></summary><div class="body"><p><span class="tag">读取权限</span>返回 <code>{primary,secondary_mode,secondary_frequency,attach_auth}</code>；信道不存在返回 <code>nil</code>。<code>attach_auth</code> 是兼容投影，新程序应看 <code>secondary_mode</code>。</p><pre class="success"><code>local f = assert(afn.frequency("door"))
+print("主频", f.primary)
+print("副频模式", f.secondary_mode)</code></pre></div></details>
+        <details class="card" id="information" data-key="afn.information legacy compatibility getInformation"><summary><span class="sig">afn.information(channel[, bridge])</span><span class="desc">统一值兼容读取接口</span></summary><div class="body"><p><span class="tag">兼容接口</span>有值时返回 <code>{value,subtype,revision}</code>，无值或信道不存在时返回 <code>nil</code>。它无法区分“不存在的信道”和“存在但无值”，新程序应使用 <a href="#value"><code>afn.value</code></a>。</p><pre class="success"><code>local legacy = afn.information("notice")
+if legacy then print(legacy.subtype, legacy.value) end</code></pre></div></details>
+        <details class="card" id="last-error" data-key="afn.last_error getLastError wireless auth"><summary><span class="sig">afn.last_error(channel[, bridge])</span><span class="desc">读取最近无线错误</span></summary><div class="body"><p><b>返回：</b>错误 string；正常、未知信道或无错误为 nil。典型值：<code>invalid_frequency_or_auth</code>、<code>wireless_unavailable</code>。</p><h4>成功</h4><pre class="success"><code>local err = afn.last_error("secure_gate")
+if err then printError(err) end</code></pre><h4>失败</h4><pre class="failure"><code>local ok, err = pcall(afn.last_error, "secure_gate")
+if not ok then printError(err) end -- 读取权限关闭</code></pre></div></details>
+      </div></section>
+
+      <section><h2>CRT 主屏幕</h2><div class="cards">
+        <details class="card" id="get-display" data-key="afn.get_display_channel getDisplayChannel"><summary><span class="sig">afn.get_display_channel([bridge])</span><span class="desc">当前 CRT 信道</span></summary><div class="body"><p><b>返回：</b>名称；展示清单为空时 nil。需要读取权限。</p><h4>成功</h4><pre class="success"><code>print(afn.get_display_channel() or "standby")</code></pre><h4>失败</h4><pre class="failure"><code>local ok, err = pcall(afn.get_display_channel, "missing")
+if not ok then printError(err) end</code></pre></div></details>
+        <details class="card" id="set-display" data-key="afn.set_display_channel setDisplayChannel selected"><summary><span class="sig">afn.set_display_channel(channel[, bridge])</span><span class="desc">选择展示清单中的信道</span></summary><div class="body"><p><b>返回：</b>boolean。切换 CRT 不激活、不停止、不修改信道；需要读取权限。</p><h4>成功</h4><pre class="success"><code>assert(afn.set_display_channel("notice"))</code></pre><h4>失败</h4><pre class="failure"><code>local ok = afn.set_display_channel("hidden")
+if not ok then printError("not in display list") end</code></pre></div></details>
+        <details class="card" id="next-display" data-key="afn.next_display_channel nextDisplayChannel"><summary><span class="sig">afn.next_display_channel([bridge])</span><span class="desc">按稳定顺序切换下一项</span></summary><div class="body"><p><b>返回：</b>切换后的名称；空清单为 nil。需要读取权限。</p><h4>成功</h4><pre class="success"><code>print(afn.next_display_channel() or "standby")</code></pre><h4>失败</h4><pre class="failure"><code>local ok, err = pcall(afn.next_display_channel)
+if not ok then printError(err) end</code></pre></div></details>
+        <details class="card" id="previous-display" data-key="afn.previous_display_channel previousDisplayChannel"><summary><span class="sig">afn.previous_display_channel([bridge])</span><span class="desc">按稳定顺序切换上一项</span></summary><div class="body"><p><b>返回：</b>切换后的名称；空清单为 nil。需要读取权限。</p><h4>成功</h4><pre class="success"><code>print(afn.previous_display_channel("left") or "standby")</code></pre><h4>失败</h4><pre class="failure"><code>local ok, err = pcall(afn.previous_display_channel, false)
+if not ok then printError(err) end</code></pre></div></details>
+      </div></section>
+
+      <section><h2>运行时租约与统一值</h2><div class="concept"><h3>合并规则</h3><p>一条信道可以同时有红石、多个 CC 电脑、Synaxis 和无线来源，实际强度取有效来源最大值。只要主频有效，本地来源激活就会发送无线信号；是否存在信道值不改变这一点。AFN→AFN 可附带值，普通 Create 设备只处理强度，无线入站不自动中继。</p></div><div class="cards">
+        <details class="card" id="set" data-key="afn.set set strength continuous lease"><summary><span class="sig">afn.set(channel[, strength[, bridge]])</span><span class="desc">建立本电脑持续租约</span></summary><div class="body"><p><b>参数：</b>strength 1～15，默认 15。<b>返回：</b><code>{success,error,active,strength}</code>。需要激活权限。</p><h4>成功</h4><pre class="success"><code>local r = afn.set("yard_gate", 12)
+assert(r.success, r.error)</code></pre><h4>失败</h4><pre class="failure"><code>local r = afn.set("missing", 15)
+print(r.success, r.error) -- false unknown_channel</code></pre></div></details>
+        <details class="card" id="pulse" data-key="afn.pulse pulse ticks duration timeout"><summary><span class="sig">afn.pulse(channel[, strength[, ticks[, bridge]]])</span><span class="desc">建立 1～1200 tick 的租约</span></summary><div class="body"><p>strength 默认 15；ticks 默认 20。到期自动清理并可产生 timeout 事件。</p><h4>成功</h4><pre class="success"><code>local r = afn.pulse("bell", 15, 40)
+assert(r.success, r.error)</code></pre><h4>失败</h4><pre class="failure"><code>local ok, err = pcall(afn.pulse, "bell", 15, 1201)
+if not ok then printError(err) end</code></pre></div></details>
+        <details class="card" id="toggle" data-key="afn.toggle toggle lease"><summary><span class="sig">afn.toggle(channel[, strength[, bridge]])</span><span class="desc">切换本电脑自己的持续租约</span></summary><div class="body"><p>不会清除其他电脑、红石或 Synaxis 来源。返回动作结果；需要激活权限。</p><h4>成功</h4><pre class="success"><code>local r = afn.toggle("maintenance", 8)
+print(r.success, r.active)</code></pre><h4>失败</h4><pre class="failure"><code>local r = afn.toggle("missing", 8)
+print(r.error) -- unknown_channel</code></pre></div></details>
+        <details class="card" id="clear" data-key="afn.clear clear own source allowlist"><summary><span class="sig">afn.clear(channel[, bridge])</span><span class="desc">清除本电脑在目标信道的租约</span></summary><div class="body"><p>ComputerID 仍获准时，这是不要求激活权限的故障安全清理；其他来源不受影响。安装鉴权板后移出白名单会由桥接器自动清除该电脑的租约。返回动作结果。</p><h4>成功</h4><pre class="success"><code>assert(afn.clear("yard_gate").success)</code></pre><h4>失败</h4><pre class="failure"><code>local r = afn.clear("missing")
+print(r.error) -- unknown_channel</code></pre></div></details>
+        <details class="card" id="clear-all" data-key="afn.clear_all clearAll all sources configure"><summary><span class="sig">afn.clear_all(channel[, bridge])</span><span class="desc">清目标信道的全部来源</span></summary><div class="body"><p>清除 CC、红石和 Synaxis 租约；需要配置权限。返回动作结果。</p><h4>成功</h4><pre class="success"><code>assert(afn.clear_all("emergency").success)</code></pre><h4>失败</h4><pre class="failure"><code>local ok, err = pcall(afn.clear_all, "emergency")
+if not ok then printError(err) end -- configuration disabled</code></pre></div></details>
+        <details class="card" id="set-value" open data-key="afn.set_value setChannelValue unified write revision text boolean real array"><summary><span class="sig">afn.set_value(channel, value[, revision[, bridge]])</span><span class="desc">设置或替换统一信道值</span></summary><div class="body"><p><span class="tag">配置权限</span>接受文本、布尔、有限 number 或 1～7 项连续有限数字数组。文本最多 1024 个 Unicode 码点且不超过 4096 UTF-8 字节。写值不激活；简单覆盖不必传 revision。</p><pre class="success"><code>assert(afn.set_value("notice", "列车即将进站").success)
+assert(afn.set_value("door_open", true).success)
+assert(afn.set_value("pose", {12.5, 64, -8, 0, 0, 0, 1}).success)
+assert(afn.set_value("blank", "").success) -- 存在的空文本</code></pre><p>空数组、稀疏表、NaN、无穷大或超过 7 项会整次拒绝。需要防覆盖时先用 <code>value</code> 读取 revision，再作为第三个参数提交。</p></div></details>
+        <details class="card" id="set-channel-value" data-key="afn.set_channel_value alias set_value"><summary><span class="sig">afn.set_channel_value(...)</span><span class="desc">afn.set_value 的同义别名</span></summary><div class="body"><p>参数、权限、校验和返回值与 <a href="#set-value"><code>set_value</code></a> 相同。</p><pre class="success"><code>assert(afn.set_channel_value("counter", 42).success)</code></pre></div></details>
+        <details class="card" id="clear-value" data-key="afn.clear_value clearChannelValue absent tombstone revision"><summary><span class="sig">afn.clear_value(channel[, revision[, bridge]])</span><span class="desc">把信道变成无值状态</span></summary><div class="body"><p><span class="tag">配置权限</span>清除值但保留单调 revision；它不同于写入空文本。可选 revision 用于防止并发覆盖。</p><pre class="success"><code>local old = assert(afn.value("notice"))
+local r = afn.clear_value("notice", old.revision)
+assert(r.success, r.error)
+assert(afn.value("notice").present == false)</code></pre></div></details>
+        <details class="card" id="clear-channel-value" data-key="afn.clear_channel_value alias clear_value"><summary><span class="sig">afn.clear_channel_value(...)</span><span class="desc">afn.clear_value 的同义别名</span></summary><div class="body"><p>参数和行为与 <a href="#clear-value"><code>clear_value</code></a> 相同。</p><pre class="success"><code>assert(afn.clear_channel_value("notice").success)</code></pre></div></details>
+        <details class="card" id="set-information" data-key="afn.set_information legacy compatibility setInformation"><summary><span class="sig">afn.set_information(channel, value[, revision[, bridge]])</span><span class="desc">统一值兼容写入接口</span></summary><div class="body"><p><span class="tag">兼容接口</span>映射到统一值写入；名称无法表达“主频和值可以共存”。新程序应使用 <a href="#set-value"><code>set_value</code></a>。</p><h4>兼容写法</h4><pre class="success"><code>local result = afn.set_information("notice", "列车即将进站")
+assert(result.success, result.error)</code></pre><p>这段兼容代码仍会直接覆盖 <code>notice</code> 的值，但新代码请改为 <code>afn.set_value("notice", "内容", nil, "left")</code>。</p><p class="related">相关：<a href="#set-value">统一值写入</a> · <a href="#value">统一值读取</a> · <a href="#revision">revision</a></p></div></details>
+      </div></section>
+
+      <section><h2>展示清单与持久配置</h2><div class="cards">
+        <details class="card" id="set-primary-frequency" open data-key="afn.set_primary_frequency setPrimaryFrequency primary wireless"><summary><span class="sig">afn.set_primary_frequency(channel, frequency[, bridge])</span><span class="desc">设置或清空主频</span></summary><div class="body"><p><span class="tag">配置权限</span>频段必须是合法表达式；传空字符串可让信道退出无线网络，但不会删除值、屏幕设置或端口。</p><pre class="success"><code>assert(afn.set_primary_frequency("door", "factory.door.*").success)
+assert(afn.set_primary_frequency("local_note", "").success)</code></pre></div></details>
+        <details class="card" id="set-secondary" data-key="afn.set_secondary setSecondary none manual auth"><summary><span class="sig">afn.set_secondary(channel, mode[, frequency[, bridge]])</span><span class="desc">配置无副频、手动副频或鉴权副频</span></summary><div class="body"><p><span class="tag">配置权限</span><code>mode</code> 为 <code>none</code>、<code>manual</code> 或 <code>auth</code>。只有 manual 必须提供合法 frequency；auth 只使用桥接器当前有效鉴权板，Lua 不能提交隐藏身份。</p><pre class="success"><code>assert(afn.set_secondary("door", "manual", "station.public").success)
+assert(afn.set_secondary("secure", "auth").success)
+assert(afn.set_secondary("local", "none").success)</code></pre></div></details>
+        <details class="card" id="set-channel-displayed" data-key="afn.set_channel_displayed setChannelDisplayed"><summary><span class="sig">afn.set_channel_displayed(channel, shown[, bridge])</span><span class="desc">修改单条展示状态</span></summary><div class="body"><p><b>返回：</b>boolean。目标必须存在；需要配置权限。展示状态不影响信道收发或激活。</p><h4>成功</h4><pre class="success"><code>assert(afn.set_channel_displayed("notice", true))</code></pre><h4>失败</h4><pre class="failure"><code>assert(not afn.set_channel_displayed("missing", true))</code></pre></div></details>
+        <details class="card" id="set-display-channels" data-key="afn.set_display_channels setDisplayChannels atomic order"><summary><span class="sig">afn.set_display_channels(names[, bridge])</span><span class="desc">原子覆写全部展示状态与顺序</span></summary><div class="body"><p>names 是连续数组，可为空；名称必须存在且不重复。返回 boolean；需要配置权限。清单外的信道即使激活也不会自动显示。</p><h4>成功</h4><pre class="success"><code>assert(afn.set_display_channels({"notice", "boiler", "gate"}))</code></pre><h4>失败</h4><pre class="failure"><code>assert(not afn.set_display_channels({"boiler", "boiler"}))
+-- 失败时旧清单完整保留</code></pre></div></details>
+        <details class="card" id="create-channel" data-key="afn.create_channel createChannel unified definition primary secondary value receive_enabled"><summary><span class="sig">afn.create_channel(definition[, bridge])</span><span class="desc">新建统一持久信道</span></summary><div class="body"><p>新字段为 <code>name,primary_frequency,secondary_mode,secondary_frequency,value_present,value_kind,channel_value,receive_enabled,displayed</code>。主频和值都可省略；若 <code>value_present=true</code> 必须同时给 <code>channel_value</code>。新信道默认允许收发并展示；<code>receive_enabled=false</code> 表示仅发送。返回配置结果；需要配置权限。</p><h4>成功</h4><pre class="success"><code>local r = afn.create_channel({
+  name="yard_gate",
+  primary_frequency="station.gate.*.!test!staff",
+  secondary_mode="none",
+  value_present=true, value_kind="text", channel_value="READY",
+  displayed=true
+})
+assert(r.success, r.error)</code></pre><h4>失败</h4><pre class="failure"><code>local r = afn.create_channel({
+  name="broken", value_present=true
+})
+print(r.success, r.error) -- 缺少 channel_value，整次拒绝</code></pre></div></details>
+        <details class="card" id="update-channel" data-key="afn.update_channel updateChannel unified patch atomic"><summary><span class="sig">afn.update_channel(channel, changes[, bridge])</span><span class="desc">原子修改统一字段</span></summary><div class="body"><p>只修改给出的字段，失败不会部分提交。同一表中不得混用相互冲突的新旧别名；<code>value_present=false</code> 表示清除值，不能同时提供 <code>channel_value</code>。</p><h4>成功</h4><pre class="success"><code>local r = afn.update_channel("yard_gate", {
+  name="yard_exit",
+  primary_frequency="station.exit.[1-4]",
+  secondary_mode="auth"
+})
+assert(r.success, r.error)</code></pre><h4>清除值</h4><pre class="success"><code>assert(afn.update_channel("yard_exit", {
+  value_present=false
+}).success)</code></pre></div></details>
+        <details class="card" id="remove-channel" data-key="afn.remove_channel removeChannel delete"><summary><span class="sig">afn.remove_channel(channel[, bridge])</span><span class="desc">删除配置及关联运行状态</span></summary><div class="body"><p>成功结果的 <code>channel=nil</code>；同步清租约、无线 actor 与 Synaxis endpoint。需要配置权限。</p><h4>成功</h4><pre class="success"><code>local r = afn.remove_channel("temporary_config")
+assert(r.success and r.channel == nil)</code></pre><h4>失败</h4><pre class="failure"><code>local r = afn.remove_channel("missing")
+print(r.error) -- unknown_channel</code></pre></div></details>
+        <details class="card" id="set-channel-type" data-key="afn.set_channel_type legacy compatibility"><summary><span class="sig">afn.set_channel_type(channel, type[, replacement[, bridge]])</span><span class="desc">旧顶层类型兼容投影</span></summary><div class="body"><p><span class="tag">兼容期</span>只为旧程序保留，无法表达同一信道同时拥有主频和值。新代码应组合使用 <a href="#set-primary-frequency"><code>set_primary_frequency</code></a>、<a href="#set-value"><code>set_value</code></a> 和 <a href="#clear-value"><code>clear_value</code></a>。</p><h4>旧代码仍可运行</h4><pre class="success"><code>local r = afn.set_channel_type("old_text", "frequency", "factory.line.*")
+assert(r.success, r.error)</code></pre><h4>失败</h4><pre class="failure"><code>local r = afn.set_channel_type("old_text", "frequency")
+print(r.error) -- frequency_required_for_type_change</code></pre></div></details>
+        <details class="card" id="set-subtype" data-key="afn.set_information_subtype legacy compatibility"><summary><span class="sig">afn.set_information_subtype(channel, subtype[, replacement[, bridge]])</span><span class="desc">旧值子类兼容投影</span></summary><div class="body"><p><span class="tag">兼容期</span>只为旧程序保留。新代码直接用类型明确的 Lua 值调用 <a href="#set-value"><code>set_value</code></a>；旧 coordinate/player 仍可读取但不可新建。</p><h4>旧代码仍可运行</h4><pre class="success"><code>local r = afn.set_information_subtype("counter", "real", 42.5)
+assert(r.success, r.error)</code></pre><h4>失败</h4><pre class="failure"><code>local r = afn.set_information_subtype("counter", "boolean", "yes")
+print(r.error) -- invalid_information_value</code></pre></div></details>
+      </div></section>
+
+      <section><h2>Synaxis 与红石</h2><div class="concept"><h3>三个彼此独立的 Synaxis 端口</h3><p><b>激活输入</b>只控制 0～15 强度，支持 real / boolean；<b>值输入</b>只写统一值，不激活；<b>值输出</b>只发布统一值，也不激活。三者拥有稳定且独立的 endpoint key。Synaxis 要求接线两端 Schema 完全一致，因此必须在接线前选择格式，不能根据第一帧内容动态猜测。</p><p>值端口支持 real、boolean、vec3、quaternion。短数组输入覆写前部并保留旧尾部，长数组扩展；输出截断多余项、补齐缺项，Quaternion 缺少的 w 补 1。无法转换的输出使用 Schema 安全默认值；非法输入整次忽略并保留旧值。Pose / Twist 只保留旧存档兼容，Bundle 暂不支持。</p></div><div class="cards">
+        <details class="card" id="synaxis-activation" open data-key="afn.set_synaxis_activation setSynaxisActivation real boolean strength"><summary><span class="sig">afn.set_synaxis_activation(channel, enabled[, format[, x, y[, bridge]]])</span><span class="desc">配置独立激活输入端口</span></summary><div class="body"><p><span class="tag">配置权限</span>format 为 real 或 boolean。Real 的值小于 1 表示关闭，达到 1 后转换并限制到 1～15；Boolean 的 false/true 对应 0/15。x/y 必须同时提供，省略格式时保留当前格式。</p><pre class="success"><code>assert(afn.set_synaxis_activation(
+  "door", true, "real", 12, 20
+).success)
+assert(afn.set_synaxis_activation("door", false).success)</code></pre></div></details>
+        <details class="card" id="synaxis-receive" data-key="afn.set_synaxis_receive setSynaxisReceive value input format vec3 quaternion position"><summary><span class="sig">afn.set_synaxis_receive(channel, enabled[, format[, x, y[, bridge]]])</span><span class="desc">配置 Synaxis → 桥接器值输入</span></summary><div class="body"><p>明确给出 format 时可选 real/vec3/quaternion/boolean；省略或传空字符串保留值输入当前格式。x/y 必须同时提供。该端口只改值，不激活，也不修改另外两个端口。</p><h4>Quaternion 值输入与安全关闭</h4><pre class="success"><code>assert(afn.set_synaxis_receive(
+  "vehicle_rotation", true, "quaternion", 20, 70
+).success)
+-- 省略 format 关闭并保留接收格式；发布方向不受影响
+assert(afn.set_synaxis_receive("vehicle_rotation", false).success)</code></pre><h4>失败</h4><pre class="failure"><code>local r = afn.set_synaxis_receive("notice", true, "boolean")
+print(r.error) -- invalid_synaxis_port</code></pre></div></details>
+        <details class="card" id="synaxis-publish" data-key="afn.set_synaxis_publish setSynaxisPublish value output format vec3 quaternion position"><summary><span class="sig">afn.set_synaxis_publish(channel, enabled[, format[, x, y[, bridge]]])</span><span class="desc">配置桥接器 → Synaxis 值输出</span></summary><div class="body"><p>格式与坐标规则同值输入，但独立配置。比如 4 项实数组发布为 vec3 时只取前三项；Quaternion 缺少的 w 补 1。不存在或无法转换的值输出 Schema 安全默认值。该端口不激活信道。</p><h4>Quaternion 值输出与安全关闭</h4><pre class="success"><code>assert(afn.set_synaxis_publish(
+  "vehicle_rotation", true, "quaternion", 88, 70
+).success)
+assert(afn.set_synaxis_publish("vehicle_rotation", false).success)</code></pre><h4>失败</h4><pre class="failure"><code>local r = afn.set_synaxis_publish("vehicle_rotation", true, "quaternion", 200, 70)
+print(r.error) -- invalid_synaxis_position</code></pre></div></details>
+        <details class="card" id="bind-redstone" data-key="afn.bind_redstone bindRedstone side strength exact all wildcard parallel"><summary><span class="sig">afn.bind_redstone(channel, side, strength[, bridge])</span><span class="desc">增加方向 + 强度选择器绑定</span></summary><div class="body"><p>side 以桥接器大屏幕正面为基准，为 front/back/left/right/up/down 或字符串 <code>"all"</code>（左右是玩家正对屏幕时看到的左右）；strength 为精确整数 1～15 或字符串 <code>"all"</code>（任意非零输入）。支持具体方向/全向与具体强度/全强度的四种组合；匹配时采用实际输入强度。数字不是阈值。一个信道最多保存 112 个不同组合且不会重复保存完全相同项；GUI 新增行默认双 <code>all</code>。返回配置结果；需要配置权限。</p><h4>四种组合</h4><pre class="success"><code>assert(afn.bind_redstone("yard_gate", "front", 15).success)
+assert(afn.bind_redstone("site_alarm", "all", "all").success)
+assert(afn.bind_redstone("precision_alarm", "all", 7).success)
+assert(afn.bind_redstone("left_input", "left", "all").success)
+-- 依次表示：精确组合、双通配、全向精确强度、具体方向全强度</code></pre><h4>失败</h4><pre class="failure"><code>local r = afn.bind_redstone("yard_gate", "north", 15)
+print(r.error) -- invalid_redstone_binding</code></pre></div></details>
+        <details class="card" id="unbind-redstone" data-key="afn.unbind_redstone unbindRedstone side all"><summary><span class="sig">afn.unbind_redstone(channel, side[, bridge])</span><span class="desc">移除一个方向选择器的全部绑定</span></summary><div class="body"><p>传具体方向只移除该方向的行；传 <code>"all"</code> 只移除全向行，不会连带删除六个具体方向。返回配置结果；需要配置权限。</p><h4>成功</h4><pre class="success"><code>assert(afn.unbind_redstone("yard_gate", "front").success)
+assert(afn.unbind_redstone("site_alarm", "all").success)</code></pre><h4>失败</h4><pre class="failure"><code>local r = afn.unbind_redstone("missing", "front")
+print(r.error) -- invalid_redstone_binding</code></pre></div></details>
+      </div></section>
+
+      <section><h2>临时无线发送</h2><div class="concept"><h3>独立 handle</h3><p>临时发送不创建持久信道、展示项、红石绑定或 Synaxis 端口。同一电脑可并发创建多个 handle；桥接器总计上限 32。鉴权只能来自桥接器自己的有效板。</p></div><div class="cards">
+        <details class="card" id="transmit-temporary" data-key="afn.transmit_temporary transmit handle frequency auth"><summary><span class="sig">afn.transmit_temporary(frequency[, strength[, auth[, bridge]]])</span><span class="desc">建立持续临时发送</span></summary><div class="body"><p>frequency 必须合法非空；strength 1～15，默认 15；auth 默认 false。返回动作字段和唯一 <code>handle</code>。需要激活权限。</p><h4>成功</h4><pre class="success"><code>local r = afn.transmit_temporary("factory.*.!test!maintenance", 12, false)
+assert(r.success, r.error)
+print(r.handle)</code></pre><h4>失败</h4><pre class="failure"><code>local r = afn.transmit_temporary("secure.gate", 15, true)
+print(r.error) -- auth_board_unavailable</code></pre></div></details>
+        <details class="card" id="pulse-temporary" data-key="afn.pulse_temporary pulseTemporary handle ticks auth"><summary><span class="sig">afn.pulse_temporary(frequency[, strength[, ticks[, auth[, bridge]]]])</span><span class="desc">建立定时临时发送</span></summary><div class="body"><p>ticks 1～1200，默认 20。返回 handle；到期关闭并产生 timeout 事件。</p><h4>成功</h4><pre class="success"><code>local r = afn.pulse_temporary("station.bell", 15, 40, false)
+assert(r.success, r.error)</code></pre><h4>失败</h4><pre class="failure"><code>local ok, err = pcall(afn.pulse_temporary, "station.bell", 15, 0)
+if not ok then printError(err) end</code></pre></div></details>
+        <details class="card" id="clear-temporary" data-key="afn.clear_temporary clearTemporary handle allowlist"><summary><span class="sig">afn.clear_temporary(handle[, bridge])</span><span class="desc">停止本电脑指定 handle</span></summary><div class="body"><p>不能清其他电脑的 handle；ComputerID 仍获准时不要求激活权限。安装鉴权板后移出白名单会自动关闭该电脑全部 handle。返回动作结果。</p><h4>成功</h4><pre class="success"><code>local tx = afn.transmit_temporary("factory.test")
+assert(tx.success)
+assert(afn.clear_temporary(tx.handle).success)</code></pre><h4>失败</h4><pre class="failure"><code>local r = afn.clear_temporary("unknown")
+print(r.error) -- unknown_temporary_handle</code></pre></div></details>
+        <details class="card" id="clear-temporary-all" data-key="afn.clear_temporary_all clearTemporaryAll removed count allowlist"><summary><span class="sig">afn.clear_temporary_all([bridge])</span><span class="desc">停止本电脑全部临时发送</span></summary><div class="body"><p><b>返回：</b>removed_count integer。其他电脑和持久信道不受影响；ComputerID 仍获准时不要求激活权限，安装鉴权板后撤销白名单时同一清理会自动执行。</p><h4>成功</h4><pre class="success"><code>afn.transmit_temporary("test.one")
+afn.transmit_temporary("test.two")
+print(afn.clear_temporary_all()) -- 2</code></pre><h4>失败</h4><pre class="failure"><code>local ok, err = pcall(afn.clear_temporary_all, "missing")
+if not ok then printError(err) end</code></pre></div></details>
+      </div></section>
+
+      <section id="raw-api"><h2>raw <code>afn_bridge</code> 外设索引</h2><div class="concept"><p>当前没有信道启用/禁用 API；raw 动态方法索引为 0～38。下表列出统一信道方法的索引。</p><table><tr><th>索引</th><th>raw 方法</th><th>Lua 包装函数</th></tr><tr><td>32</td><td><code>getChannelValue</code></td><td><code>afn.value</code> / <code>channel_value</code></td></tr><tr><td>33</td><td><code>setChannelValue</code></td><td><code>afn.set_value</code> / <code>set_channel_value</code></td></tr><tr><td>34</td><td><code>clearChannelValue</code></td><td><code>afn.clear_value</code> / <code>clear_channel_value</code></td></tr><tr><td>35</td><td><code>getFrequency</code></td><td><code>afn.frequency</code></td></tr><tr><td>36</td><td><code>setPrimaryFrequency</code></td><td><code>afn.set_primary_frequency</code></td></tr><tr><td>37</td><td><code>setSecondary</code></td><td><code>afn.set_secondary</code></td></tr><tr><td>38</td><td><code>setSynaxisActivation</code></td><td><code>afn.set_synaxis_activation</code></td></tr></table><pre class="success"><code>local bridge = peripheral.wrap("left")
+local value = bridge.getChannelValue("door")
+print(value.present, value.kind, textutils.serialize(value.value))</code></pre><p>新快照字段和新方法进入兼容层的同时，旧方法仍保留至少一个大版本；旧投影无法完整表达主频和值共存，新程序应迁移到上表。</p></div></section>
+
+      <section id="events"><h2>CC 事件</h2><div class="concept"><p>只有已完成策略初始化、ComputerID 仍获准并具有读取权限的附件会话会收到事件；未授权电脑不注册监听。第二个返回值是 payload table，刚连接不会补发历史状态。</p><table><tr><th>事件</th><th>主要字段</th></tr><tr><td><code>afn_channel_started</code></td><td>channel, active=true, strength</td></tr><tr><td><code>afn_channel_changed</code></td><td>有效强度变化后的信道字段</td></tr><tr><td><code>afn_channel_stopped</code></td><td>channel, active=false, strength=0</td></tr><tr><td><code>afn_channel_value_changed</code></td><td>revision, value_present, value_kind, channel_value</td></tr><tr><td><code>afn_information_changed</code></td><td>上一事件的旧名称兼容副本</td></tr><tr><td><code>afn_channel_rejected</code></td><td>operation, error，可能含 channel</td></tr><tr><td><code>afn_channel_timeout</code></td><td>信道脉冲字段；或 operation, handle, active=false</td></tr><tr><td><code>afn_display_changed</code></td><td>channel；待机时为空串</td></tr></table><pre><code>while true do
+  local event, data = os.pullEvent()
+  if event:sub(1, 4) == "afn_" then
+    print(event, textutils.serialize(data))
+  end
+end</code></pre></div></section>
+
+      <section id="errors"><h2>错误与返回值</h2><div class="concept"><p>外设不存在、ComputerID 未通过准入、会话尚未初始化、参数类型错误或对应权限关闭时会抛 Lua 异常；业务拒绝通常返回 <code>success=false</code> 与错误码。配置返回形如 <code>{success,error,channel}</code>，失败时 channel=nil 且原配置不变。同 tick 值写入按玩家 &gt; CC:T &gt; Synaxis &gt; 无线仲裁，较低优先级返回 <code>information_write_conflict</code>。</p><pre><code>local called, result = pcall(afn.set, "yard_gate", 15)
+if not called then
+  printError(result)       -- Lua 异常
+elseif not result.success then
+  printError(result.error) -- 业务拒绝
+else
+  print(result.strength)
+end</code></pre><p>常见错误：<code>unknown_channel</code>、<code>revision_conflict</code>、<code>information_write_conflict</code>、<code>invalid_information_value</code>、<code>value_present_conflict</code>、<code>invalid_frequency</code>、<code>invalid_secondary</code>、<code>secondary_frequency_requires_manual_mode</code>、<code>unsupported_synaxis_activation_format</code>、<code>invalid_synaxis_port</code>、<code>invalid_redstone_binding</code>、<code>auth_board_unavailable</code>、<code>temporary_transmitter_limit</code>、<code>wireless_unavailable</code>。</p></div></section>
+      <section id="troubleshoot"><h2>故障排查</h2><div class="concept" data-key="troubleshoot require unknown_channel value permission revision conflict synaxis red wireless">
+        <table><tr><th>看到的现象</th><th>通常原因</th><th>下一步</th></tr><tr><td><code>require("afn")</code> 失败</td><td>电脑未安装 CC:Tweaked，或 Lua ROM 未加载</td><td>确认 CC:Tweaked 已安装并重启电脑。</td></tr><tr><td><code>unknown_channel</code></td><td>把主频、标题或拼写错误当成信道名</td><td>复制桥接器 GUI 左侧的信道名。</td></tr><tr><td><code>value(...).present == false</code></td><td>信道存在，但当前没有值</td><td>用 <a href="#set-value"><code>set_value</code></a> 创建值；不要把占位的空串误认为空文本。</td></tr><tr><td><code>computer configuration access is disabled...</code></td><td>对应 CC:T 能力开关关闭</td><td>在 CC:T 页开启调用需要的读取、激活或配置权限。</td></tr><tr><td><code>revision_conflict</code></td><td>读取后，其他来源先修改了值</td><td>重新调用 <a href="#value"><code>value</code></a>，根据新值重新计算。</td></tr><tr><td>返回成功但无线设备不响应</td><td>主频为空或非法、副频鉴权不可用、距离/物理化域不通或接收规则不匹配</td><td>用 <a href="#get"><code>get</code></a> 检查 <code>primary_frequency</code>、<code>secondary_mode</code>、<code>receive_enabled</code> 与 <code>last_error</code>；仅发送模式不影响本地发送。</td></tr><tr><td>Synaxis 接线变红</td><td>两端 Schema 不一致</td><td>在接线前把两端设为相同格式；激活端口仅 real/boolean，值端口另行选择。</td></tr><tr><td>操作了错误的桥接器</td><td>多台外设时省略或写错 <code>bridge</code></td><td>运行 <code>peripherals</code> 查看名称，并把它作为最后参数。</td></tr></table>
+        <p><code>information_write_conflict</code> 与 <code>revision_conflict</code> 不同：前者表示同一服务器 tick 已接受优先级更高的玩家、CC:T、Synaxis 或无线写入。等待下一 tick、重新读取当前值，再决定是否提交。</p>
+      </div></section>
+      <div id="empty" class="empty">没有匹配的内容。可尝试操作目标、函数名、参数名或错误码。</div>
+      <footer><a href="./FUNCTIONS.md">FUNCTIONS.md</a>：字段、频段表达式和错误码参考。</footer>
+    </main>
+  </div>
+  <script>
+    const search=document.getElementById('search'),units=[...document.querySelectorAll('.card,.concept,.callout')],sections=[...document.querySelectorAll('main section')],empty=document.getElementById('empty');
+    search.addEventListener('input',()=>{const q=search.value.trim().toLowerCase();let visible=0;units.forEach(unit=>{const hit=!q||((unit.dataset.key||'')+' '+unit.textContent).toLowerCase().includes(q);unit.classList.toggle('hide',!hit);if(hit){visible++;if(q&&unit.matches('.card'))unit.open=true}});sections.forEach(section=>{const owned=[...section.querySelectorAll('.card,.concept,.callout')],title=(section.querySelector('h2')?.textContent||'').toLowerCase(),titleHit=!!q&&title.includes(q);if(titleHit){owned.forEach(unit=>unit.classList.remove('hide'));visible++}if(owned.length)section.classList.toggle('hide',!!q&&!titleHit&&owned.every(unit=>unit.classList.contains('hide')))});empty.style.display=q&&visible===0?'block':'none'});
+  </script>
+</body>
+</html>
