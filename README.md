@@ -46,7 +46,6 @@ The expression above matches only `1.2.9.4`. Expressions containing `!`, `[]`, `
 | Device | Function |
 | --- | --- |
 | Wireless redstone terminal | Create-compatible two-slot wireless device. Board orientation and horizontal or vertical placement do not change matching. |
-| Carrot signal terminal | Attaches to all six faces. Player yaw does not rotate it within one attachment face; replanted carrots continue growth detection. |
 | Mailbox | Single-channel send, receive, or transceiver device. Stores received values and reads/writes Create Display Link sources and targets. Automatic write and automatic output are mutually exclusive to prevent loops. |
 | AFN Bridge | Stores up to 64 channels and provides a CRT, channel values, redstone bindings, Synaxis ports, and a CC:T peripheral. |
 | Big Bridge | 2×1×2 touch-screen bridge. Power and screen lock are controlled by physical buttons. |
