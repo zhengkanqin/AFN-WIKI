@@ -2,7 +2,6 @@
 
 [Open the AFN CC:T Wiki](./index.html) · [查看 AFN CC:T Wiki](./index.html) · [FUNCTIONS.md](./FUNCTIONS.md)
 
-The HTML Wiki opens in **English by default**. Use the `EN / 中文` switch in the header to change language; the choice is remembered in the browser. The Markdown manual remains available for a plain-text reference.
 
 ## English overview
 
