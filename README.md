@@ -1,6 +1,6 @@
 # AFN Bridge × CC:Tweaked
 
-[AFN CC:T Wiki]([./index.html](https://zhengkanqin.github.io/AFN-WIKI/)) ·
+[AFN CC:T Wiki](https://zhengkanqin.github.io/AFN-WIKI/) ·
 [FUNCTIONS.md](./FUNCTIONS.md)
 
 
