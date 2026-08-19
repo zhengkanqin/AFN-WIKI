@@ -1,4 +1,31 @@
-# AFN 桥接器 × CC:Tweaked
+# AFN Bridge × CC:Tweaked
+
+[Open the AFN CC:T Wiki](./index.html) · [查看 AFN CC:T Wiki](./index.html) · [FUNCTIONS.md](./FUNCTIONS.md)
+
+The HTML Wiki opens in **English by default**. Use the `EN / 中文` switch in the header to change language; the choice is remembered in the browser. The Markdown manual remains available for a plain-text reference.
+
+## English overview
+
+AFN Bridge combines Create wireless redstone, persistent channel values, local redstone, CC:Tweaked, and Synaxis through one channel model. CC:Tweaked is optional. When installed, a computer can use the `afn_bridge` peripheral or the bundled `afn` Lua module.
+
+Typical first program:
+
+```lua
+local afn = require("afn")
+for _, channel in ipairs(afn.channels()) do
+  print(channel.name, channel.primary_frequency)
+end
+
+local result = afn.pulse("door") -- 15 strength, 20 ticks by default
+assert(result.success, result.error)
+```
+
+Use the HTML Wiki for guided examples, a searchable function index, parameter and return-value details, error codes, CC events, Synaxis ports, and raw peripheral methods. If an auth board is installed, add the computer's `ComputerID` to the bridge allowlist and grant the required read, activation, or configuration capability.
+
+<details>
+<summary>中文说明</summary>
+
+AFN 桥接器 × CC:Tweaked
 
 [进入 AFN CC:T 像素风 Wiki 首页](./index.html) · [查看完整 FUNCTIONS 函数手册](./FUNCTIONS.md)
 
@@ -154,3 +181,5 @@ Lua 不能写入 Owner、ACL、隐藏鉴权主频或伪造鉴权身份。`auth` 
 43. `afn.clear_temporary_all([bridge_name])`
 
 信道没有启用/禁用状态。`create_channel` 与 `update_channel` 的 `receive_enabled=false` 表示“仅发送”，`true` 表示“允许发送和接收”；新信道默认 `receive_enabled=true`、`displayed=true`。raw `afn_bridge` 外设索引为 0～38；完整名称和索引见 [FUNCTIONS.md 的 raw 外设章节](FUNCTIONS.md#raw-afn_bridge-外设方法)。
+
+</details>
