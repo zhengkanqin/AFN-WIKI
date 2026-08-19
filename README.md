@@ -1,6 +1,6 @@
-# AFN Bridge × CC:Tweaked
+# AFN Advanced Frequency Network Wiki
 
-[AFN CC:T Wiki](https://zhengkanqin.github.io/AFN-WIKI/) ·
+[AFN Wiki](https://zhengkanqin.github.io/AFN-WIKI/) ·
 [FUNCTIONS.md](./FUNCTIONS.md)
 
 
@@ -22,164 +22,169 @@ assert(result.success, result.error)
 
 Use the HTML Wiki for guided examples, a searchable function index, parameter and return-value details, error codes, CC events, Synaxis ports, and raw peripheral methods. If an auth board is installed, add the computer's `ComputerID` to the bridge allowlist and grant the required read, activation, or configuration capability.
 
-<details>
-<summary>中文说明</summary>
+## AFN features
 
-AFN 桥接器 × CC:Tweaked
+AFN is a Create addon built on Create's public dual-frequency wireless redstone link. It adds hierarchical addresses, aliases, history management, rule matching, authentication, channel values, ticket devices, a mailbox, and programmable bridges without changing how regular Create wireless devices handle redstone strength.
 
-[进入 AFN CC:T 像素风 Wiki 首页](./index.html) · [查看完整 FUNCTIONS 函数手册](./FUNCTIONS.md)
+### Frequency boards
 
-AFN 桥接器把 Create 无线红石、可选信道值、本地红石、CC:Tweaked 与 Synaxis 放进同一条信道。CC:Tweaked 不是必需依赖；安装后，电脑可通过 `afn_bridge` 外设或随模组提供的 `afn` Lua 模块控制桥接器。
-
-## 五分钟开始
-
-先在桥接器 GUI 新建一条名为 `door` 的信道，主频填写 `factory.door`。信道名是给 API 查找的名称，主频才是 Create/AFN 无线地址。
-
-```lua
-local afn = require("afn")
-
--- 查看电脑连接到的桥接器和全部信道
-local bridge, bridge_name = afn.find()
-print("bridge:", bridge_name)
-for _, channel in ipairs(afn.channels()) do
-  print(channel.name, channel.primary_frequency)
-end
-
--- 15 强度、20 tick；主频有效时会同时发送无线信号
-local result = afn.pulse("door")
-assert(result.success, result.error)
-
--- 写值与激活彼此独立；简单覆盖不需要 revision
-local changed = afn.set_value("door", "OPEN")
-assert(changed.success, changed.error)
-```
-
-如果 `afn.channels()` 抛出权限错误，请在桥接器的 CC:T 页检查读取、激活和配置三项能力。没有鉴权板时所有非负 ComputerID 都可准入；安装鉴权板后，只有鉴权板 ComputerID 白名单中的电脑可准入，空名单拒绝所有电脑。
-
-## 统一信道模型
-
-每条信道都同时拥有：
+- A regular frequency board stores one primary frequency and up to five aliases. Aliases can use `OR` or `AND` logic.
+- An auth frequency board stores an Owner, READ / WRITE ACL, a hidden authentication frequency, and an optional installation lock. READ controls viewing and receiving; WRITE controls editing; the Owner manages access.
+- Frequencies accept English letters, numbers, Chinese characters, and dot-separated levels, for example `factory.production.line_01`.
+- `?` matches one character in the current level. `*` matches any characters in the current level. `**` can cross levels and dots. `[A-C]` and `[0-9]` match one case-sensitive character from a range.
+- `!` excludes shorthand items only from the immediately preceding level. Multiple exclusions may be chained:
 
 ```text
-信道名 + 主频 + 副频模式 + 可选值 + 激活状态
+1.2.[1-9].!1!2!3![4-8].[2-4].!2!3
 ```
 
-| 字段 | 含义 |
+The expression above matches only `1.2.9.4`. Expressions containing `!`, `[]`, `*`, or `?` are not added to the history library. The history library stores literal addresses by hierarchy and suggests entries from the current level after a prefix is entered.
+
+### Devices
+
+| Device | Function |
 | --- | --- |
-| `name` | GUI 与 API 使用的唯一名称，不是无线频率 |
-| `primary_frequency` | 可为空；为空时只在本地保存和显示，不参加无线网络 |
-| `secondary_mode` | `none`、`manual` 或 `auth` |
-| `secondary_frequency` | 只在 `manual` 时使用 |
-| `value_present` | 区分无值与合法空文本 |
-| `value_kind` / `channel_value` | `text`、`boolean`、`real` 及其实际值 |
-| `active` / `strength` | 合并所有当前来源后的激活状态和 0～15 强度 |
+| Wireless redstone terminal | Create-compatible two-slot wireless device. Board orientation and horizontal or vertical placement do not change matching. |
+| Carrot signal terminal | Attaches to all six faces. Player yaw does not rotate it within one attachment face; replanted carrots continue growth detection. |
+| Mailbox | Single-channel send, receive, or transceiver device. Stores received values and reads/writes Create Display Link sources and targets. Automatic write and automatic output are mutually exclusive to prevent loops. |
+| AFN Bridge | Stores up to 64 channels and provides a CRT, channel values, redstone bindings, Synaxis ports, and a CC:T peripheral. |
+| Big Bridge | 2×1×2 touch-screen bridge. Power and screen lock are controlled by physical buttons. |
+| AFN advanced computer | Protected CC:T host. When an auth board is installed, only allowlisted ComputerIDs may use AFN functions. |
+| Invoice machine | Uses an auth board to issue or unbind tickets in batches. Tickets from one batch stack to 64. |
+| Ticket validator | Checks ticket frequency and Owner ACL. If its 27-slot retained-ticket inventory is full, it consumes nothing and does not release access. |
+| Auth card reader and identity pillar | Emit a 20-tick redstone pulse after authentication. Idle, success, and failure indicators are dark, green, and red. |
 
-旧快照中的 `type/subtype/value/attach_auth` 仍保留一个兼容期，但只是投影：有主频时旧 `type` 会优先显示 `frequency`，否则有值时显示 `information`。它们不能表达“一条信道同时有主频和值”，新程序应读取 v2 字段。
+An auth board installed in a device is a credential, not a consumable. The Owner or an authorized player can view and remove an unlocked board according to the device rules. A locked board can be removed only by breaking the device. Engineer's Goggles show only frequencies the current player may read.
 
-### 值与 revision
+### Channel values and wireless payloads
 
-- 文本最长 1024 个 Unicode 码点且不超过 4096 个 UTF-8 字节。
-- `real` 在 GUI 中叫“实数组”：传一个有限 number，或 1～7 个有限 number 的连续 Lua 数组；合法分量向零规范到最多三位小数。
-- `true/false` 是布尔；空文本 `""` 是一个存在的值；`afn.clear_value()` 才会变成无值。
-- 写值不激活信道，激活也不要求存在值。
-- 只想覆盖时直接调用 `afn.set_value("notice", "新内容")`，不用事先读取 revision。
-- 只有“读取旧值 → 计算新值 → 不希望覆盖期间的并发修改”时才传 revision。
+Each bridge channel can contain a name, primary frequency, optional secondary mode, optional value, and activation state at the same time. Values are text, booleans, or arrays of 1–7 finite real numbers. Text is limited to 1,024 Unicode code points and 4,096 UTF-8 bytes. The empty string `""` is a present text value; `clear_value` creates an absent value.
 
-```lua
-local current = assert(afn.value("counter"))
-local result = afn.set_value("counter", current.value + 1, current.revision)
-if not result.success and result.error == "revision_conflict" then
-  printError("值已被别人修改，请重新读取")
-end
+Writing a value does not activate a channel, and activation does not require a value. AFN-to-AFN links can carry values; regular Create devices process only redstone strength 0–15. Wireless input is not retransmitted automatically, preventing A→B→A loops. When several sources are active, the highest strength wins; value-bearing sources are resolved by the server's stable arbitration rule.
+
+### Screens and maps
+
+Bridge CRTs and Big Bridge screens provide five interpretation views: default, switch, bar chart, gauge, and map. Views do not change the stored value type. If a value cannot be interpreted, a switch falls back to off, charts fall back to 0, and a map still shows the device point.
+
+- Bar charts and gauges can define names and lower/upper limits for real-array components.
+- Maps read the first three real-array components or parseable text coordinates, and can display device points, channel points, and favorites.
+- Screen settings control display order, visibility, confirmation before interaction, integer input, and map background rendering.
+- The map reads client-loaded terrain at low frequency. With the background disabled, it draws only lines, points, and favorite labels; it never generates or force-loads chunks for rendering.
+- The Big Bridge uses physical power and lock buttons. Locking disables screen edits; powering off stops screen rendering.
+
+### Redstone, Synaxis, and CC:Tweaked
+
+Redstone bindings use front, back, left, right, up, and down relative to the screen front. They also support all-directions and exact-strength or all-strength matching. One redstone input can activate multiple channels.
+
+Synaxis exposes three independent ports per channel: activation input, value input, and value output. Activation input accepts Real / Boolean strength. Value ports accept Real, Boolean, Vec3, and Quaternion; both ends must use the same Schema before wiring. A short input array overwrites the front and preserves the old tail; a longer array extends the value. Output truncates or fills components and publishes a safe default when conversion is impossible. Pose and Twist remain save-compatible only; Bundle is not supported.
+
+CC:Tweaked can control a bridge through the `afn_bridge` peripheral or `require("afn")`. With an auth board installed, the ComputerID must be in the allowlist. Read, activation, and configuration capabilities are independent. Permission results are cached in the session, so normal calls do not scan the world, NBT, containers, or ACL on every invocation.
+
+### Create and aviation compatibility
+
+AFN uses Create's public wireless link. Addons that keep the Create interface can continue basic frequency matching. Simulated Aviation physicalized devices use physical-domain coordinates and their own orientation for matching. Devices that bypass Create's public link and implement a separate protocol are outside automatic compatibility.
+
+### Permission and performance boundaries
+
+Policy is pushed to connected sessions when the auth board, allowlist, or capability switches change. Each Lua call reads an O(1) session cache. Computer lifecycle checks run every tick; complete physical-credential audits run at low frequency. Revoking admission or activation clears that ComputerID's persistent leases and temporary transmissions.
+
+Lua cannot submit an Owner, ACL, hidden auth frequency, or forged authentication identity. Auth secondary frequencies and temporary authenticated transmissions use only the bridge's own valid auth board.
+
+## Dependencies
+
+- Minecraft 1.21.1
+- NeoForge
+- Create 6.0+
+- CC:Tweaked and Synaxis are optional integrations.
+
+## Documentation
+
+- [AFN Wiki](https://zhengkanqin.github.io/AFN-WIKI/) — searchable HTML overview and guided examples.
+- [FUNCTIONS.md](./FUNCTIONS.md) — complete Lua function parameters, return values, events, errors, and raw peripheral methods.
+
+<details>
+<summary>中文</summary>
+
+## AFN 功能
+
+AFN 是基于 Create 公开双频无线红石链路构建的附属模组。它增加了分层地址、别名、历史库、规则匹配、鉴权、信道值、票务设备、信箱和可编程桥接器，不改变普通 Create 无线设备处理红石强度的方式。
+
+### 频段板
+
+- 普通频段板保存一个主频和最多五个别名，别名可使用 `OR` 或 `AND` 逻辑。
+- 鉴权频段板保存 Owner、READ / WRITE ACL、隐藏鉴权主频和可选锁定状态。READ 控制查看和接收，WRITE 控制编辑，Owner 管理权限。
+- 频段允许英文、数字、汉字和点号分层，例如 `factory.production.line_01`。
+- `?` 匹配当前层一个字符；`*` 匹配当前层任意字符；`**` 跨层匹配；`[A-C]`、`[0-9]` 匹配一个大小写敏感字符。
+- `!` 只排除紧邻上一层的简写项，可连续使用：
+
+```text
+1.2.[1-9].!1!2!3![4-8].[2-4].!2!3
 ```
 
-## 无线与屏幕
+上式只匹配 `1.2.9.4`。包含 `!`、`[]`、`*`、`?` 的表达式不会写入历史库。历史库按层级保存纯字面地址，输入当前层前缀后推荐同层内容。
 
-AFN 桥接器之间的激活可携带当前值；普通 Create 接收器只收到强度，普通 Create 发送器可激活桥接器但不会改值。无线入站不会自动再次发射，避免中继回环。多个来源的强度取最大值；携值来源使用稳定规则选出唯一胜者。
+### 设备
 
-默认、开关、柱状图、仪表盘和地图是五种解释视图，不是值类型。无法解释时只做视觉回退：开关显示关闭、图表显示 0、地图只画设备点；第一次真实触控才写入规范值。整数调节只影响屏幕触控，不影响 CC:T、Synaxis、无线或普通 GUI 写入。
+| 设备 | 功能 |
+| --- | --- |
+| 无线红石信号终端 | Create 双槽无线设备；频段板方向、终端水平或垂直摆放不改变匹配。 |
+| 胡萝卜信号终端 | 可贴六个面；同一附着面内不受玩家朝向限制；补种胡萝卜后继续检测生长。 |
+| 信箱 | 单信道发送、接收或收发；保存接收内容，并与 Create Display Link 支持的来源和目标互读写。自动写入和自动输出不能同时开启。 |
+| AFN 桥接器 | 最多 64 条信道，提供 CRT、信道值、红石绑定、Synaxis 端口和 CC:T 外设。 |
+| 大型桥接器 | 2×1×2 触控大屏版本；电源和屏幕锁定由实体按钮控制。 |
+| AFN 高级电脑 | 受保护的 CC:T 主机；安装鉴权板后，只允许白名单 ComputerID 使用 AFN。 |
+| 发票机 | 使用鉴权板批量签发或解绑票券；同一批次票券可堆叠到 64。 |
+| 验票机 | 校验票券频段和 Owner ACL；27 格留票库满时不扣票、不放行。 |
+| 鉴权刷卡机、身份验证柱 | 鉴权后输出 20 tick 红石脉冲；待机、成功、失败灯分别为暗、绿、红。 |
 
-## Synaxis 三端口
+设备中的鉴权板是安装凭证，不会被消耗。未锁定时，Owner 或有权限玩家可以查看和按设备规则拆卸；锁定后只能破坏设备移除。工程师护目镜只显示当前玩家有权读取的频段。
 
-每条信道可独立配置：
+### 信道值与无线携值
 
-- 激活输入：只控制 0～15 激活强度；只支持 Real/Boolean。
-- 值输入：只写统一值，不激活。
-- 值输出：只发布统一值，不激活；无法转换时输出所选 Schema 的安全默认。
+每条桥接器信道可以同时拥有信道名、主频、可选副频、可选值和激活状态。值类型为文本、布尔或 1～7 项有限实数组。文本上限为 1024 个 Unicode 码点且不超过 4096 个 UTF-8 字节。空文本 `""` 是存在的文本值，`clear_value` 才会变成无值。
 
-值端口支持 Real、Boolean、Vec3 和 Quaternion。短数组输入覆写前部并保留旧尾部，长数组扩展值；输出会截断多余项、补齐缺项，Quaternion 的缺失 `w` 补 1。旧 Pose/Twist 只保留存档兼容，不能新建。
+写值不会激活信道，激活也不要求已有值。AFN 桥接器之间可以沿已放行链路携带值；普通 Create 设备只处理 0～15 强度。无线入站不会自动再次发射，防止 A→B→A 回环。多来源强度取最大值，携值来源按服务端稳定规则选择唯一胜者。
 
-## 权限与性能
+### 屏幕与地图
 
-CC 会话分别缓存“准入、读取、激活、配置”结果。鉴权板、白名单或能力开关改变时，服务端才推送新策略；每次 Lua 调用只做 O(1) 会话缓存读取，不扫描世界、NBT、ACL 或白名单。撤销准入或激活能力会清理该 ComputerID 留下的持续租约和临时发送。
+桥接器 CRT 和大型桥接器屏幕提供默认、开关、柱状图、仪表盘、地图五种解释视图。视图不改变值类型；无法解释时，开关回退为关闭，图表回退为 0，地图至少显示设备点。
 
-Lua 不能写入 Owner、ACL、隐藏鉴权主频或伪造鉴权身份。`auth` 副频和临时鉴权发送只会使用桥接器当前有效的鉴权板。
+- 柱状图和仪表盘可以为实数组分量配置名称与上下限。
+- 地图读取实数组前三项或可解析的文本坐标，显示设备、信道和收藏点。
+- 屏幕设置控制展示顺序、可见性、交互确认、整数输入和地图背景。
+- 地图只低频读取客户端已加载区域；关闭背景后只绘制线条、点和收藏文本，不生成或强制加载区块。
+- 大型桥接器使用实体电源键和锁定键；锁定后不可编辑，断电后停止屏幕渲染。
 
-## 文档入口
+### 红石、Synaxis 与 CC:Tweaked
 
-- [像素风 HTML Wiki](index.html)：适合浏览和搜索。
-- [完整函数手册](FUNCTIONS.md)：参数、返回值、成功与失败示例、事件及 raw 外设表。
-- [中文模组介绍](中文介绍.md)
+红石绑定以屏幕正面为基准，支持前、后、左、右、上、下和全向；强度支持精确值和全强度。一个输入可以同时激活多条信道。
 
-## 精确 Lua 函数索引
+Synaxis 为每条信道提供激活输入、值输入和值输出。激活输入接受 Real / Boolean 强度；值端口支持 Real、Boolean、Vec3 和 Quaternion，接线前两端必须选择相同 Schema。短数组输入覆写前部并保留旧尾部，长数组扩展；输出截断或补齐，无法转换时发送安全默认值。Pose、Twist 仅保留旧存档兼容，Bundle 暂不支持。
 
-下列名称来自随模组发布的 `require("afn")` 模块。每个包装函数都允许把可选的 `bridge_name` 放在最后；只有一台桥接器时可省略。
+CC:Tweaked 通过 `afn_bridge` 外设或 `require("afn")` 控制桥接器。安装鉴权板后，ComputerID 必须在白名单中；读取、激活、配置权限独立管理。权限结果保存在会话缓存中，普通调用不会逐次扫描世界、NBT、容器或 ACL。
 
-### 发现与读取
+### Create 与航空学兼容
 
-1. `afn.find([name])`
-2. `afn.channels([bridge_name])`
-3. `afn.active([bridge_name])`
-4. `afn.display_channels([bridge_name])`
-5. `afn.get(channel[, bridge_name])`
-6. `afn.state(channel[, bridge_name])`
-7. `afn.value(channel[, bridge_name])`
-8. `afn.channel_value(channel[, bridge_name])`（`value` 的别名）
-9. `afn.information(channel[, bridge_name])`（旧兼容读取）
-10. `afn.frequency(channel[, bridge_name])`
-11. `afn.last_error(channel[, bridge_name])`
+AFN 使用 Create 的公开无线链路。未修改 Create 接口的附属设备可以继续进行基础频率匹配；航空学物理化设备按物理化域坐标和自身朝向参与匹配。绕过 Create 公开链路、使用独立通信协议的设备不在自动兼容范围内。
 
-### 激活和值
+### 权限与性能
 
-12. `afn.set(channel[, strength[, bridge_name]])`
-13. `afn.pulse(channel[, strength[, ticks[, bridge_name]]])`
-14. `afn.toggle(channel[, strength[, bridge_name]])`
-15. `afn.clear(channel[, bridge_name])`
-16. `afn.clear_all(channel[, bridge_name])`
-17. `afn.set_value(channel, value[, revision[, bridge_name]])`
-18. `afn.set_channel_value(...)`（`set_value` 的别名）
-19. `afn.set_information(...)`（旧兼容别名）
-20. `afn.clear_value(channel[, revision[, bridge_name]])`
-21. `afn.clear_channel_value(...)`（`clear_value` 的别名）
+鉴权板、白名单或能力开关变化时，权限策略会推送到连接会话。每次 Lua 调用只读取 O(1) 会话缓存；电脑生命周期检查每 tick 执行，完整物理凭证审计低频执行。撤销准入或激活权限会清理对应 ComputerID 的持续租约和临时发送。
 
-### 主频、副频、展示与信道配置
+Lua 不能写入 Owner、ACL、隐藏鉴权主频或伪造鉴权身份。鉴权副频和临时鉴权发送只使用桥接器自己的有效鉴权板。
 
-22. `afn.set_primary_frequency(channel, frequency[, bridge_name])`
-23. `afn.set_secondary(channel, mode[, frequency[, bridge_name]])`
-24. `afn.get_display_channel([bridge_name])`
-25. `afn.set_display_channel(channel[, bridge_name])`
-26. `afn.next_display_channel([bridge_name])`
-27. `afn.previous_display_channel([bridge_name])`
-28. `afn.set_channel_displayed(channel, displayed[, bridge_name])`
-29. `afn.set_display_channels(channels[, bridge_name])`
-30. `afn.create_channel(definition[, bridge_name])`
-31. `afn.update_channel(channel, changes[, bridge_name])`
-32. `afn.remove_channel(channel[, bridge_name])`
-33. `afn.set_channel_type(...)`（旧兼容投影）
-34. `afn.set_information_subtype(...)`（旧兼容投影）
+## 依赖
 
-### Synaxis、红石与临时发送
+- Minecraft 1.21.1
+- NeoForge
+- Create 6.0+
+- CC:Tweaked、Synaxis 为可选兼容
 
-35. `afn.set_synaxis_activation(channel, enabled[, format[, x, y[, bridge_name]]])`
-36. `afn.set_synaxis_receive(channel, enabled[, format[, x, y[, bridge_name]]])`
-37. `afn.set_synaxis_publish(channel, enabled[, format[, x, y[, bridge_name]]])`
-38. `afn.bind_redstone(channel, side, strength[, bridge_name])`
-39. `afn.unbind_redstone(channel, side[, bridge_name])`
-40. `afn.transmit_temporary(frequency[, strength[, attach_auth[, bridge_name]]])`
-41. `afn.pulse_temporary(frequency[, strength[, ticks[, attach_auth[, bridge_name]]]])`
-42. `afn.clear_temporary(handle[, bridge_name])`
-43. `afn.clear_temporary_all([bridge_name])`
+## 文档
 
-信道没有启用/禁用状态。`create_channel` 与 `update_channel` 的 `receive_enabled=false` 表示“仅发送”，`true` 表示“允许发送和接收”；新信道默认 `receive_enabled=true`、`displayed=true`。raw `afn_bridge` 外设索引为 0～38；完整名称和索引见 [FUNCTIONS.md 的 raw 外设章节](FUNCTIONS.md#raw-afn_bridge-外设方法)。
+- [AFN Wiki](https://zhengkanqin.github.io/AFN-WIKI/)：模组总览、功能说明和示例。
+- [FUNCTIONS.md](./FUNCTIONS.md)：Lua 函数参数、返回值、事件、错误码和 raw 外设方法。
 
 </details>
+
+
