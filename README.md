@@ -1,6 +1,6 @@
 # AFN Bridge × CC:Tweaked
 
-[Open the AFN CC:T Wiki](./index.html) · [查看 AFN CC:T Wiki](./index.html) · [FUNCTIONS.md](./FUNCTIONS.md)
+[AFN CC:T Wiki](./index.html) ·  · [FUNCTIONS.md](./FUNCTIONS.md)
 
 
 ## English overview
