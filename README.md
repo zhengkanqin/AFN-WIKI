@@ -1,6 +1,6 @@
 # AFN Bridge × CC:Tweaked
 
-[AFN CC:T Wiki](./index.html) 
+[AFN CC:T Wiki](./index.html) ·
 [FUNCTIONS.md](./FUNCTIONS.md)
 
 
