@@ -1,20 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="160" height="120" viewBox="0 0 160 120" fill="none">
   <title>Hidden channel configurator</title>
-  <desc>Model-proportioned wooden handle, andesite foot and thin brass ring supporting a glass miniature beacon, with all parts seated on one axis.</desc>
+  <desc>A wooden column seated on an andesite foot, with a brass collar supporting a miniature glass beacon.</desc>
   <g stroke="#30393b" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
-    <g id="wooden-handle">
-      <polygon points="7.55,98.3 25.55,98.3 25.55,53.3 7.55,53.3" fill="#9f744c"/>
-      <polygon points="25.55,98.3 32.75,92.9 32.75,47.9 25.55,53.3" fill="#785536"/>
-      <polygon points="7.55,53.3 25.55,53.3 32.75,47.9 14.75,47.9" fill="#bc9262"/>
-    </g>
-    <path d="M12.05 94.70 12.05 56.30" stroke="#c29b6b" stroke-width="1.4"/>
-    <path d="M20.15 94.70 20.15 56.30" stroke="#c29b6b" stroke-width="1.4"/>
-    <g id="andesite-foot">
-      <polygon points="5.45,104.75 26.45,104.75 26.45,98.75 5.45,98.75" fill="#929a94"/>
-      <polygon points="26.45,104.75 34.85,98.45 34.85,92.45 26.45,98.75" fill="#737c76"/>
+    <g id="andesite-foot-top">
       <polygon points="5.45,98.75 26.45,98.75 34.85,92.45 13.85,92.45" fill="#a8b3ab"/>
-      <path d="M6.7 100.25h18.5" stroke="#c1cac2" stroke-width="1" />
-      <path d="M6.7 103.4h18.5m2.2-.9 6.2-4.65" stroke="#68736c" stroke-width="1" />
+    </g>
+    <g id="wooden-handle">
+      <polygon points="7.55,53.3 25.55,53.3 25.55,98.3 7.55,98.3" fill="#9f744c"/>
+      <polygon points="25.55,53.3 32.75,47.9 32.75,92.9 25.55,98.3" fill="#785536"/>
+      <path d="M12.05 56.3v38.4m8.1-38.4v38.4" stroke="#c29b6b" stroke-width="1.4"/>
+      <path d="M29.15 53.6v37.8" stroke="#977043" stroke-width="1"/>
+    </g>
+    <g id="andesite-foot-rim">
+      <polygon points="26.45,104.75 34.85,98.45 34.85,92.45 26.45,98.75" fill="#737c76"/>
+      <polygon points="5.45,104.75 26.45,104.75 26.45,98.75 5.45,98.75" fill="#929a94"/>
+      <path d="M7.55 100.5h16.8" stroke="#c1cac2" stroke-width="1"/>
+      <path d="M27.7 102.3 33.5 97.95" stroke="#626f67" stroke-width="1"/>
     </g>
     <g id="brass-ring">
       <polygon points="1.25,54.65 28.25,54.65 28.25,45.65 1.25,45.65" fill="#c69a52"/>
