@@ -104,70 +104,70 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "Altitude Sensor",
-      "group": "Aeronautics",
+      "group": "Simulated Project",
       "description": "World altitude or air pressure",
       "example": "63.4 m",
       "mod": "Simulated Project"
     },
     {
       "name": "Speed Sensor",
-      "group": "Aeronautics",
+      "group": "Simulated Project",
       "description": "Relative speed and direction",
       "example": "12.0 m/s",
       "mod": "Simulated Project"
     },
     {
       "name": "Attitude Sensor",
-      "group": "Aeronautics",
+      "group": "Simulated Project",
       "description": "Pitch and roll",
       "example": "4.2°",
       "mod": "Simulated Project"
     },
     {
       "name": "Optical Sensor",
-      "group": "Aeronautics",
+      "group": "Simulated Project",
       "description": "Detected block or distance to the target",
       "example": "Stone - 4 blocks",
       "mod": "Simulated Project"
     },
     {
       "name": "Laser Sensor",
-      "group": "Aeronautics",
+      "group": "Simulated Project",
       "description": "Hit distance",
       "example": "7.5 blocks",
       "mod": "Simulated Project"
     },
     {
       "name": "Portable Engine",
-      "group": "Aeronautics",
+      "group": "Simulated Project",
       "description": "Remaining or total burn time",
       "example": "12.0 s",
       "mod": "Simulated Project"
     },
     {
       "name": "Docking Connector",
-      "group": "Aeronautics",
+      "group": "Simulated Project",
       "description": "Docking partner",
       "example": "Airship Alpha",
       "mod": "Simulated Project"
     },
     {
       "name": "Navigation Table",
-      "group": "Aeronautics",
+      "group": "Simulated Project",
       "description": "Distance to the target or estimated arrival time",
       "example": "1,280 blocks",
       "mod": "Simulated Project"
     },
     {
       "name": "Wireless Redstone Typewriter",
-      "group": "Aeronautics",
+      "group": "Simulated Project",
       "description": "Entered text",
       "example": "Head to the dock",
       "mod": "Simulated Project"
     },
     {
       "name": "Worm Gear / Worm Drive Rod",
-      "group": "Aeronautics",
+      "group": "Simulated Project",
       "description": "Item throughput",
       "example": "16/min",
       "mod": "Simulated Project"
@@ -246,7 +246,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "CC:Tweaked Computer",
-      "group": "Other Integrations",
+      "group": "CCT",
       "description": "Screen text",
       "example": "ready",
       "mod": "CC:Tweaked"
@@ -503,7 +503,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "Nameplate (all colors)",
-      "group": "Aeronautics",
+      "group": "Simulated Project",
       "description": "name = nameplate text (shared by all nameplate colors, up to 32 characters, including newlines); text_color = text color (English color name or index 0-15); glow = whether it glows (true/false).",
       "example": "{\"name\":\"East Warehouse\",\"text_color\":\"yellow\",\"glow\":true}",
       "fields": "name, text_color, glow",
@@ -511,7 +511,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "Portable Engine",
-      "group": "Aeronautics",
+      "group": "Simulated Project",
       "description": "rotation_direction = output direction: clockwise (cw/forward) or counter_clockwise (ccw/reverse). JSON accepts 0/1.",
       "example": "{\"rotation_direction\":\"clockwise\"}",
       "fields": "rotation_direction",
@@ -519,7 +519,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "Gimbal Sensor",
-      "group": "Aeronautics",
+      "group": "Simulated Project",
       "description": "axis = gimbal set angle (-90 to 90 degrees).",
       "example": "{\"axis\":30}",
       "fields": "axis (−90–90°)",
@@ -527,7 +527,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "Optical Sensor",
-      "group": "Aeronautics",
+      "group": "Simulated Project",
       "description": "range = optical sensor detection range (1-4096).",
       "example": "{\"range\":128}",
       "fields": "range (1–4096)",
@@ -535,7 +535,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "Laser Pointer",
-      "group": "Aeronautics",
+      "group": "Simulated Project",
       "description": "max_range = maximum laser range in blocks, from 1 to the server limit.",
       "example": "{\"max_range\":64}",
       "fields": "max_range (1 to the server limit)",
@@ -543,7 +543,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "Speed Sensor",
-      "group": "Aeronautics",
+      "group": "Simulated Project",
       "description": "max_speed = speed sensor measurement range (1-50).",
       "example": "{\"max_speed\":20}",
       "fields": "max_speed (1–50)",
@@ -551,7 +551,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "Steering Wheel",
-      "group": "Aeronautics",
+      "group": "Simulated Project",
       "description": "max_angle = maximum steering wheel angle (1-360 degrees).",
       "example": "{\"max_angle\":90}",
       "fields": "max_angle (1–360°)",
@@ -559,7 +559,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "Torsion Spring",
-      "group": "Aeronautics",
+      "group": "Simulated Project",
       "description": "max_angle = maximum torsion spring travel angle (1-360 degrees).",
       "example": "{\"max_angle\":180}",
       "fields": "max_angle (1–360°)",
@@ -567,7 +567,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "Rotary Bearing",
-      "group": "Aeronautics",
+      "group": "Simulated Project",
       "description": "locking = locking mode: locked_always = always locked, locked_default = locked by default, unlocked_default = unlocked by default, unlocked_always = always unlocked. JSON accepts 0-3.",
       "example": "{\"locking\":\"locked_default\"}",
       "fields": "locking",
@@ -575,7 +575,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "Redstone Accumulator",
-      "group": "Aeronautics",
+      "group": "Simulated Project",
       "description": "delay = accumulation delay (2-72000 ticks).",
       "example": "{\"delay\":20}",
       "fields": "delay (2–72000 tick)",
@@ -583,7 +583,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "Redstone Inductor",
-      "group": "Aeronautics",
+      "group": "Simulated Project",
       "description": "delay = inductance delay (0-72000 ticks).",
       "example": "{\"delay\":20}",
       "fields": "delay (0–72000 tick)",
@@ -623,7 +623,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "Wheel Mount",
-      "group": "Aeronautics",
+      "group": "Create: Offroad",
       "description": "suspension_strength = suspension/shock absorption strength on the top face (5-180).",
       "example": "{\"suspension_strength\":30}",
       "fields": "suspension_strength (5–180)",
@@ -755,7 +755,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "Attitude Stabilizer",
-      "group": "Aeronautics",
+      "group": "Flight Control",
       "description": "Remotely set the Attitude Stabilizer P/D gains, mode, forward direction and default enabled state. pd 2 0.5 sets P/D together. mode accepts LEVEL_NO_YAW, LEVEL or HOLD_CURRENT; forward is north/east/south/west. Omitted fields retain their current values.",
       "example": "{\"p\":2,\"d\":0.5,\"mode\":\"LEVEL_NO_YAW\",\"forward\":\"north\",\"enabled\":true}",
       "fields": "p, d (decimals; treated as absolute values by the device), mode, forward, enabled; supports pd shorthand",
@@ -763,7 +763,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "Altitude Stabilizer",
-      "group": "Aeronautics",
+      "group": "Flight Control",
       "description": "Remotely set the Altitude Stabilizer P/D, mode, preset altitude, capture delay, step and default enabled state. mode accepts hold_current, hold_preset or minimum_altitude. Providing altitude enables preset altitude. Omitted fields retain their current values.",
       "example": "{\"p\":2,\"d\":0.5,\"mode\":\"hold_preset\",\"altitude\":20}",
       "fields": "p, d, mode, altitude, delay, step, enabled; pd accepts the p d shorthand",
@@ -771,7 +771,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "Distance Coupler",
-      "group": "Aeronautics",
+      "group": "Flight Control",
       "description": "Change P/D, target distance interval, inversion and sampling mode. pd 2 0.5 sets both gains; range 4 12 sets min/max together. Distance ranges from 0 to 128; mode accepts AVERAGE, MAX or MIN. enabled changes the default coupling state; the redstone proxy master switch still inverts it according to the device rules.",
       "example": "{\"p\":2,\"d\":0.5,\"min\":4,\"max\":12,\"invert\":false,\"mode\":\"AVERAGE\"}",
       "fields": "p, d, min, max, invert, mode, enabled",
@@ -779,7 +779,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "Linear Velocity Coupler",
-      "group": "Aeronautics",
+      "group": "Flight Control",
       "description": "Set P/D gains and positive/negative linear speed limits for the body X/Y/Z axes. pd takes paired values per axis: X-P, X-D, Y-P, Y-D, Z-P, Z-D. x/y/z set the positive and negative speed limits for each axis. Negative gains and limits are treated as absolute values.",
       "example": "pd 1 0.1 2 0.2 3 0.3",
       "fields": "px, py, pz, dx, dy, dz; pd shorthand pairs P/D per axis; xp/xn, yp/yn, zp/zn are positive/negative limits",
@@ -787,7 +787,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "Angular Velocity Coupler",
-      "group": "Aeronautics",
+      "group": "Flight Control",
       "description": "Set P/D gains and positive/negative angular speed limits for the body X/Y/Z axes. pd takes paired values per axis: X-P, X-D, Y-P, Y-D, Z-P, Z-D. x/y/z set the positive and negative speed limits for each axis. Negative gains and limits are treated as absolute values.",
       "example": "pd 1 0.1 2 0.2 3 0.3",
       "fields": "px, py, pz, dx, dy, dz; pd shorthand pairs P/D per axis; xp/xn, yp/yn, zp/zn are positive/negative limits",
@@ -795,7 +795,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "Flight Control Terminal",
-      "group": "Aeronautics",
+      "group": "Flight Control",
       "description": "Change the Flight Control Terminal sensitivity, direction, three-axis P/D, acceleration and angular speed limits, plus independent P/D and angular speed for redstone control. pitch_pd, yaw_pd and roll_pd group each axis P/D; redstone_pitch_pd and related fields set redstone parameters, while rpd sets redstone P/D for all three axes at once. sensitivity: 0.01-1; max_aim_angle: 10-89 degrees; P/D and acceleration: 0-100; angular speed: 0-4 pi. Omitted fields retain their current values.",
       "example": "pitch_pd 2 0.4",
       "fields": "enabled, forward, sensitivity, max_aim_angle, three-axis P/D, three-axis acceleration/angular speed, redstone P/D/angular speed, camera offset; supports PD shorthand per axis",
@@ -803,7 +803,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "Attitude Projector",
-      "group": "Aeronautics",
+      "group": "Flight Control",
       "description": "Change the attitude projection height, size, ground plane position and visible elements. height: 0.5-3; scale: 0.25-4; ground_height: -1 to 1. show_ground/show_axes control visibility of the ground plane and body axes.",
       "example": "{\"height\":1.5,\"scale\":1.2,\"ground_height\":0,\"show_ground\":true,\"show_axes\":true}",
       "fields": "height, scale, ground_height, show_ground, show_axes",
@@ -811,7 +811,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "HUD Projector",
-      "group": "Aeronautics",
+      "group": "Flight Control",
       "description": "Change the HUD projection height, front/back position, size and forward direction. height: 0.5-6; depth: -1 to 2; scale: 0.5-3. forward accepts north/east/south/west.",
       "example": "{\"height\":2,\"depth\":0.25,\"scale\":1.2,\"forward\":\"north\"}",
       "fields": "height, depth, scale, forward",

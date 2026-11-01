@@ -1,4 +1,4 @@
-[English](./README.md) · [AFN WIKI](./index.html) · [Lua 函数手册](./FUNCTIONS.md)
+[English](./README.md) · [AFN WIKI](https://zhengkanqin.github.io/AFN-WIKI/) · [Lua 函数手册](./FUNCTIONS.md)
 
 # AFN WIKI
 
@@ -6,7 +6,7 @@
 
 Create: Advanced Frequency Network
 
-**AFN 1.8.0 · Minecraft 1.21.1 · NeoForge · Create 6.0.x**
+**AFN 1.8.0 · Minecraft 1.21.1 · NeoForge · Create 6.0.0+**
 
 让无线红石同时传递信号和信息：用分层频率管理设备，用信箱读取仪表和改写机器，用可拼接屏幕构建控制台，再用地图终端、寻呼机和电脑接入同一套信道。
 
@@ -359,4 +359,4 @@ assert(afn.pulse("通知", 15, 20).success)
 
 Synaxis 为信道提供激活输入、值输入和值输出，支持相应的 Real、Boolean、Vec3、Quaternion 格式，接线两端须一致。红石绑定按屏幕前后左右上下选择，可指定强度或全强度。
 
-继续阅读：[AFN WIKI](./index.html) · [Lua 签名、权限、事件与错误码](./FUNCTIONS.md) · [项目主页](https://space.bilibili.com/396190439)
+继续阅读：[AFN WIKI](https://zhengkanqin.github.io/AFN-WIKI/) · [Lua 签名、权限、事件与错误码](./FUNCTIONS.md) · [项目主页](https://space.bilibili.com/396190439)

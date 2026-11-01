@@ -6,7 +6,7 @@ For Agents to understand features, design player solutions and generate configur
 
 ## 1. Environment and capability boundaries
 
-Install on both client and server. Base environment: Minecraft **1.21.1**, NeoForge **21.1.218+**, Java **21**, Create **6.0.0 ≤ version < 7.0.0**. AFN unifies frequency matching, permissions, activation strength 0–15 and typed information in channels: control wireless redstone, read instruments, configure machines, display maps/messages and connect computers.
+Install on both client and server. Base environment: Minecraft **1.21.1**, NeoForge **21.1.218+**, Java **21**, Create **6.0.0+**. AFN unifies frequency matching, permissions, activation strength 0–15 and typed information in channels: control wireless redstone, read instruments, configure machines, display maps/messages and connect computers.
 
 | Integration | Capabilities / declared requirements |
 | --- | --- |
@@ -15,13 +15,16 @@ Install on both client and server. Base environment: Minecraft **1.21.1**, NeoFo
 | Synaxis | Cimulink activation/value ports; AFN imposes no minimum or maximum runtime version |
 | CreateImprove | **1.4.0+** enables text-frequency links and Signal Router integration |
 | Create: Flight Control | **0.8.3+** enables parameter writing and navigation reading; disabled on older versions |
-| Aeronautics / Simulated Project / Offroad / Sable | Moving structures, navigation tables, sensor/mechanical configuration and structure keepalive for long signals |
+| Create: Aeronautics | Readings and configuration for propeller bearings, Hot Air Burners and Steam Vents |
+| Simulated Project | Navigation tables, sensors and corresponding machine readings/configuration |
+| Create: Offroad | Wheel Mount suspension-strength configuration |
+| Sable | Moving-structure coordinates, terminals following structures and structure keepalive for long signals |
 | Sable Photomancy / Schematic API | Schematic capture, editing and printing when `sable_schematic_api` is provided; supports old and new Sable paths |
-| Create: Connected / Big Cannons | Corresponding machine parameters/readings; cannon angles, aiming and firing |
+| Create: Connected | Machine parameters/readings for clutches, kinetic batteries and kinetic bridges |
+| Create Big Cannons | Cannon readings, angles, aiming and firing |
 | NetMusic | Record-player state/song/lyrics reading; speaker reading and control |
 | Xaero's World Map | Client terrain source; not required on the server; maps/grids remain available without it |
 | SFN / Touhou Little Maid: Butler | External addon using the channel/logistics API; currently requires AFN **1.2.1+** and Touhou Little Maid **1.5.2+** |
-| JEI / Inventory Profiles Next / TrashSlot, etc. | Configuration-screen overlay compatibility |
 
 All integrations except Create are optional; an unspecified requirement does not mean every version has been verified. Important-dependency recommendation popups can be closed or silenced for the current AFN version. In-game help shows chapters for loaded mods and supports search, collapsing, favorites and code copying.
 

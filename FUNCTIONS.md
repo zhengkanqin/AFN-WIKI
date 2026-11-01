@@ -1,6 +1,6 @@
 # AFN 桥接器 Lua 函数手册
 
-**适用版本：AFN 1.8.0。** [AFN WIKI](./index.html) · [中文总览](./README.zh-CN.md) · [English overview](./README.md)
+**适用版本：AFN 1.8.0。** [AFN WIKI](https://zhengkanqin.github.io/AFN-WIKI/) · [中文总览](./README.zh-CN.md) · [English overview](./README.md)
 
 `require("afn")` 包与 raw `afn_bridge` 外设的函数、权限、事件、错误码及兼容字段参考。
 
@@ -1414,5 +1414,5 @@ raw 方法没有包装器的最后 `bridge_name` 参数，因为 `p` 已经代�
 
 ## 频段表达式速查
 
-主频和 manual 副频使用 AFN 发送端表达式：`?` 单字符、`*` 单层任意文本、`**` 跨层、`[A-C]` 字符集合、`正向.!排除!排除` 当前层多重排除。接收端地址保持字面量；更完整的规则和可复制示例见 [AFN WIKI](./index.html) 与 [中文总览](./README.zh-CN.md)。
+主频和 manual 副频使用 AFN 发送端表达式：`?` 单字符、`*` 单层任意文本、`**` 跨层、`[A-C]` 字符集合、`正向.!排除!排除` 当前层多重排除。接收端地址保持字面量；更完整的规则和可复制示例见 [AFN WIKI](https://zhengkanqin.github.io/AFN-WIKI/) 与 [中文总览](./README.zh-CN.md)。
 

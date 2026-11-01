@@ -1,4 +1,4 @@
-[中文](./README.zh-CN.md) · [AFN WIKI](./index.html) · [Lua reference](./FUNCTIONS.md)
+[中文](./README.zh-CN.md) · [AFN WIKI](https://zhengkanqin.github.io/AFN-WIKI/) · [Lua reference](./FUNCTIONS.md)
 
 # AFN WIKI
 
@@ -6,7 +6,7 @@
 
 Create: Advanced Frequency Network
 
-**AFN 1.8.0 · Minecraft 1.21.1 · NeoForge · Create 6.0.x**
+**AFN 1.8.0 · Minecraft 1.21.1 · NeoForge · Create 6.0.0+**
 
 Wireless redstone with addresses, permissions and data. Read instruments through Mailboxes, configure machines over a channel, build a control screen, and connect portable maps, pagers and computers to the same network.
 
@@ -359,4 +359,4 @@ Read, activation and configuration capabilities are separate. Lua can read / wri
 
 Synaxis supplies activation input, value input and value output with the applicable Real, Boolean, Vec3 and Quaternion formats; cable ends must agree. Redstone bindings use screen-relative front / back / left / right / up / down, with exact or all strengths.
 
-Continue with the [AFN WIKI](./index.html), [Lua signatures, permissions, events and errors](./FUNCTIONS.md), or [project homepage](https://space.bilibili.com/396190439).
+Continue with the [AFN WIKI](https://zhengkanqin.github.io/AFN-WIKI/), [Lua signatures, permissions, events and errors](./FUNCTIONS.md), or [project homepage](https://space.bilibili.com/396190439).

@@ -1,6 +1,6 @@
 # AFN Bridge Lua Function Manual
 
-**Applies to AFN 1.8.0.** [AFN WIKI](./index.en.html) · [Chinese manual](./FUNCTIONS.md) · [English overview](./README.md)
+**Applies to AFN 1.8.0.** [AFN WIKI](https://zhengkanqin.github.io/AFN-WIKI/) · [Chinese manual](./FUNCTIONS.md) · [English overview](./README.md)
 
 Reference for functions, permissions, events, error codes, and compatibility fields in the `require("afn")` package and the raw `afn_bridge` peripheral.
 
@@ -1414,5 +1414,5 @@ Permission errors usually raise readable Lua text directly, such as `computer re
 
 ## Frequency expression quick reference
 
-Primary and manual secondary frequencies use AFN transmitter expressions: `?` matches one character, `*` matches arbitrary text within one layer, `**` matches across layers, `[A-C]` is a character set, and `positive.!exclude!exclude` applies multiple exclusions within the current layer. Receiver addresses remain literal. For complete rules and copyable examples, see [AFN WIKI](./index.en.html) and the [Chinese overview](./README.zh-CN.md).
+Primary and manual secondary frequencies use AFN transmitter expressions: `?` matches one character, `*` matches arbitrary text within one layer, `**` matches across layers, `[A-C]` is a character set, and `positive.!exclude!exclude` applies multiple exclusions within the current layer. Receiver addresses remain literal. For complete rules and copyable examples, see [AFN WIKI](https://zhengkanqin.github.io/AFN-WIKI/) and the [Chinese overview](./README.zh-CN.md).
 

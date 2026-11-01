@@ -6,7 +6,7 @@
 
 ## 1. 环境与能力边界
 
-双端安装；基础环境：Minecraft **1.21.1**、NeoForge **21.1.218+**、Java **21**、Create **6.0.0 ≤ 版本 < 7.0.0**。AFN 将频率匹配、权限、0～15 激活强度和类型化信息统一到信道：既能无线控制红石，也能读仪表、写机器、显示地图/消息并接入电脑。
+双端安装；基础环境：Minecraft **1.21.1**、NeoForge **21.1.218+**、Java **21**、Create **6.0.0+**。AFN 将频率匹配、权限、0～15 激活强度和类型化信息统一到信道：既能无线控制红石，也能读仪表、写机器、显示地图/消息并接入电脑。
 
 | 联动 | 提供的能力 / 已声明门槛 |
 | --- | --- |
@@ -15,13 +15,16 @@
 | Synaxis | Cimulink 激活/值端口；AFN 不设运行版本上下限 |
 | CreateImprove | **1.4.0+** 才启用文字频率链路、信号路由器适配 |
 | 飞控学 Create: Flight Control | **0.8.3+** 才启用参数写入与导航读取；更低版本不启用 |
-| 航空学 / Simulated Project / Offroad / Sable | 移动结构、导航台、传感器/机械配置、结构长信号保活 |
+| 航空学 Create: Aeronautics | 螺旋桨轴承、热空气燃烧室与蒸汽排放口的读数和配置 |
+| Simulated Project | 导航台、传感器与对应机械参数的读取和配置 |
+| Create: Offroad | 车轮支座的悬挂强度配置 |
+| Sable | 移动结构坐标、终端随动与结构长信号保活 |
 | Sable Photomancy / Schematic API | 提供 `sable_schematic_api` 时支持蓝图采集、编辑、打印；兼容新旧 Sable 链路 |
-| Create: Connected / Big Cannons | 对应机械参数与读数；火炮调角、瞄准、射击 |
+| Create: Connected | 离合器、动力电池、动力桥等机械参数与读数 |
+| Create Big Cannons | 火炮读数、调角、瞄准与射击 |
 | NetMusic 网络音乐机 | 唱片机状态/歌曲/歌词读取，播音喇叭读取与控制 |
 | Xaero's World Map | 客户端地形源，服务器不必安装；缺少时仍有地图/网格功能 |
 | SFN 车万女仆：管家 | 外部附属通过 API 接入信道/物流；其当前要求 AFN **1.2.1+**、车万女仆 **1.5.2+** |
-| JEI / Inventory Profiles Next / TrashSlot 等 | 配置界面叠层兼容 |
 
 除 Create 外均为按需联动；未标门槛不代表任意版本已验证。重要依赖推荐弹窗可关闭，也可按 AFN 版本停止提醒。游戏内帮助按已加载模组显示章节，支持搜索、收纳、收藏和代码复制。
 

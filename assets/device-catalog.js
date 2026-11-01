@@ -104,70 +104,70 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "高度传感器",
-      "group": "航空学",
+      "group": "Simulated Project",
       "description": "世界高度或气压",
       "example": "63.4 m",
       "mod": "Simulated Project"
     },
     {
       "name": "速度传感器",
-      "group": "航空学",
+      "group": "Simulated Project",
       "description": "相对速度与方向",
       "example": "12.0 m/s",
       "mod": "Simulated Project"
     },
     {
       "name": "姿态传感器",
-      "group": "航空学",
+      "group": "Simulated Project",
       "description": "俯仰角与滚转角",
       "example": "4.2°",
       "mod": "Simulated Project"
     },
     {
       "name": "光学传感器",
-      "group": "航空学",
+      "group": "Simulated Project",
       "description": "检测到的方块或与目标的距离",
       "example": "石头 · 4 格",
       "mod": "Simulated Project"
     },
     {
       "name": "激光传感器",
-      "group": "航空学",
+      "group": "Simulated Project",
       "description": "命中距离",
       "example": "7.5 格",
       "mod": "Simulated Project"
     },
     {
       "name": "便携式引擎",
-      "group": "航空学",
+      "group": "Simulated Project",
       "description": "剩余或总燃烧时间",
       "example": "12.0 s",
       "mod": "Simulated Project"
     },
     {
       "name": "对接连接器",
-      "group": "航空学",
+      "group": "Simulated Project",
       "description": "对接对象",
       "example": "Airship Alpha",
       "mod": "Simulated Project"
     },
     {
       "name": "导航台",
-      "group": "航空学",
+      "group": "Simulated Project",
       "description": "目标距离或预计抵达时间",
       "example": "1,280 格",
       "mod": "Simulated Project"
     },
     {
       "name": "无线红石打字机",
-      "group": "航空学",
+      "group": "Simulated Project",
       "description": "输入文本",
       "example": "前往码头",
       "mod": "Simulated Project"
     },
     {
       "name": "螺旋齿轮/螺旋传动杆",
-      "group": "航空学",
+      "group": "Simulated Project",
       "description": "物品吞吐量",
       "example": "16/min",
       "mod": "Simulated Project"
@@ -246,7 +246,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "CC:Tweaked 电脑",
-      "group": "更多联动",
+      "group": "CCT",
       "description": "屏幕文本",
       "example": "ready",
       "mod": "CC:Tweaked"
@@ -503,7 +503,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "铭牌（全部颜色）",
-      "group": "航空学",
+      "group": "Simulated Project",
       "description": "name=铭牌文本（任意颜色铭牌共用，最多 32 字符，可含换行）；text_color=文字颜色（英文色名或 0–15 序号）；glow=是否发光（true/false）。",
       "example": "{\"name\":\"东侧仓库\",\"text_color\":\"yellow\",\"glow\":true}",
       "fields": "name、text_color、glow",
@@ -511,7 +511,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "便携式引擎",
-      "group": "航空学",
+      "group": "Simulated Project",
       "description": "rotation_direction=输出方向：clockwise=顺时针（cw/正转）、counter_clockwise=逆时针（ccw/反转）；JSON 可写 0/1。",
       "example": "{\"rotation_direction\":\"clockwise\"}",
       "fields": "rotation_direction",
@@ -519,7 +519,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "万向节传感器",
-      "group": "航空学",
+      "group": "Simulated Project",
       "description": "axis=万向节设定角（度，-90–90）。",
       "example": "{\"axis\":30}",
       "fields": "axis（−90–90°）",
@@ -527,7 +527,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "光学传感器",
-      "group": "航空学",
+      "group": "Simulated Project",
       "description": "range=光学传感器探测距离（1–4096）。",
       "example": "{\"range\":128}",
       "fields": "range（1–4096）",
@@ -535,7 +535,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "激光指示器",
-      "group": "航空学",
+      "group": "Simulated Project",
       "description": "max_range=激光最大射程（格，1 到服务器上限）。",
       "example": "{\"max_range\":64}",
       "fields": "max_range（1 至服务器上限）",
@@ -543,7 +543,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "速度传感器",
-      "group": "航空学",
+      "group": "Simulated Project",
       "description": "max_speed=速度传感器量程（1–50）。",
       "example": "{\"max_speed\":20}",
       "fields": "max_speed（1–50）",
@@ -551,7 +551,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "舵轮",
-      "group": "航空学",
+      "group": "Simulated Project",
       "description": "max_angle=舵轮最大转角（度，1–360）。",
       "example": "{\"max_angle\":90}",
       "fields": "max_angle（1–360°）",
@@ -559,7 +559,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "扭力弹簧",
-      "group": "航空学",
+      "group": "Simulated Project",
       "description": "max_angle=扭力弹簧最大行程角度（度，1–360）。",
       "example": "{\"max_angle\":180}",
       "fields": "max_angle（1–360°）",
@@ -567,7 +567,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "旋转轴承",
-      "group": "航空学",
+      "group": "Simulated Project",
       "description": "locking=锁定模式：locked_always=始终锁定、locked_default=默认锁定、unlocked_default=默认解锁、unlocked_always=始终解锁；JSON 可写 0–3。",
       "example": "{\"locking\":\"locked_default\"}",
       "fields": "locking",
@@ -575,7 +575,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "红石累加器",
-      "group": "航空学",
+      "group": "Simulated Project",
       "description": "delay=累加延时（tick，2–72000）。",
       "example": "{\"delay\":20}",
       "fields": "delay（2–72000 tick）",
@@ -583,7 +583,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "红石电感器",
-      "group": "航空学",
+      "group": "Simulated Project",
       "description": "delay=电感延时（tick，0–72000）。",
       "example": "{\"delay\":20}",
       "fields": "delay（0–72000 tick）",
@@ -623,7 +623,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "车轮支座",
-      "group": "航空学",
+      "group": "Create: Offroad",
       "description": "suspension_strength=顶面减震/悬挂强度（5–180）。",
       "example": "{\"suspension_strength\":30}",
       "fields": "suspension_strength（5–180）",
@@ -755,7 +755,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "姿态稳定器",
-      "group": "航空学",
+      "group": "飞控学",
       "description": "远程设置姿态稳定器的 P/D 增益、模式、机头朝向与默认启用状态。可用 pd 2 0.5 一起设置 P/D；mode 可用 LEVEL_NO_YAW、LEVEL、HOLD_CURRENT，forward 为 north/east/south/west。未提供的字段保留原值。",
       "example": "{\"p\":2,\"d\":0.5,\"mode\":\"LEVEL_NO_YAW\",\"forward\":\"north\",\"enabled\":true}",
       "fields": "p、d（小数，设备按绝对值处理）、mode、forward、enabled；支持 pd 简写",
@@ -763,7 +763,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "高度稳定器",
-      "group": "航空学",
+      "group": "飞控学",
       "description": "远程设置高度稳定器的 P/D、模式、预设高度、捕获延迟、步长和默认启用状态。mode 可用 hold_current、hold_preset、minimum_altitude；填写 altitude 时启用预设高度。未提供的字段保留原值。",
       "example": "{\"p\":2,\"d\":0.5,\"mode\":\"hold_preset\",\"altitude\":20}",
       "fields": "p、d、mode、altitude、delay、step、enabled；pd 可简写 p d",
@@ -771,7 +771,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "距离耦合器",
-      "group": "航空学",
+      "group": "飞控学",
       "description": "修改 P/D、目标距离区间、反选与采样模式。pd 2 0.5 同时设置增益；range 4 12 同时设置 min/max。距离范围为 0–128；mode 可写 AVERAGE、MAX、MIN。enabled 改默认耦合状态，红石代理总开关仍按设备规则反转它。",
       "example": "{\"p\":2,\"d\":0.5,\"min\":4,\"max\":12,\"invert\":false,\"mode\":\"AVERAGE\"}",
       "fields": "p、d、min、max、invert、mode、enabled",
@@ -779,7 +779,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "线速度耦合器",
-      "group": "航空学",
+      "group": "飞控学",
       "description": "设置机体 X/Y/Z 轴的 P/D 增益与正负方向线速度上限。pd 按每轴成对填写 X-P、X-D、Y-P、Y-D、Z-P、Z-D；x/y/z 可分别设置各轴的正负速度上限。负增益和限额会按绝对值处理。",
       "example": "pd 1 0.1 2 0.2 3 0.3",
       "fields": "px、py、pz、dx、dy、dz；pd 简写为逐轴 P/D；xp/xn、yp/yn、zp/zn 为正负限额",
@@ -787,7 +787,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "角速度耦合器",
-      "group": "航空学",
+      "group": "飞控学",
       "description": "设置机体 X/Y/Z 轴的 P/D 增益与正负方向角速度上限。pd 按每轴成对填写 X-P、X-D、Y-P、Y-D、Z-P、Z-D；x/y/z 可分别设置各轴的正负速度上限。负增益和限额会按绝对值处理。",
       "example": "pd 1 0.1 2 0.2 3 0.3",
       "fields": "px、py、pz、dx、dy、dz；pd 简写为逐轴 P/D；xp/xn、yp/yn、zp/zn 为正负限额",
@@ -795,7 +795,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "飞行控制终端",
-      "group": "航空学",
+      "group": "飞控学",
       "description": "修改飞行控制终端的灵敏度、方向、三轴 P/D、加速度和角速度上限，以及红石控制的独立 P/D 与角速度。俯仰、偏航、滚转分别用 pitch_pd、yaw_pd、roll_pd 成组简写；redstone_pitch_pd 等设置红石参数，rpd 可一次设置红石三轴 P/D。sensitivity 为 0.01–1，max_aim_angle 为 10–89°；P/D 和加速度为 0–100，角速度为 0–4π；未写字段保持现值。",
       "example": "pitch_pd 2 0.4",
       "fields": "enabled、forward、sensitivity、max_aim_angle、三轴 P/D、三轴加速度/角速度、红石 P/D/角速度、相机偏移；支持按轴 PD 简写",
@@ -803,7 +803,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "姿态投影仪",
-      "group": "航空学",
+      "group": "飞控学",
       "description": "修改姿态投影的高度、大小、地平面位置与显示元素。height 范围 0.5–3，scale 为 0.25–4，ground_height 为 −1–1；show_ground/show_axes 控制地平面与机体轴向是否显示。",
       "example": "{\"height\":1.5,\"scale\":1.2,\"ground_height\":0,\"show_ground\":true,\"show_axes\":true}",
       "fields": "height、scale、ground_height、show_ground、show_axes",
@@ -811,7 +811,7 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "HUD投影仪",
-      "group": "航空学",
+      "group": "飞控学",
       "description": "修改 HUD 投影高度、前后位置、大小与机头方向。height 范围 0.5–6，depth 为 −1–2，scale 为 0.5–3，forward 支持 north/east/south/west。",
       "example": "{\"height\":2,\"depth\":0.25,\"scale\":1.2,\"forward\":\"north\"}",
       "fields": "height、depth、scale、forward",
