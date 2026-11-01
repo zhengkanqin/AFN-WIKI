@@ -6,8 +6,8 @@
   "复制不可用，请选中代码后复制。": "Copy is unavailable. Select the code and copy it manually.",
   "复制整段代码": "Copy the entire code block",
   "复制": "Copy",
-  "开启动效": "Enable animations",
-  "关闭动效": "Disable animations",
+  "展开全部内容": "Expand all content",
+  "收纳全部内容": "Collapse all content",
   "关闭发送端": "Turn sender off",
   "开启发送端": "Turn sender on",
   "发送端已激活，接收端收到信号，红石灯亮起。": "The sender is active. The receiver receives the signal and the redstone lamp lights up.",
@@ -72,7 +72,6 @@
   const stored = (key, fallback) => {
     try { return localStorage.getItem(key) ?? fallback; } catch { return fallback; }
   };
-  const save = (key, value) => { try { localStorage.setItem(key, value); } catch {} };
   let toastTimer;
   function toast(text) {
     const target = $('#toast');
@@ -118,24 +117,42 @@
   function codeBlock(text) { const pre = element('pre'); setCode(pre, text); return pre; }
   $$('pre').forEach(pre => setCode(pre, pre.textContent.trim()));
 
-  const motionButton = $('#motion-toggle');
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-  let motionOff = stored('afn-wiki-motion', reducedMotion.matches ? 'off' : 'on') === 'off';
-  function setMotion() {
-    document.documentElement.classList.toggle('motion-off', motionOff);
-    motionButton.setAttribute('aria-pressed', String(motionOff));
-    motionButton.setAttribute('aria-label', motionOff ? t('开启动效') : t('关闭动效'));
-    motionButton.title = motionOff ? t('开启动效') : t('关闭动效');
+  const motionOff = stored('afn-wiki-motion', reducedMotion.matches ? 'off' : 'on') === 'off';
+  document.documentElement.classList.toggle('motion-off', motionOff);
+  const contentButton = $('#content-toggle');
+  let contentExpanded = false;
+  function syncContentButton() {
+    const details = $$('#main details');
+    contentExpanded = details.length > 0 && details.every(detail => detail.open);
+    contentButton.setAttribute('aria-expanded', String(contentExpanded));
+    contentButton.title = contentExpanded ? t('收纳全部内容') : t('展开全部内容');
+    contentButton.setAttribute('aria-label', contentButton.title);
   }
-  setMotion();
-  motionButton.addEventListener('click', () => { motionOff = !motionOff; save('afn-wiki-motion', motionOff ? 'off' : 'on'); setMotion(); });
+  contentButton.addEventListener('click', () => {
+    contentExpanded = !contentExpanded;
+    if (contentExpanded) { catalogExpanded = true; renderDevices(); }
+    $$('#main details').forEach(detail => { detail.open = contentExpanded; });
+    syncContentButton();
+    requestAnimationFrame(scrollUpdate);
+  });
+  let contentSyncScheduled = false;
+  $('#main').addEventListener('toggle', event => {
+    if (event.target.tagName !== 'DETAILS' || contentSyncScheduled) return;
+    contentSyncScheduled = true;
+    requestAnimationFrame(() => {
+      contentSyncScheduled = false;
+      syncContentButton();
+      scrollUpdate();
+    });
+  }, true);
   const mobile = matchMedia('(max-width: 780px)');
   const sidebar = $('#sidebar'), menuButton = $('#menu-toggle');
   function closeMenu() { sidebar.classList.remove('open'); menuButton.setAttribute('aria-expanded', 'false'); sidebar.inert = mobile.matches; }
   function syncMenu() { if (!mobile.matches) { sidebar.inert = false; sidebar.classList.remove('open'); menuButton.setAttribute('aria-expanded', 'false'); } else closeMenu(); }
   mobile.addEventListener('change', syncMenu);
   syncMenu();
-  menuButton.addEventListener('click', () => { const open = !sidebar.classList.contains('open'); sidebar.classList.toggle('open', open); sidebar.inert = !open; menuButton.setAttribute('aria-expanded', String(open)); });
+  menuButton.addEventListener('click', () => { const open = !sidebar.classList.contains('open'); sidebar.classList.toggle('open', open); sidebar.inert = !open; menuButton.setAttribute('aria-expanded', String(open)); if (open) requestAnimationFrame(keepActiveChapterVisible); });
   document.addEventListener('click', event => { if (mobile.matches && sidebar.classList.contains('open') && !sidebar.contains(event.target) && !menuButton.contains(event.target)) closeMenu(); });
   document.addEventListener('keydown', event => { if (event.key === 'Escape' && sidebar.classList.contains('open')) { closeMenu(); menuButton.focus(); } });
 
@@ -234,6 +251,7 @@
     catalog.replaceChildren(...shown.map(({item, index}) => {
       const card = element('details', 'device-card');
       card.id = `device-${direction}-${index}`;
+      card.open = contentExpanded;
       const summary = element('summary');
       const heading = element('span');
       heading.append(element('b', '', item.name), element('small', '', item.mod ? `${item.group} · ${item.mod}` : item.group));
@@ -259,7 +277,7 @@
     $('#catalog-expand').textContent = catalogExpanded ? t('收起完整目录 ↑') : (english ? `Expand full catalog (${found.length}) ↓` : `展开完整目录（${found.length} 条） ↓`);
   }
   function setDirection(value) {
-    direction = value; group = '全部'; catalogExpanded = false;
+    direction = value; group = '全部'; catalogExpanded = contentExpanded;
     $$('#io-tabs button').forEach(button => { const active = button.dataset.io === value; button.classList.toggle('active', active); button.setAttribute('aria-selected', String(active)); });
     renderGroups(); renderDevices();
   }
@@ -292,6 +310,7 @@
     const found = syntax.functions.filter(item => matches([item.name, item.category, item.signature, item.description, item.example].join(' '), query));
     $('#function-catalog').replaceChildren(...found.map(item => {
       const card = element('details', 'function-card'); card.id = `function-${item.name}`;
+      card.open = contentExpanded;
       const summary = element('summary'); summary.append(element('code', '', item.name), element('small', '', `${item.category} ＋`));
       const body = element('div', 'function-body');
       body.append(element('p', 'fields', item.signature), element('p', '', item.description));
@@ -420,7 +439,17 @@
   if (location.hash) revealHash();
 
   const chapters = $$('.chapter'), navLinks = $$('.sidebar nav a');
+  let activeChapter;
   let scrollScheduled = false;
+  function keepActiveChapterVisible() {
+    if (mobile.matches && !sidebar.classList.contains('open')) return;
+    const link = $('.sidebar nav a.active');
+    if (!link) return;
+    const bounds = sidebar.getBoundingClientRect(), item = link.getBoundingClientRect();
+    const top = bounds.top + 12, bottom = bounds.bottom - 12;
+    if (item.top < top) sidebar.scrollTop -= top - item.top;
+    else if (item.bottom > bottom) sidebar.scrollTop += item.bottom - bottom;
+  }
   function scrollUpdate() {
     scrollScheduled = false;
     const height = document.documentElement.scrollHeight - innerHeight;
@@ -430,9 +459,11 @@
     for (const chapter of chapters) { if (chapter.getBoundingClientRect().top <= threshold) active = chapter.id; else break; }
     if (height > 0 && scrollY >= height - 2) active = chapters.at(-1).id;
     navLinks.forEach(link => { const selected = link.hash === `#${active}`; link.classList.toggle('active', selected); if (selected) link.setAttribute('aria-current', 'location'); else link.removeAttribute('aria-current'); });
+    if (activeChapter !== active) { activeChapter = active; keepActiveChapterVisible(); }
   }
   addEventListener('scroll', () => { if (!scrollScheduled) { scrollScheduled = true; requestAnimationFrame(scrollUpdate); } }, {passive: true});
-  addEventListener('resize', () => { syncAnchorOffset(); scrollUpdate(); });
+  addEventListener('resize', () => { syncAnchorOffset(); scrollUpdate(); keepActiveChapterVisible(); });
+  syncContentButton();
   syncAnchorOffset();
   scrollUpdate();
 })();
