@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="120" viewBox="0 0 160 120" fill="none">
+  <title>AFN bridge</title>
+  <desc>A cubic brass and dark wood casing with a large plain dark green screen, matching the bridge block.</desc>
+  <defs>
+    <clipPath id="wood-side"><path d="M7 29 37 41v58L7 87Z"/></clipPath>
+    <clipPath id="wood-top"><path d="m13 17 66-10 29 12-66 10Z"/></clipPath>
+  </defs>
+  <g stroke="#30393b" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M1.25 16 80.25 4l43 17v79l-79 12-43-17Z" fill="#785135"/>
+    <path d="m1.25 16 43 17v79l-43-17Z" fill="#8f683f"/>
+    <path d="M7 29 37 41v58L7 87Z" fill="#453226" stroke="#c3a266" stroke-width="2"/>
+    <g clip-path="url(#wood-side)" stroke="#62472f" stroke-width="3">
+      <path d="m3 34 38 15M3 44l38 15M3 54l38 15M3 64l38 15M3 74l38 15M3 84l38 15"/>
+    </g>
+    <path d="M10 31v54m23-45v56" stroke="#b49660" stroke-width="1.6"/>
+    <path d="m1.25 16 79-12 43 17-79 12Z" fill="#aa8050"/>
+    <path d="m13 17 66-10 29 12-66 10Z" fill="#493328" stroke="#d8b778" stroke-width="2"/>
+    <g clip-path="url(#wood-top)" stroke="#66492f" stroke-width="2.2">
+      <path d="m12 22 83-13M18 26l83-13M25 30l83-13"/>
+    </g>
+    <path d="m44.25 33 79-12v79l-79 12Z" fill="#956a42"/>
+    <path d="m50.25 38 67-10v67l-67 10Z" fill="#142624" stroke="#25352f" stroke-width="2"/>
+    <path d="m57.25 44 53-8v53l-53 8Z" fill="#30483d" stroke="none"/>
+    <path d="m46 34 75-11" stroke="#c5a16b" stroke-width="1.4"/>
+    <path d="M44.25 33v79" stroke="#69462f" stroke-width="2"/>
+  </g>
+</svg>

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="120" viewBox="0 0 160 120" fill="none">
+  <title>Portable map terminal</title>
+  <desc>A thin brass handheld map terminal with its long antenna rising from the upper right shoulder.</desc>
+  <g stroke="#30393b" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+    <g id="antenna">
+      <path d="M65.25 34V4h7v30Z" fill="#b48a48"/>
+      <path d="M65.25 4h7v7h-7Z" fill="#d6be7f"/>
+      <path d="M65.25 14h7m-7 11h7" stroke="#665337" stroke-width="2"/>
+      <path d="M63.25 29h11v8h-11Z" fill="#7e6a47"/>
+    </g>
+    <path d="m1.25 36 7-5h76v72l-7 5H1.25Z" fill="#8a673c"/>
+    <path d="m1.25 36 7-5h76l-7 5Z" fill="#dfc386"/>
+    <path d="M77.25 36 84.25 31v72l-7 5Z" fill="#8a673c"/>
+    <rect x="1.25" y="36" width="76" height="72" rx="2" fill="#c69a52"/>
+    <rect x="6.25" y="41" width="66" height="62" rx="1" fill="#293a33" stroke="#725431" stroke-width="1.5"/>
+    <path d="M11.25 46h56v52h-56Z" fill="#b7d0ae" stroke="none"/>
+    <path d="m13.25 49 15 7 14-9m-29 30 20-12 13 8 20-11m-40 35 10-16 15 6 15-9" stroke="#8aa77c" stroke-width="1.8"/>
+    <path d="m52.25 47-7 13 7 10-10 10-3 17" stroke="#5da6a1" stroke-width="4"/>
+    <path d="m22.25 72 5-11 5 11-5-2Z" fill="#ca7b56" stroke-width="1.5"/>
+    <path d="M53.25 87h9m-4.5-4.5v9" stroke="#394e42" stroke-width="1.5"/>
+    <path d="M4.25 38h69M4.25 105h69" stroke="#e5c781" stroke-width="1.4"/>
+    <path d="M80.25 43v49" stroke="#c7a36a" stroke-width="1.4"/>
+  </g>
+</svg>

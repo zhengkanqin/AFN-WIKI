@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="120" viewBox="0 0 160 120" fill="none">
+  <title>Channel pager</title>
+  <desc>A centered front-facing pager with a black upper screen, decorative keys and a long antenna ending in a square lamp.</desc>
+  <g transform="translate(-51.75 0)" stroke="#30393b" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M65 13h5v26h-5Z" fill="#c69a52"/>
+    <path d="M63 8h9v9h-9Z" fill="#9edbb4"/>
+    <path d="M62 35h11v7H62Z" fill="#7e6a47"/>
+    <rect x="53" y="40" width="54" height="69" rx="5" fill="#c69a52"/>
+    <path d="M59 44h42" stroke="#ecd19a" stroke-width="2"/>
+    <rect x="61" y="48" width="38" height="33" rx="2" fill="#4b5351"/>
+    <rect x="65" y="52" width="30" height="25" rx="1" fill="#111c20" stroke="#1b282b"/>
+    <path d="M69 58h12m-12 5h20m-20 5h15" stroke="#75baa3" stroke-width="1.5"/>
+    <rect x="62" y="88" width="10" height="6" rx="1.5" fill="#52605c" stroke-width="1.5"/>
+    <rect x="75" y="88" width="10" height="6" rx="1.5" fill="#52605c" stroke-width="1.5"/>
+    <rect x="88" y="88" width="10" height="6" rx="1.5" fill="#52605c" stroke-width="1.5"/>
+    <path d="M64 100h8m6 0h5m7 0h6" stroke="#725431" stroke-width="3"/>
+    <path d="M57 104h1m44 0h1" stroke="#ecd19a" stroke-width="2"/>
+  </g>
+</svg>

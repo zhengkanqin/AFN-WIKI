@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="120" viewBox="0 0 160 120" fill="none">
+  <title>AFN instrument panel</title>
+  <desc>A brass slider, round radar and dial fitted to a dark instrument panel.</desc>
+  <g transform="translate(-18.75 0)" stroke="#30393b" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+    <path d="m20 33 10-9h110v72l-10 9H20Z" fill="#705f44"/>
+    <path d="M20 33h110v72H20Z" fill="#c69a52"/>
+    <path d="m20 33 10-9h110l-10 9Z" fill="#ecd19a"/>
+    <path d="M130 33 140 24v72l-10 9Z" fill="#8a673c"/>
+    <rect x="27" y="40" width="96" height="58" rx="2" fill="#424c4e"/>
+    <rect x="33" y="47" width="19" height="44" rx="3" fill="#202c2e"/>
+    <path d="M42.5 52v33" stroke="#c69a52" stroke-width="4"/>
+    <path d="M36 66h13v8H36Z" fill="#ecd19a"/>
+    <circle cx="76" cy="65" r="18" fill="#c69a52"/>
+    <circle cx="76" cy="65" r="13.5" fill="#173b37" stroke="#64b9a1" stroke-width="1.5"/>
+    <path d="M76 52v26M63 65h26M76 65l9-9" stroke="#64b9a1" stroke-width="1.3"/>
+    <circle cx="76" cy="65" r="7" stroke="#64b9a1" stroke-width="1"/>
+    <circle cx="82" cy="60" r="2" fill="#b6e0bb" stroke="none"/>
+    <path d="M98 52h19v24H98Z" fill="#ecd19a"/>
+    <path d="M101 68a7 7 0 0 1 13 0" stroke="#826943" stroke-width="1.5"/>
+    <path d="m107 68 4-6" stroke="#30393b" stroke-width="2"/>
+    <path d="M61 88h25M98 86h18" stroke="#64b9a1"/>
+    <path d="M26 37h1m96 0h1M26 101h1m96 0h1" stroke="#ecd19a" stroke-width="2"/>
+  </g>
+</svg>

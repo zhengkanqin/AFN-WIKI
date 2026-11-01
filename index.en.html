@@ -1,0 +1,1899 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="#f3e8cb" name="theme-color"/>
+<meta content="AFN WIKI 1.8.0: Connect everything. Let data flow your way. Frequencies, authorization, bridges, mailbox input/output, machine configuration, channel output syntax, maps, pagers and CC:Tweaked." name="description"/>
+<title>AFN WIKI · Connect everything. Let data flow your way.</title>
+<link href="assets/favicon.svg" rel="icon" type="image/svg+xml"/><link href="assets/wiki.css" rel="stylesheet"/>
+<script defer="" src="assets/device-catalog.en.js"></script><script defer="" src="assets/syntax-catalog.en.js"></script><script defer="" src="assets/wiki.js"></script>
+</head>
+<body>
+<svg aria-hidden="true" class="svg-library" xmlns="http://www.w3.org/2000/svg"><defs>
+<symbol id="i-gear" viewBox="0 0 48 48"><path d="m20 3 8 0 1 6 4 2 6-2 4 7-5 4v7l5 4-4 7-6-2-4 2-1 6h-8l-1-6-5-2-5 2-4-7 5-4v-7l-5-4 4-7 5 2 5-2Z"></path><circle cx="24" cy="24" fill="var(--paper,#fff4d8)" r="8"></circle></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="10" cy="10" r="6.5"></circle><path d="m15 15 6 6"></path></symbol>
+<symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13 5l7 7-7 7"></path></symbol>
+<symbol id="i-book" viewBox="0 0 24 24"><path d="M12 5C7 2 3 3 2 4v15c4-2 7-1 10 1 3-2 6-3 10-1V4c-4-2-7-1-10 1Zm0 0v15"></path></symbol>
+<symbol id="i-signal" viewBox="0 0 24 24"><path d="M4 16v4m5-9v9m5-14v14m5-19v19"></path></symbol>
+<symbol id="i-box" viewBox="0 0 24 24"><path d="m2 7 10-5 10 5v11l-10 5-10-5Zm0 0 10 5 10-5M12 12v11M7 4l10 5"></path></symbol>
+<symbol id="i-screen" viewBox="0 0 24 24"><rect height="15" rx="3" width="20" x="2" y="3"></rect><path d="M8 22h8m-4-4v4M6 13l3-3 4 3 5-6"></path></symbol>
+<symbol id="i-code" viewBox="0 0 24 24"><path d="m8 6-6 6 6 6m8-12 6 6-6 6m-3-14-2 20"></path></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><rect height="12" rx="3" width="16" x="4" y="10"></rect><path d="M8 10V6a4 4 0 0 1 8 0v4m-4 5v3"></path></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"></path><circle cx="12" cy="10" r="2.5"></circle></symbol>
+<symbol id="i-copy" viewBox="0 0 24 24"><rect height="13" rx="2" width="13" x="8" y="8"></rect><path d="M16 8V3H3v13h5"></path></symbol>
+<symbol id="i-close" viewBox="0 0 24 24"><path d="m5 5 14 14M5 19 19 5"></path></symbol>
+</defs></svg>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="topbar">
+<a aria-label="AFN WIKI home" class="brand" href="#welcome"><span class="brand-gear"><svg aria-hidden="true" height="48" viewBox="0 0 48 48" width="48"><use href="#i-gear"></use></svg></span><span class="brand-copy"><b>AFN<span class="brand-dot">.</span></b><small>Advanced Frequency Network</small></span></a>
+<span class="top-title">AFN WIKI <span class="version">v1.8.0</span></span>
+<button class="search-trigger" id="open-search"><svg class="icon"><use href="#i-search"></use></svg><span>Search devices, syntax and usage…</span><kbd>/</kbd></button>
+<a class="top-link" href="index.html" hreflang="zh-CN" lang="zh-CN">中文</a><button aria-label="Disable motion" aria-pressed="false" class="icon-button motion-toggle" id="motion-toggle" title="Disable motion"><svg class="icon"><use href="#i-gear"></use></svg></button><button aria-controls="sidebar" aria-expanded="false" aria-label="Open contents" class="icon-button menu-toggle" id="menu-toggle"><svg class="icon"><use href="#i-book"></use></svg></button>
+<div class="reading-track"><span id="reading-progress"></span></div>
+</header>
+<div class="site-layout">
+<aside class="sidebar" id="sidebar"><div class="sidebar-label"><span class="status-light"></span> Network ready <span>01 / AFN</span></div>
+<nav aria-label="WIKI contents"><a href="#welcome"><svg class="icon"><use href="#i-book"></use></svg>AFN WIKI</a>
+<div class="nav-group">Organize wireless redstone with frequencies</div>
+<a href="#quickstart"><svg class="icon"><use href="#i-arrow"></use></svg>Your first wireless connection</a>
+<a href="#frequency"><svg class="icon"><use href="#i-signal"></use></svg>Frequencies, aliases and matching</a>
+<a href="#security"><svg class="icon"><use href="#i-lock"></use></svg>Authorization and long signals</a>
+<div class="nav-group">Send data with mailboxes</div>
+<a href="#mailboxes"><svg class="icon"><use href="#i-box"></use></svg>Channels and mailboxes</a>
+<a href="#output-syntax"><svg class="icon"><use href="#i-code"></use></svg>Channel output syntax</a>
+<a href="#automation"><svg class="icon"><use href="#i-gear"></use></svg>Activation conditions and strength</a>
+<div class="nav-group">Connect everything</div>
+<a href="#data-io"><svg class="icon"><use href="#i-arrow"></use></svg>Read data · Control devices</a>
+<div class="nav-group">More channel devices</div>
+<a href="#devices"><svg class="icon"><use href="#i-box"></use></svg>Device overview</a>
+<a href="#bridge"><svg class="icon"><use href="#i-screen"></use></svg>Bridge and screens</a>
+<a href="#dashpanels"><svg class="icon"><use href="#i-screen"></use></svg>DP panels</a>
+<a href="#map-terminal"><svg class="icon"><use href="#i-pin"></use></svg>Portable Map Channel Terminal</a>
+<a href="#hidden"><svg class="icon"><use href="#i-signal"></use></svg>Hidden Channel Terminal</a>
+<a href="#pager"><svg class="icon"><use href="#i-signal"></use></svg>Channel Pager</a>
+<a href="#blueprints"><svg class="icon"><use href="#i-copy"></use></svg>Schematics and tickets</a>
+<div class="nav-group">APIs and development</div>
+<a href="#computer"><svg class="icon"><use href="#i-code"></use></svg>CC:T and development interfaces</a>
+<a href="#faq"><svg class="icon"><use href="#i-book"></use></svg>Compatibility and FAQ</a>
+</nav><div class="sidebar-note"><span class="paperclip"></span><b>One address. Many possibilities.</b><p>Let redstone carry signals,<br/>and let channels carry information.</p><svg class="note-gear"><use href="#i-gear"></use></svg></div><div class="sidebar-links"><a href="README.md">English overview ↗</a><a href="FUNCTIONS.en.md">Full Lua reference ↗</a><a href="https://space.bilibili.com/396190439" rel="noopener noreferrer" target="_blank">Bilibili · See it in action ↗</a></div></aside>
+<main id="main">
+<section aria-labelledby="hero-title" class="hero chapter" id="welcome"><div class="hero-copy"><span class="eyebrow"><span></span> CREATE: ADVANCED FREQUENCY NETWORK</span><h1 id="hero-title">Connect everything.<br/><span class="scribble">Let data flow your way.</span></h1><p>Manage wireless redstone with frequencies. Carry data over channels.<br/>From remote switches to smart controls, use AFN to make all your devices work together.</p><div class="hero-actions"><a class="button primary" href="AGENT.en.md">Compact Agent Reference <svg class="icon"><use href="#i-arrow"></use></svg></a><a class="button" href="FUNCTIONS.en.md">Lua Function Manual</a></div><div class="compat-strip"><span>MINECRAFT <b>1.21.1</b></span><i></i><span>NEOFORGE <b>21.1.218+</b></span><i></i><span>CREATE <b>6.0.x</b></span></div></div><div class="hero-art"><div class="art-frame"><img alt="Cartoon workshop: a brass wireless console, pager, gears and a mechanical arm delivering parcels" fetchpriority="high" height="1024" src="assets/workshop-hero.webp" width="1536"/><div class="art-label"><span class="status-light"></span>v1.8.0</div></div><span class="art-sticker">2026-10-31</span><svg class="floating-gear gear-one"><use href="#i-gear"></use></svg><svg class="floating-gear gear-two"><use href="#i-gear"></use></svg><span class="spark spark-one">✦</span><span class="spark spark-two">✧</span></div></section>
+<div class="intro-ribbon"><span>Organize frequencies</span><svg class="icon"><use href="#i-arrow"></use></svg><span>Transfer data</span><svg class="icon"><use href="#i-arrow"></use></svg><span>Link devices</span><b>Connect everything. Start with AFN.</b></div>
+<div class="part-heading"><span>01</span><div><b>Start with the basics: organize wireless redstone with frequencies</b><p>Learn to express wireless redstone frequencies with text!</p></div></div>
+<section class="chapter" data-title="wireless redstone getting started Create terminal Frequency Board frequency" id="quickstart"><div class="section-heading"><span class="chapter-number">01</span><div><span class="eyebrow">WIRELESS REDSTONE</span><h2>Use a frequency to light a distant lamp</h2></div></div><p class="section-intro">Prepare a Frequency Board, two Create Redstone Links, a lever and a Redstone Lamp.</p>
+<div class="steps"><article class="step-card"><span class="step-number">1</span><h3>Write a frequency on the board</h3><p>Right-click the Frequency Board and enter <code>workshop.lamp</code>. A frequency is the address that lets senders and receivers find each other.</p></article><article class="step-card"><span class="step-number">2</span><h3>Install the boards and choose directions</h3><p>Put a board in each link's frequency slot, and keep the other slot identical too. Set one link to send and the other to receive.</p></article><article class="step-card"><span class="step-number">3</span><h3>Activate the sender</h3><p>Activate the sender with a lever to power the receiving lamp. Turn the sender off, and the distant lamp goes out too.</p></article></div>
+<div aria-label="Wireless redstone sender and receiver demo" class="signal-demo panel">
+<div class="demo-station demo-sender"><span class="demo-role">Sender</span><div class="demo-hardware"><div class="demo-board"><img alt="Brass Frequency Board with a written frequency" class="device-art" height="120" loading="lazy" src="assets/device-frequency-board.svg" width="160"/><code aria-label="workshop.lamp"><span>workshop</span><span>.lamp</span></code></div><span class="demo-install-guide"><svg aria-hidden="true" fill="none" viewBox="0 0 26 24"><path d="M2 12h21m-7-6 7 6-7 6"></path></svg><small>Insert into<br/>frequency slot</small></span><span class="device-art demo-radio"><img alt="Create Redstone Link" class="demo-radio-art" height="120" loading="lazy" src="assets/device-redstone-link.svg" width="160"/><svg aria-hidden="true" class="demo-antenna-glow" fill="none" viewBox="0 0 160 120"><path d="M57 17h4v5h-4Z" fill="#ff6960" stroke="#a83c39" stroke-width="1.2"></path><path d="M59 17v-4" stroke="#ff8c78" stroke-linecap="round" stroke-width="2.5"></path></svg></span></div><div class="demo-control-space"><button aria-label="Activate sender" aria-pressed="false" class="demo-switch demo-lever-control" id="demo-lamp" type="button"><svg aria-hidden="true" class="demo-lever" fill="none" height="90" viewBox="0 0 112 90" width="112" xmlns="http://www.w3.org/2000/svg">
+<g class="lever-base" stroke="#30393b" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2">
+<path d="m19 56 37-17 37 17v12L56 85 19 68Z" fill="#747a78"></path>
+<path d="m19 56 37 17v12L19 68Z" fill="#90968f"></path>
+<path d="m56 73 37-17v12L56 85Z" fill="#646c68"></path>
+<path d="m19 56 37-17 37 17-37 17Z" fill="#a1a6a3"></path>
+<path d="m26 54 11-5 7 3-3 4-8 2Z" fill="#c2c6c2" stroke="none"></path>
+<path d="m52 43 8-1 11 5-5 3-9-2Z" fill="#b6bcb7" stroke="none"></path>
+<path d="m76 53 10 3-9 5-7-2Z" fill="#858d87" stroke="none"></path>
+<path d="m37 62 9-3 7 3-5 5Z" fill="#858d87" stroke="none"></path>
+<path d="m54 67 8-4 5 2-11 5Z" fill="#c2c6c2" stroke="none"></path>
+<path d="m23 61 9 4v5l-9-4Zm13 7 8 4v5l-8-4Z" fill="#a5aca4" stroke="none"></path>
+<path d="m48 73 5 2v6l-5-2Z" fill="#70796f" stroke="none"></path>
+<path d="m62 73 9-4v5l-9 4Zm17-8 9-4v4l-9 4Z" fill="#7e8980" stroke="none"></path>
+<path d="m24 56 31 14m5 0 28-13" stroke="#cdd2cd" stroke-width="1.3"></path>
+<path d="m43 51 12-5 14 6v6l-12 6-14-7Z" fill="#4c5b54"></path>
+<path d="m43 51 12-5 14 6-12 6Z" fill="#89977e"></path>
+<path d="m43 51 14 7v6l-14-7Z" fill="#67765f"></path>
+<path d="m57 58 12-6v6l-12 6Z" fill="#45564e"></path>
+<path d="m48 52 7-3 8 3-7 4Z" fill="#303f3b" stroke-width="1.5"></path>
+<path d="m46 54 5 2m11 1 4-2" stroke="#a9b49a" stroke-width="1.2"></path>
+</g>
+<g class="lever-handle" stroke="#30393b" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2">
+<g transform="rotate(-35 56 54)">
+<path d="m51 20 8-3 4 3v33l-7 5-5-3Z" fill="#8b663d"></path>
+<path d="M51 20h8v35l-3 3-5-3Z" fill="#ac8951"></path>
+<path d="m59 20 4-3v36l-4 3Z" fill="#8b663d"></path>
+<path d="M53.7 25v23m2.8-16v17" stroke="#e0bd80" stroke-width="1.35"></path>
+<path d="M52 37h3m1 9h2" stroke="#a47c46" stroke-width="1.2"></path>
+<path d="m49 12 11 0 4-3-11 0Z" fill="#d3d9c4"></path>
+<path d="M49 12h11v12H49Z" fill="#aab7a8"></path>
+<path d="m60 12 4-3v12l-4 3Z" fill="#72847b"></path>
+<path d="M51.5 15v5m2-6h4" stroke="#e2e6d4" stroke-width="1.4"></path>
+<path d="M50 24h9" stroke="#677a71" stroke-width="1.3"></path>
+</g>
+<circle cx="56" cy="54" fill="#9da995" r="5.2"></circle>
+<circle cx="56" cy="54" fill="#5c7066" r="2.1" stroke-width="1.3"></circle>
+<path d="m53.3 51.6 1.1-.7" stroke="#d5dcc3" stroke-width="1.25"></path>
+</g>
+</svg><b>Activate sender</b></button></div></div>
+<div class="signal-wire"><span></span><span></span><span></span><small>Same frequency · Wireless transfer</small></div>
+<div class="demo-station demo-receiver"><span class="demo-role">Receiver</span><div class="demo-hardware"><span class="device-art demo-radio"><img alt="Create Redstone Link" class="demo-radio-art" height="120" loading="lazy" src="assets/device-redstone-link.svg" width="160"/><svg aria-hidden="true" class="demo-antenna-glow" fill="none" viewBox="0 0 160 120"><path d="M57 17h4v5h-4Z" fill="#ff6960" stroke="#a83c39" stroke-width="1.2"></path><path d="M59 17v-4" stroke="#ff8c78" stroke-linecap="round" stroke-width="2.5"></path></svg></span><span class="demo-install-guide"><svg aria-hidden="true" fill="none" viewBox="0 0 26 24"><path d="M2 12h21m-7-6 7 6-7 6"></path></svg><small>Insert into<br/>frequency slot</small></span><div class="demo-board"><img alt="Brass Frequency Board with a written frequency" class="device-art" height="120" loading="lazy" src="assets/device-frequency-board.svg" width="160"/><code aria-label="workshop.lamp"><span>workshop</span><span>.lamp</span></code></div></div><div class="demo-lamp-output demo-control-space"><img alt="Receiver's Redstone Lamp" class="demo-receiver-lamp" height="120" loading="lazy" src="assets/device-redstone-lamp.svg" width="160"/><b>Receiver's Redstone Lamp</b></div></div>
+<p class="demo-status" id="demo-status" role="status">The sender is inactive. The receiver's Redstone Lamp is off.</p></div><aside class="note"><b>Frequency Boards store configuration and are not consumed.</b> In a container, hover over a board and press <kbd>Space</kbd> to edit it. The lever on the demo's sender controls the receiving lamp; both links use the same frequency.</aside></section>
+<section class="chapter" data-title="frequency matching aliases wildcards OR AND two slots" id="frequency"><div class="section-heading"><span class="chapter-number">02</span><div><span class="eyebrow">FREQUENCIES</span><h2>Give your factory memorable addresses</h2></div></div><div class="frequency-address"><span>factory</span><i>.</i><span>line_1</span><i>.</i><span>motor</span><small>Factory / production line / device</small></div><p>Dots separate address levels. Each board stores a primary frequency and up to five aliases. Senders use selectors; receivers use concrete addresses. History remembers literal addresses by level for reuse.</p>
+<div class="table-wrap"><table><thead><tr><th>Syntax</th><th>Meaning</th><th>Example</th></tr></thead><tbody><tr><td><code>*</code></td><td>Any characters within the current level</td><td><code>factory.*.motor</code></td></tr><tr><td><code>?</code></td><td>One character in the current level</td><td><code>factory.line_?.motor</code></td></tr><tr><td><code>[A-C]</code></td><td>A character set or range in the current level</td><td><code>factory.[A-C].motor</code></td></tr><tr><td><code>**</code></td><td>Occupies a whole level; matches zero or more levels</td><td><code>factory.**.motor</code></td></tr><tr><td><code>!name</code></td><td>Exclude a name at that level; multiple exclusions are allowed</td><td><code>factory.*.!private!test</code></td></tr></tbody></table></div>
+<div class="split-grid"><article class="paper-card"><h3>Aliases: multiple entry points on one board</h3><p><b>OR</b>: match the primary frequency or any enabled alias.<b>AND</b>: the sender's selector must cover every enabled path. Cross-level response lets a shorter sender address match a deeper receiver address.</p></article><article class="paper-card teal-card"><h3>Both frequency slots must match</h3><p>When an AFN board is present, matching ignores slot order. Two ordinary Create items retain Create's native order. The secondary slot may also hold an ordinary item; a second board is not required.</p></article></div></section>
+<section class="chapter" data-title="authorization permissions ACL long signals quota Owner unlimited distance Sable AFN commands longsignal set allset del alldel find confirm" id="security"><div class="section-heading"><span class="chapter-number">03</span><div><span class="eyebrow">TRUST &amp; RANGE</span><h2>Who can receive, and how far can signals travel?</h2></div><svg class="heading-icon"><use href="#i-lock"></use></svg></div><div class="split-grid"><article class="paper-card"><span class="tag coral">Authorization Frequency Board</span><h3>Give the frequency to the right people</h3><p>Stores the Owner, read/write permissions, hidden authorization frequency and installation lock. Ordinary boards have no identity restriction. Authorization Boards are checked by the server; unauthorized players cannot see the hidden primary frequency.</p><p>Computers are also limited by the bridge's enabled read, activation and configuration capabilities. See the full Lua reference for the differences between legacy credentials and current channel slots.</p></article><article class="paper-card teal-card"><span class="tag">Long signals</span><h3>Across distance and chunk-loading states</h3><p>Enable long signals at both ends in the same dimension, using valid Authorization Boards. Unloaded remote locations are awakened on demand; frequency matching and permissions still apply.</p><p>Each Owner has a default quota of <b>15</b>. Multiple channels on one device with the same Owner count as <b>1</b> device; different Owners are counted separately. Check server settings and the button tooltip for the actual quota.</p></article></div><aside class="note"><b>Joined bridges obtain authorization from their channel slots.</b> </aside>
+<h3 id="longsignal-commands">AFN long-signal commands and quotas</h3>
+<p>The <code>used / quota</code> at the start of a long-signal button's tooltip shows registered devices and the current quota. For example, <code>3/15</code> means three registered devices out of fifteen. Usage is counted per Authorization Board Owner across the whole save, shared between dimensions. Reusing one Owner in two slots or several channels of a device counts once. With multiple Owners, each counts once and each needs available quota. Registered unloaded devices still count. Lowering a quota does not remove registrations; devices currently denied admission still appear in usage. By default, each device may enable up to ten long-signal channels; the server can lower this limit.</p>
+<p>The quota accepts integers from <code>0–4096</code>; <code>0</code> disables long signals for that Owner. Priority is: <b>personal override → this save's server default → configuration <code>infinite_range.default_owner_quota</code> (default 15)</b>. <code>set</code> writes a personal override; <code>allset</code> saves the server default, while existing personal overrides retain priority. Neither command enables devices for the player.</p>
+<div class="table-wrap longsignal-table"><table><thead><tr><th>Command</th><th>Permission level</th><th>Effect</th></tr></thead><tbody>
+<tr><td><code>/afn longsignal set &lt;username&gt; &lt;quota&gt;</code></td><td>Level 3 or above</td><td>Set the specified Owner's personal quota override.</td></tr>
+<tr><td><code>/afn longsignal allset &lt;quota&gt; [confirm]</code></td><td>Level 4</td><td>Change the server's default quota; request first, then confirm.</td></tr>
+<tr><td><code>/afn longsignal del &lt;username&gt;</code></td><td>Level 3 or above</td><td>Revoke this Owner's long-signal registrations and remove their personal override, restoring the server default quota.</td></tr>
+<tr><td><code>/afn longsignal alldel [confirm]</code></td><td>Level 4</td><td>Revoke all registered Owners' long signals and clear all personal overrides; retain the server default quota.</td></tr>
+<tr><td><code>/afn longsignal find</code></td><td>Any player</td><td>List only your own quota-using devices, including names, dimensions, positions and channel counts. A moving structure's position may be temporarily unavailable.</td></tr>
+</tbody></table></div>
+<p><code>username</code> is resolved through the server's player profiles, including offline players whose profiles the server can resolve; selectors such as <code>@a</code> match only online players. <code>find</code> can only be executed by a player and accepts no target argument.</p>
+<p><code>allset</code> / <code>alldel</code> must be confirmed by <b>the same executor within 600 server ticks</b> (about 30 seconds at 20 TPS) by running the original command again with <code>confirm</code>; <code>allset</code> must use the same amount. After expiry, request again.</p>
+<aside class="note"><b>Deletion commands disable the affected long signals.</b> <code>del</code> revokes every channel counted against that Owner, including Authorization Boards in secondary slots, and clears its remote signals and loading leases. Other Owners' independent channels remain. Unloaded devices do not restore the old toggle when loaded again; long signals must be re-enabled. Device blocks and frequency settings remain intact.</aside>
+<details class="fold"><summary><span>Copyable command examples (replace FactoryLin with the actual username)</span><span class="fold-sign">+</span></summary><div class="fold-content">
+<p>Give FactoryLin a quota of 20 devices; query your own devices:</p><pre><code>/afn longsignal set FactoryLin 20
+/afn longsignal find</code></pre>
+<p>Set the server default to 15 by running these two commands in sequence:</p><pre><code>/afn longsignal allset 15
+/afn longsignal allset 15 confirm</code></pre>
+<p>Revoke FactoryLin's long signals and clear their personal override:</p><pre><code>/afn longsignal del FactoryLin</code></pre>
+<p>Clear all long-signal registrations and personal overrides by running these two commands in sequence:</p><pre><code>/afn longsignal alldel
+/afn longsignal alldel confirm</code></pre>
+</div></details></section>
+<div class="part-heading"><span>02</span><div><b>Enter the channel system: send data with mailboxes</b><p>Understand channels, send content, then choose how to transform and activate it.</p></div></div>
+<section class="chapter" data-title="channels explanation mailbox send receive data activation example" id="mailboxes"><div class="section-heading"><span class="chapter-number">04</span><div><span class="eyebrow">CHANNELS &amp; MAILBOXES</span><h2>Let mailboxes carry information over channels</h2></div></div><div class="split-grid"><article class="paper-card"><span class="tag">Meet the channel</span><h3>What is a channel?</h3><p>A channel carries both <b>data</b> and an <b>activation signal</b>. Data may be text, numbers, booleans or arrays; activation strength ranges from 0 to 15. Frequencies match senders to receivers, while channel names let bridges and panels reference their data.</p><p>Changing data does not activate a signal. After entering content, you still need redstone input, a change pulse, a timer or a condition.</p></article><article class="paper-card mailbox-intro"><div class="mailbox-intro-art"><img alt="Brass mailbox casing" class="device-art" height="120" loading="lazy" src="assets/device-mailbox.svg" width="160"/></div><span class="tag coral">Send and receive with mailboxes</span><h3>Attach a message to a wireless signal</h3><p>Sneak-right-click to configure a mailbox and choose receive, send or bidirectional mode. A sender stores content and transmits its current content to matching receivers when activated. Receivers can display that content or pass it to the attached device.</p><p>Directional and Modulated Receiving Mailboxes serve their corresponding reception scenarios. Stock Mailboxes read quantities, while Logistics Mailboxes place material orders.</p></article></div>
+<h3>Send your first message</h3><div class="steps"><article class="step-card"><span class="step-number">1</span><h3>Configure sender A</h3><p>Select send mode, enter frequency <code>factory.notice</code> and set the channel value to <code>Apples have arrived</code>.</p></article><article class="step-card"><span class="step-number">2</span><h3>Configure receiver B</h3><p>Select receive mode and match both frequency slots to A. Leave output syntax empty first to inspect the raw received content.</p></article><article class="step-card"><span class="step-number">3</span><h3>Activate A and watch B</h3><p>Give A redstone input. B receives <code>Apples have arrived</code>. Enable automatic output on B when you want to display it on a device.</p></article></div>
+<div aria-label="Mailbox sender and receiver demo" class="mailbox-demo panel">
+<div class="mailbox-demo-station"><span class="demo-role">A · Sending mailbox</span><span class="device-art demo-radio"><img alt="Sending mailbox" class="demo-radio-art" height="120" loading="lazy" src="assets/device-mailbox.svg" width="160"/><svg aria-hidden="true" class="demo-antenna-glow" fill="none" viewBox="0 0 160 120"><g stroke="#a84640" stroke-linejoin="round" stroke-width="1.7"><path d="m41 20 4-3 7 3-4 3Z" fill="#ffb2a2"></path><path d="M41 20v7l7 3v-7Z" fill="#f25e58"></path><path d="m48 23 4-3v7l-4 3Z" fill="#ff8470"></path></g></svg></span><code class="mailbox-frequency">factory.notice</code><div class="mailbox-message"><small>Channel value</small><b>Apples have arrived</b></div><div class="demo-control-space"><button aria-label="Activate sending mailbox" aria-pressed="false" class="demo-switch demo-lever-control" id="demo-message-send" type="button"><svg aria-hidden="true" class="demo-lever" fill="none" height="90" viewBox="0 0 112 90" width="112" xmlns="http://www.w3.org/2000/svg">
+<g class="lever-base" stroke="#30393b" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2">
+<path d="m19 56 37-17 37 17v12L56 85 19 68Z" fill="#747a78"></path>
+<path d="m19 56 37 17v12L19 68Z" fill="#90968f"></path>
+<path d="m56 73 37-17v12L56 85Z" fill="#646c68"></path>
+<path d="m19 56 37-17 37 17-37 17Z" fill="#a1a6a3"></path>
+<path d="m26 54 11-5 7 3-3 4-8 2Z" fill="#c2c6c2" stroke="none"></path>
+<path d="m52 43 8-1 11 5-5 3-9-2Z" fill="#b6bcb7" stroke="none"></path>
+<path d="m76 53 10 3-9 5-7-2Z" fill="#858d87" stroke="none"></path>
+<path d="m37 62 9-3 7 3-5 5Z" fill="#858d87" stroke="none"></path>
+<path d="m54 67 8-4 5 2-11 5Z" fill="#c2c6c2" stroke="none"></path>
+<path d="m23 61 9 4v5l-9-4Zm13 7 8 4v5l-8-4Z" fill="#a5aca4" stroke="none"></path>
+<path d="m48 73 5 2v6l-5-2Z" fill="#70796f" stroke="none"></path>
+<path d="m62 73 9-4v5l-9 4Zm17-8 9-4v4l-9 4Z" fill="#7e8980" stroke="none"></path>
+<path d="m24 56 31 14m5 0 28-13" stroke="#cdd2cd" stroke-width="1.3"></path>
+<path d="m43 51 12-5 14 6v6l-12 6-14-7Z" fill="#4c5b54"></path>
+<path d="m43 51 12-5 14 6-12 6Z" fill="#89977e"></path>
+<path d="m43 51 14 7v6l-14-7Z" fill="#67765f"></path>
+<path d="m57 58 12-6v6l-12 6Z" fill="#45564e"></path>
+<path d="m48 52 7-3 8 3-7 4Z" fill="#303f3b" stroke-width="1.5"></path>
+<path d="m46 54 5 2m11 1 4-2" stroke="#a9b49a" stroke-width="1.2"></path>
+</g>
+<g class="lever-handle" stroke="#30393b" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2">
+<g transform="rotate(-35 56 54)">
+<path d="m51 20 8-3 4 3v33l-7 5-5-3Z" fill="#8b663d"></path>
+<path d="M51 20h8v35l-3 3-5-3Z" fill="#ac8951"></path>
+<path d="m59 20 4-3v36l-4 3Z" fill="#8b663d"></path>
+<path d="M53.7 25v23m2.8-16v17" stroke="#e0bd80" stroke-width="1.35"></path>
+<path d="M52 37h3m1 9h2" stroke="#a47c46" stroke-width="1.2"></path>
+<path d="m49 12 11 0 4-3-11 0Z" fill="#d3d9c4"></path>
+<path d="M49 12h11v12H49Z" fill="#aab7a8"></path>
+<path d="m60 12 4-3v12l-4 3Z" fill="#72847b"></path>
+<path d="M51.5 15v5m2-6h4" stroke="#e2e6d4" stroke-width="1.4"></path>
+<path d="M50 24h9" stroke="#677a71" stroke-width="1.3"></path>
+</g>
+<circle cx="56" cy="54" fill="#9da995" r="5.2"></circle>
+<circle cx="56" cy="54" fill="#5c7066" r="2.1" stroke-width="1.3"></circle>
+<path d="m53.3 51.6 1.1-.7" stroke="#d5dcc3" stroke-width="1.25"></path>
+</g>
+</svg><b>Activate sending mailbox</b></button></div></div>
+<div class="signal-wire"><span></span><span></span><span></span><small>When active · Wireless transfer</small></div>
+<div class="mailbox-demo-station"><span class="demo-role">B · Receiving mailbox</span><span class="device-art demo-radio"><img alt="Receiving mailbox" class="demo-radio-art" height="120" loading="lazy" src="assets/device-mailbox.svg" width="160"/><svg aria-hidden="true" class="demo-antenna-glow" fill="none" viewBox="0 0 160 120"><g stroke="#a84640" stroke-linejoin="round" stroke-width="1.7"><path d="m41 20 4-3 7 3-4 3Z" fill="#ffb2a2"></path><path d="M41 20v7l7 3v-7Z" fill="#f25e58"></path><path d="m48 23 4-3v7l-4 3Z" fill="#ff8470"></path></g></svg></span><code class="mailbox-frequency">factory.notice</code><div aria-live="polite" class="mailbox-message mailbox-inbox"><small>Received channel value</small><b id="demo-message-value">No message received yet</b></div><div class="demo-control-space"><button class="mailbox-reset" disabled="" id="demo-message-reset" type="button">Reset demo</button></div></div>
+<p class="demo-status" id="demo-message-status" role="status">Both ends use the same frequency. Turn on the lever to activate A and send its content to B.</p></div>
+<p>To extract data, convert units or assemble content, configure <b>channel output syntax</b> in the next chapter. Activation timing and strength are configured separately afterward.</p></section>
+<section class="chapter" data-title="channel output syntax functions data paths JSON number add if switch strength game_time" id="output-syntax"><div class="section-heading"><span class="chapter-number">05</span><div><span class="eyebrow">A LITTLE DATA MAGIC</span><h2>Channel output syntax: extract, transform and calculate</h2></div><span class="handwritten">No full program required.</span></div><p>Put expressions inside <code>${…}</code>. A single expression can retain a number or boolean type; mixing it with surrounding text creates text output. Mailboxes and hidden terminals read the received value, while bridges can also reference other channels by name.</p><div class="syntax-basics"><div><span class="tag">Mailbox / hidden terminal</span><code>${user.name}</code><small>Read a JSON member</small><code>${$[0]}</code><small>Read text or the first component</small></div><div><span class="tag coral">Bridge</span><code>${temperature}</code><small>Read the “temperature” channel</small><code>${add($.fuel1,$.fuel2)}</code><small>Add two channels that each hold one number</small></div></div>
+<div class="syntax-workbench"><div class="workbench-title"><span class="status-light"></span><b>Syntax workbench</b><span>Preset example demo</span></div><div class="workbench-choices" id="syntax-examples"></div><div class="workbench-content"><div><span class="field-label">Received data</span><pre id="example-source"></pre><span class="field-label">Channel output syntax</span><pre id="example-template"></pre></div><div class="workbench-output"><span class="field-label">Output</span><output id="example-result"></output><p id="example-description"></p><span class="example-context" id="example-context"></span></div></div></div><div class="function-heading"><h3>Function shelf</h3><label class="catalog-search"><svg class="icon"><use href="#i-search"></use></svg><input aria-label="Search syntax functions" id="function-search" placeholder="number, calculations, branches…" type="search"/></label></div><div class="function-catalog" id="function-catalog"></div><p class="empty-state" hidden="" id="function-empty">No matching function found.</p><details class="fold"><summary><span>Paths, arguments, missing values and limits</span><span class="fold-sign">+</span></summary><div class="fold-content" id="syntax-rules"></div></details></section>
+<section class="chapter" data-title="timed sending activate after changes conditional activation output signal strength dynamic filter" id="automation"><div class="section-heading"><span class="chapter-number">06</span><div><span class="eyebrow">MAKE IT AUTOMATIC</span><h2>Activation conditions and signal strength</h2></div></div><div class="table-wrap"><table><thead><tr><th>Setting</th><th>Effect</th></tr></thead><tbody><tr><td>Timed send / activation</td><td>Trigger at the configured interval.</td></tr><tr><td>Activate immediately after changes</td><td>Send one pulse after a manual value change is committed. Identical data, saving configuration and map-view operations do not trigger it.</td></tr><tr><td>Activate when condition is met</td><td>Stay active while true. A false result or error releases the condition source without affecting other sources. Checked only when relevant data changes.</td></tr><tr><td>Output signal strength</td><td>Accepts a number or output syntax, floors the result and clamps it to 0–15. Missing values or errors produce 0. Leave empty to follow the trigger source; local automatic activation without an external strength defaults to 15.</td></tr></tbody></table></div><div class="split-grid"><article class="paper-card"><h3>Activate a mailbox conditionally</h3><p>For example, with channel value <code>{"temperature":32,"ready":true}</code>, this condition activates when temperature reaches 30 and ready is true:</p><pre><code>${$.temperature} ≥ 30 &amp; ${$.ready} = true</code></pre><p>Mailboxes evaluate their own raw content. Wireless reception does not trigger conditional activation or change pulses. Bridges can also reference other channels by name. Supports <code>=</code>, <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>≥</code>, <code>≤</code>, <code>&amp;</code> / <code>&amp;&amp;</code>, <code>||</code> and parentheses.</p></article><article class="paper-card teal-card"><h3>Turn signals into numbers</h3><pre><code>${strength($)}</code></pre><p>Mailboxes read the raw received/input strength; bridges can use <code>${strength($.channel_name)}</code>. No content is needed; inactive means 0. Hidden terminals' current output-strength rules still do not accept their own <code>strength($)</code>.</p></article></div><p><b>Dynamic filter:</b> The left list shows selected attributes and attributes of the current reference item. Click an attribute to copy its complete rule JSON. “Copy selected” preserves the current matching mode and inverted condition.</p></section>
+<div class="part-heading"><span>03</span><div><b>Connect everything</b><p>Let devices report their state and receive remote control.</p></div></div>
+<section class="chapter" data-title="mailbox automatic reading automatic output input devices output devices machine configuration Stressometer Mechanical Arm Mechanical Saw Basin Stock Link Stock Ticker Flight Control Navigation Terminal NetMusic Record Player Speaker Create Big Cannons Cannon Mount target yaw pitch fire_count auto aim Sable" id="data-io"><div class="section-heading"><span class="chapter-number">07</span><div><span class="eyebrow">READ · TRANSFORM · ACT</span><h2>Connect everything: read and control devices</h2></div></div><p class="section-intro">Mailboxes read device data into channels and write received content to devices. Automatic reading and output form a data path between devices. Hidden Channel Terminals have the same automatic output capabilities.</p><div class="io-flow"><div><svg class="icon"><use href="#i-screen"></use></svg><b>Read devices</b><small>Stress, speed, stock…</small></div><svg class="icon"><use href="#i-arrow"></use></svg><div class="flow-core"><svg class="icon"><use href="#i-code"></use></svg><b>Channel + output syntax</b><small>Extract · Convert · Assemble</small></div><svg class="icon"><use href="#i-arrow"></use></svg><div><svg class="icon"><use href="#i-gear"></use></svg><b>Output to devices</b><small>Displays, speed, pickup/deposit positions…</small></div></div><aside class="note"><b>Select the data you need.</b> Automatic reading and automatic output are mutually exclusive. Select reading fields and modes in the dropdown; selecting all is supported, and at least one item must remain selected.</aside>
+<p>A single selection preserves the original text. Multiple selections produce JSON, preferring field names as keys. For example, read the Total Stress Capacity field using its original key with <code>${$.总应力容量}</code>. Duplicate names gain a source prefix; spaces and punctuation become underscores. Numbers, booleans, and standard JSON objects and arrays retain their types; other content becomes strings. If a multi-selection result exceeds 1,024 characters or 4,096 bytes, it outputs <code>{"error":"content_limit"}</code> instead of truncating JSON.</p>
+<div class="catalog-shell"><div class="catalog-toolbar"><div aria-label="Read or write" class="segmented" id="io-tabs" role="tablist"><button aria-selected="true" class="active" data-io="read" role="tab" type="button">What can be read</button><button aria-selected="false" data-io="write" role="tab" type="button">What can be controlled</button></div><label class="catalog-search"><svg class="icon"><use href="#i-search"></use></svg><input aria-label="Search input/output devices" id="device-search" placeholder="Search devices, features or fields…" type="search"/></label></div><div aria-label="Filter by mod" class="filter-chips" id="device-groups"></div><div class="catalog-meta"><span id="device-count" role="status"></span><span>Expand for usage; copy code as a whole</span></div><div class="device-catalog" id="device-catalog"></div><p class="empty-state" hidden="" id="device-empty">No matching capability found. Try a device name or field keyword.</p><button class="button catalog-expand" id="catalog-expand">Show full catalog ↓</button></div>
+</section>
+<div class="part-heading"><span>04</span><div><b>More channel devices</b><p>Build your own interactions with screens, panels, maps and messages.</p></div></div>
+<section class="chapter" data-title="bridge Dashpanel DP panels Portable Map Channel Terminal Hidden Channel Terminal pager" id="devices"><div class="section-heading"><span class="chapter-number">08</span><div><span class="eyebrow">MORE CHANNEL DEVICES</span><h2>More channel devices</h2></div></div><p class="section-intro">From screen controls to positions and messages, choose an interaction that fits your needs on the same channel system.</p><div class="toolbox-grid"><a class="tool-card" href="#bridge"><img alt="Bridge" class="device-art" height="120" loading="lazy" src="assets/device-bridge.svg" width="160"/><span class="tag">Interaction and visualization</span><h3>Bridge</h3><p>Join screens freely and organize multiple channels with text, gauges, maps and conversations.</p><span aria-hidden="true" class="tool-arrow">↗</span></a><a class="tool-card" href="#dashpanels"><img alt="Dashpanel modules" class="device-art" height="120" loading="lazy" src="assets/device-dp.svg" width="160"/><span class="tag">DP panels</span><h3>Dashpanel modules</h3><p>Combine sliders, joysticks, gauges, radar and information modules into your own control panel.</p><span aria-hidden="true" class="tool-arrow">↗</span></a><a class="tool-card" href="#map-terminal"><img alt="Portable Map Channel Terminal" class="device-art" height="120" loading="lazy" src="assets/device-map-terminal.svg" width="160"/><span class="tag">Coordinates and navigation</span><h3>Portable Map Channel Terminal</h3><p>Select, save or broadcast target coordinates, and pass map locations to other devices.</p><span aria-hidden="true" class="tool-arrow">↗</span></a><a class="tool-card" href="#hidden"><img alt="Hidden Channel Terminal" class="device-art" height="120" loading="lazy" src="assets/device-hidden-terminal.svg" width="160"/><span class="tag">Hide the receiver</span><h3>Hidden Channel Terminal</h3><p>Configure wireless reception on a face of an ordinary block, weakly activate its host or automatically write to the device.</p><span aria-hidden="true" class="tool-arrow">↗</span></a><a class="tool-card" href="#pager"><img alt="Pager" class="device-art" height="120" loading="lazy" src="assets/device-pager.svg" width="160"/><span class="tag">Take your messages with you</span><h3>Pager</h3><p>Multiple chat channels, unread alerts, ringtones and quick replies get information to you in time.</p><span aria-hidden="true" class="tool-arrow">↗</span></a></div><p>Hold a Create Wrench and sneak-right-click to dismantle AFN blocks.</p></section>
+<section class="chapter" data-title="bridge screen interaction modes joined map conversation gauge bar chart Cimulink CC import export" id="bridge"><div class="section-heading"><span class="chapter-number">09</span><div><span class="eyebrow">YOUR CONTROL ROOM</span><h2>Put the entire workshop on a screen</h2></div></div><p class="section-intro">Bridges expand horizontally and vertically, joining into a large screen when they form a complete rectangle. Channel regions can be freely resized, with no fixed 4×4 display limit. Sneak-right-click to open configuration.</p>
+<div class="bridge-showcase"><div class="bridge-rivets"><i></i><i></i><i></i><i></i></div><div class="bridge-preview"><div class="preview-heading"><span class="status-light"></span> WORKSHOP / CONTROL <b>ONLINE</b></div><div class="preview-instruments"><div class="preview-chart"><span>Material reserves</span><div class="chart-bars"><i style="--bar:42%"></i><i style="--bar:80%"></i><i style="--bar:60%"></i><i style="--bar:95%"></i><i style="--bar:70%"></i></div><small>Iron · Copper · Gold · Coal · Wood</small></div><div class="preview-gauge"><span>Stress load</span><svg aria-hidden="true" viewBox="0 0 160 100"><path class="gauge-track" d="M20 85a60 60 0 0 1 120 0"></path><path class="gauge-value" d="M20 85a60 60 0 0 1 120 0"></path><path class="gauge-needle" d="M80 85 105 39"></path><circle cx="80" cy="85" r="6"></circle></svg><strong>68<span>%</span></strong></div><div class="preview-message"><span>Warehouse message</span><div class="parcel-icon"><svg class="icon"><use href="#i-box"></use></svg></div><p>Copper ingots delivered.</p><small>Every corner of the workshop answers.</small></div></div></div><span class="showcase-label">Interface illustration · Charts rearrange to fit the space</span></div>
+<div aria-label="Bridge display modes" class="mode-tabs" id="mode-tabs" role="tablist"></div><div class="mode-description paper-card" id="mode-description" role="tabpanel" tabindex="0"></div><div class="split-grid compact"><article><h3>Layout and colors</h3><p>Configure regions, names, standby status, backgrounds, controls, other text and pointer colors separately. Interaction and secondary confirmation are configured per region. Enabling “Display output syntax” automatically disables screen interaction.</p></article><article><h3>Interfaces and files</h3><p>Frequency, screen, Cimulink and CC:T have separate configuration tabs. Rear ports connect inputs and outputs. <code>.bridge</code> files import and export configuration and data, but do not import screen layouts.</p></article></div>
+<h3>Map data: multiple points, named lines and areas</h3><p>All coordinates use world <code>x,y,z</code>. A single point can be written as <code>0,64,0</code>; multiple points accept successive groups of three values, <code>0,64,0,32,64,16</code>, and nested arrays:</p><pre><code>[[0,64,0],[32,64,16]]</code></pre>
+<p>For a named point, use <code>{"name":"Warehouse","position":[0,64,0]}</code> or the <code>x</code>, <code>y</code> and <code>z</code> fields. This example displays points, lines and areas together. Each type can also be supplied alone; <code>name</code> is the visible name:</p><pre><code>{
+  "points":[{"name":"Warehouse","color":"#FF7043","text_color":"#FFE0B2","position":[0,64,0]}],
+  "lines":[{"name":"Route","color":"#66BB6A","text_color":"#DCE775","points":[[0,64,0],[32,64,16]]}],
+  "areas":[{"name":"Work Area","color":"#42A5F5","text_color":"#B3E5FC","points":[[0,64,0],[32,64,0],[32,64,16]]}]
+}</code></pre>
+<p><code>color</code> controls geometry color, and <code>text_color</code> controls name color. The recommended format is <code>#RRGGBB</code>. If omitted, each follows the corresponding bridge color. Line and area vertices inherit the geometry color unless explicitly overridden. Also accepts <code>#RGB</code>, <code>0xRRGGBB</code>, decimal RGB integers and <code>[r,g,b]</code>.</p>
+<p>A line needs at least two points; an area needs at least three. Vertices connect in order. <code>areas</code> also accepts the name <code>polygons</code>, and multiple lines and areas are supported. With geometry present, the automatic self-to-target line setting has no effect; the supplied geometry still displays. Bottom-right coordinates and distance use the first point and the device's own position.</p><aside class="note"><b>Clicking still selects a single coordinate.</b> A click replaces channel data with one point instead of appending a vertex. Nearby clicks snap to displayed points, including line and area vertices. The in-game “Bridge” help tab documents interaction modes and data structures together.</aside></section>
+<section class="chapter" data-title="Dashpanels AFN Modules panel slider joystick radar gauges LCD energy columns radio buttons switches" id="dashpanels"><div class="section-heading"><span class="chapter-number">10</span><div><span class="eyebrow">DASHPANELS · AFN MODULES</span><h2>DP panels</h2></div></div>
+<p>Get modules from <b>AFN Modules</b> at the bottom of the Dashpanels tab, place them on a panel and open properties with a Panel Wrench. Frequencies use the module's two slots in Panel Link. Hover over a module item and hold <b>V</b> to open its native Wiki page for its features and settings.</p>
+<h3>Control sliders</h3><p>Standard, long, horizontal and long horizontal sliders share the same settings. They measure 3×5, 3×10, 5×3 and 10×3 panel pixels respectively. Long sliders match the diameter of the Large Radar.</p>
+<p>Sliders send a value between their minimum and maximum, defaulting to 0–100. “Integer output” rounds to the nearest integer. Redstone strength defaults to 15 and ranges from 0–15. “Pulse after changes” is enabled by default: the slider stays active and continuously updates while operated, then retains a two-tick pulse after release. The activation condition works independently and also keeps the channel active while true. Initialization, reloading and configuration changes do not trigger change pulses.</p>
+<p><b>Nodes:</b> Enter <code>20,50,80</code> or <code>[20,50,80]</code>, or use channel output syntax. Only nodes within the configured range apply, and markers appear by the scale. Dragging stops at the nearest node along the movement; release and drag again to cross it.</p>
+<p><b>Sensitivity:</b> A multiplier for dragging; smaller values give finer control. Standard sliders default to 1; long sliders to 0.4. Channel output syntax is supported. Hold right-click on the slider to fine-tune with the mouse wheel at half the configured sensitivity, ignoring nodes.</p>
+<p><b>Channel output syntax:</b> Leave empty to send the current value; plain text sends fixed text; an expression containing <code>${...}</code> sends its evaluated result. Module names can reference values across the same panel network. Invalid expressions or missing sources stop output rather than reusing an old value.</p>
+<p><b>Colors:</b> Configure the slider, pointer and scale separately with <code>RRGGBB</code> or <code>#RRGGBB</code>. Node markers use the scale color.</p>
+<h3>Joystick</h3><p>Drag the joystick to send a two-dimensional array <code>[x,y]</code>. Two corner points define the X and Y ranges, defaulting from <code>-1,-1</code> to <code>1,1</code>; integer output is supported. Corners, nodes, strength, activation conditions and output all accept channel output syntax.</p><p><b>Nodes and memory:</b> Nodes accept <code>0,0</code>, <code>[[0,0],[1,1]]</code> or channel output syntax. The default node is <code>[0,0]</code>. Memory is off by default: on release, the joystick returns at constant speed to the nearest node. With memory on, it stays at the released position. “Pulse after changes” is on by default, maintaining activation and updating values during operation, with a short pulse after release.</p>
+<h3>Gauges and display modules</h3><ul><li><b>Arc / circular gauges:</b> Receive one number. Configure a name, name visibility, limits, and background, pointer and scale colors. The default range is 0–100; out-of-range values pin the pointer to an endpoint. The circular gauge occupies less space.</li><li><b>Small / large radios:</b> Display the latest message in pager conversation format, including avatar, name and body. Plain text is also accepted. Right-click to clear the current message. Screen background and text colors are configurable.</li><li><b>Small / large information boards:</b> Display channel content directly, with configurable screen background and text colors.</li><li><b>Buttons / switches:</b> Configure a name, channel content and signal strength. Content and strength accept channel output syntax. A short button press sends a brief pulse; holding it sends continuously until release. A switch sends continuously while on. Button pressable parts also support custom colors.</li><li><b>Placeholder Channel Component:</b> A flat 1×1 intermediate channel that receives content and strength for named references within the same panel network. Its color is configurable.</li></ul>
+<p>Colors accept <code>RRGGBB</code> or <code>#RRGGBB</code>. Empty content shows only the background. Receiving modules retain the latest content after the signal ends. Hiding a gauge's name does not affect name references. Animations follow Dashpanels' native behavior.</p>
+<h3>Radar and Large Radar</h3><p>Both sizes share settings and center on the module's world position. They display bridge-map points, lines, areas and their names, including on moving Sable structures. They do not render terrain or adjust scale automatically. Coordinates are absolute world <code>x,y,z</code>, not relative offsets. Accepted input includes a single point, successive groups of three values, nested arrays or map JSON:</p>
+<pre><code>0,64,0
+0,64,0,24,64,16
+[[0,64,0],[24,64,16]]</code></pre>
+<p>Each line is an independent example. Only points within the scale radius appear. If coordinates are not visible, check their distance from the module and increase the scale.</p>
+<pre><code>{"points":[{"name":"Base","position":[0,64,0]}],"lines":[{"points":[[0,64,0],[24,64,16]]}],"areas":[{"points":[[0,64,0],[24,64,0],[24,64,16]]}]}</code></pre>
+<div class="table-wrap"><table><thead><tr><th>Setting</th><th>Effect</th></tr></thead><tbody><tr><td>Map rotation</td><td>Clockwise rotation in degrees, default 0. Supports channel output syntax.</td></tr><tr><td>Scale</td><td>Horizontal distance in blocks from the center to the rim. Must exceed 0; defaults to 64. Larger values show a wider area. Supports channel output syntax.</td></tr><tr><td>Map background / grid colors</td><td>Set the disc background and circular grid colors separately.</td></tr><tr><td>Point color</td><td>Default color for received points, lines and areas.</td></tr><tr><td>Fixed points</td><td>Additional world coordinates to display. Supports names, bridge map structures and channel output syntax.</td></tr><tr><td>Fixed point color</td><td>Default color for fixed points, lines and areas.</td></tr></tbody></table></div>
+<p>Fixed points accept this shorthand. Without names, coordinate arrays alone also work. The map data's <code>color</code> and <code>text_color</code> override module colors.</p>
+<pre><code>{[0,64,0]:"Base",[24,64,16]:"Dock"}</code></pre>
+<h3>LCD energy columns</h3><p>Segmented battery-style displays come in vertical 1×4, horizontal 4×1, and long 2×10 and 10×2 sizes, all receiving one number. Limits default to 0–100. The first and second nodes divide low, middle and high ranges, colored red, yellow and green by default. Empty nodes divide the range into thirds. Nodes and limits support channel output syntax.</p>
+<h3>Message and information input formats</h3><p>Radios receive pager JSON and display the latest message's avatar, name and content. Plain text appears as an anonymous message. Avatars use <code>item:item_registry_id</code> or <code>player:player_UUID</code>. <code>messages</code> can mix text and stock objects, rendering item icons as emotes:</p>
+<pre><code>{"avatar":"item:minecraft:apple","name":"Warehouse","message":"Restock complete"}
+{"name":"Warehouse","messages":["Stock",{"minecraft:apple":8}]}</code></pre>
+<p>Information boards display arbitrary channel content directly without interpreting JSON as a conversation. Gauges and LCD energy columns receive a single number, not arrays containing multiple numbers.</p>
+<h3>Channel output syntax and previews</h3><p>Numeric and content fields support channel output syntax: slider limits, nodes, strength, condition and output; joystick coordinates, strength, condition and output; gauge limits; button/switch content and strength; and map rotation, scale and fixed points. Empty slider and joystick output syntax sends raw values; plain text sends fixed text. When the input contains <code>${…}</code>, an evaluated preview appears below it. Color fields still take color values.</p>
+<p>All names in the same panel network are accessible, including every module on joined bases and other panels connected by cables. Names must be unique. AFN modules provide channel content; native modules provide only signal strength, using the highest output for modules with multiple outputs.</p>
+<pre><code>${slider_name}
+${strength($.switch_name)}</code></pre>
+<p>Limits must evaluate to finite numbers with minimum ≤ maximum; conditions must evaluate to booleans. Sliders stop output when an expression is invalid.</p>
+</section>
+<section class="chapter" data-title="map coordinates terminal favorites navigation entities broadcast portable" id="map-terminal"><div class="section-heading"><span class="chapter-number">11</span><div><span class="eyebrow">PORTABLE MAP TERMINAL</span><h2>Portable Map Channel Terminal: a companion for map markers and planning</h2></div></div><article class="paper-card"><span class="tag">Map terminal / bridge map</span><h3>Treat positions as data too</h3><p>Transmit <code>x,y,z</code>, save locations, and show connecting lines and distance. Bridges can use Xaero terrain, the AFN map or a grid; coordinates and backgrounds can be hidden separately.</p><p>The mouse wheel zooms around the focus; middle-drag pans. View operations do not change channel values. Recenter brings self and target into view; dynamic mode rotates with the Sable structure's orientation.</p><p>Nearby-entity and hostile-mob buttons only appear when enabled in configuration. Clicking near a marker snaps to its coordinates. Right-click an entity marker on the portable terminal to continuously broadcast its position.</p></article><p>Sneak-right-click opens multichannel configuration: add, remove and select channels on the left; configure name, frequency, channel value, activation strength, long signals and output syntax in the middle; inventory is on the right. An older terminal retains its configuration as its first channel.</p><p>Right-click while holding the terminal to open its map. Alt + wheel or number keys switch the primary channel; taking out the device shows its current channel. Middle-click selection or map broadcasting affects only that channel; other activated channels keep working after switching. The terminal must remain held or installed on an operating base such as a Placard.</p><p>Right-click the map to add points, lines and areas. Right-click broadcasting geometry to rename, recolor or remove it. Move the mouse to the map's left edge to show the channel list. The item screen also displays geometry, hiding names when crowded.</p><p>Terminals and bridges share the same point, line and area format; <a href="#bridge">see map data formats</a>. In output syntax, <code>$</code> reads the current channel's raw value.</p></section>
+<section class="chapter" data-title="hidden terminal face configurator authorization weak activation copy contraption" id="hidden"><div class="section-heading"><span class="chapter-number">12</span><div><span class="eyebrow">HIDDEN CHANNEL TERMINALS</span><h2>Hidden Channel Terminal: an upgrade over cable control</h2></div></div><p class="section-intro">Configure a receive frequency on one face of an ordinary block without adding a visible device. Hold the configurator to view and edit configured faces.</p><div><p>Hold the configurator and right-click a non-AFN block face to create an empty configuration; right-click again to open the autosaving receive configuration. Blue outlines mean configured faces; red means empty configuration. Focusing a face shows its frequency.</p><div class="key-guide"><span><kbd>Right-click</kbd> Create / edit</span><span><kbd>Sneak + right-click</kbd> Remove face</span><span><kbd>Middle-click</kbd> Copy</span><span><kbd>Sneak + middle-click</kbd> Exit copying</span></div><p>A covered face can still receive. It weakly activates its host without powering neighbors. Automatic output shares mailbox capabilities. Configuration survives pistons, Create contraptions and Sable movement; permanently destroying the host removes it. Authorized faces require the relevant permissions to edit or remove.</p></div></section>
+<section class="chapter" data-title="pager messages chat JSON messages avatar name ringtone quick phrases" id="pager"><div class="section-heading"><span class="chapter-number">13</span><div><span class="eyebrow">CHANNEL PAGER</span><h2>Channel Pager: a remarkable phone</h2></div></div><article class="paper-card coral-card"><span class="tag coral">Channel Pager</span><h3>A message from the warehouse! Everything can send you a message—not just people!</h3><p>Configure multiple channels, each serving as its own group chat.</p><p>Each channel independently configures its frequency, avatar/name toggles, ringtone, music disc, loop count and quick phrases. Search items to use as an avatar. Shortcut mappings cannot repeat within one channel.</p><p>Left-click while holding it to light the input screen; press Enter or left-click again to send a mapped message. Pagers also work on lecterns and Create Placards.</p></article><details class="fold" open=""><summary><span>Let other devices message a pager or bridge</span><span class="fold-sign">+</span></summary><div class="fold-content"><p>Plain text appears anonymously. Chat JSON supports item/player avatars, names and message bodies; the bridge's Conversation mode uses the same format:</p><pre><code>{"avatar":"item:minecraft:apple","name":"Warehouse","message":"Apples have arrived"}</code></pre><p><code>messages</code> mixes text with multiple stock objects. Item icons and quantities appear inline as emotes:</p><pre><code>{"name":"Warehouse","messages":["Just received",{"minecraft:apple":8},"and",{"minecraft:iron_ingot":16},"Please collect"]}</code></pre><p>Items accept registry IDs or uniquely identifiable names. Bridge conversations can show only the latest message or a scrolling history, with configurable avatars, names, replies and a clear button. Empty avatar/name settings use an anonymous identity.</p></div></details></section>
+<section class="chapter" data-title="schematic editor Create Sable authorization printing tickets issuer validator Identity Verification Pillar" id="blueprints"><div class="section-heading"><span class="chapter-number">14</span><div><span class="eyebrow">BUILD IT AGAIN</span><h2>Copy a project and reassign identities</h2></div></div><div class="blueprint-note"><div class="blueprint-tabs"><span>Frequency</span><span>Authorization</span><span>Edit</span></div><h3>Schematic Channel Editor</h3><p>Supports Create and both old and new Sable schematics. Search frequencies, aliases, items, devices and location types. Expand devices with multiple frequencies, replace items and press Space to edit boards. Entirely empty groups are hidden, but an existing group's empty secondary slot can still accept an item.</p><p>One-click authorization binds to you; assign read/write permissions from a player list. The Edit tab adds or changes dot-separated prefixes/suffixes, or globally replaces text in primary frequencies and aliases.</p><p>Saved files are placed under <code>afn/</code> in the schematics directory and retain recognizable original names. Anyone may build them. Once verified and the actual printer is identifiable, Authorization Boards bind to that printer while preserving shared permissions. Unverified copies do not inherit the original Owner.</p></div><div class="ticket-line"><svg class="icon"><use href="#i-lock"></use></svg><div><h3>Tickets and access control</h3><p>Ticket Issuers use Authorization Boards to issue tickets. Ticket Validators check frequency and identity, then accept tickets and grant access; a full inventory does not consume a ticket. Authorization Card Readers and Identity Verification Pillars verify identities and emit redstone pulses on success. Authorization Boards themselves are not consumed.</p></div></div></section>
+<div class="part-heading"><span>05</span><div><b>APIs and development</b><p>Extend channels through CC:Tweaked, Synaxis and public interfaces.</p></div></div>
+<section class="chapter" data-title="CC:Tweaked Lua API programming Synaxis Channel SDK afn_bridge" id="computer"><div class="section-heading"><span class="chapter-number">15</span><div><span class="eyebrow">A PROGRAMMABLE WORKSHOP</span><h2>Ready to program? The interfaces are ready too</h2></div></div><p>With CC:Tweaked installed, place a computer beside the bridge or connect through a wired modem. Enable the required bridge capabilities, then use the bundled <code>afn</code> module:</p><pre class="lua-code"><code>local afn = require("afn")
+
+for _, channel in ipairs(afn.channels()) do
+  print(channel.name, channel.primary_frequency)
+end
+
+-- door is an existing channel name on the bridge
+local result = afn.pulse("door")
+assert(result.success, result.error)</code></pre><div class="split-grid compact"><article><h3>Screens can be programmed too</h3><p><code>afn.screen()</code> / <code>afn.set_screen()</code> manage the screen; <code>afn.display()</code> / <code>afn.set_display()</code> configure channel regions, modes, interaction and styling. Set data and activate signals with separate calls.</p></article><article><h3>Two more integration paths</h3><p>Synaxis connects activation, value-input and value-output ports. Add-ons use the public Channel API for endpoints, permissions and long signals. Developer documentation is in the project's Channel SDK.</p></article></div><a class="button primary reference-link" href="FUNCTIONS.en.md">Open the full Lua Function Manual <svg class="icon"><use href="#i-arrow"></use></svg></a><details class="fold cc-reference" id="cc-reference"><summary><span>Read the complete API, return values, events and error codes here</span><span class="fold-sign">+</span></summary><div class="fold-content" id="cc-body">
+<!-- CC_REFERENCE_START -->
+<h1 id="afn-bridge-lua-function-manual">AFN Bridge Lua Function Manual</h1>
+<p><strong>Applies to AFN 1.8.0.</strong> <a href="./index.en.html">AFN WIKI</a> · <a href="./FUNCTIONS.md">Chinese manual</a> · <a href="./README.md">English overview</a></p>
+<p>Reference for functions, permissions, events, error codes, and compatibility fields in the <code>require("afn")</code> package and the raw <code>afn_bridge</code> peripheral.</p>
+<h2 id="five-minute-quick-start">Five-minute quick start</h2>
+<h3 id="1-channel-structure">1. Channel structure</h3>
+<p>Each channel can have a primary frequency, an optional secondary frequency, an optional value, and an activation state at the same time; <code>frequency</code> and <code>information</code> are not mutually exclusive storage types:</p>
+<pre><code class="language-text">Channel name + primary frequency + optional secondary frequency + optional value + activation state
+</code></pre>
+<p>Create a channel in the bridge GUI:</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Channel name</td>
+<td><code>door</code></td>
+</tr>
+<tr>
+<td>Primary frequency</td>
+<td><code>factory.door</code></td>
+</tr>
+<tr>
+<td>Secondary frequency</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Channel value</td>
+<td><code>CLOSED</code></td>
+</tr>
+<tr>
+<td>Transmission/reception</td>
+<td>Allow sending and receiving</td>
+</tr>
+</tbody>
+</table>
+<p><code>door</code> in the code is the <strong>channel name</strong>, not the primary frequency. Except for temporary transmission functions, most APIs look up channels by name.</p>
+<h3 id="2-connect-and-inspect-channels">2. Connect and inspect channels</h3>
+<p>Place the computer directly next to the bridge, or connect it through a wired modem. Run:</p>
+<pre><code class="language-lua">local afn = require(&quot;afn&quot;)
+
+local bridge, bridge_name = afn.find()
+print(&quot;bridge:&quot;, bridge_name)
+
+for _, channel in ipairs(afn.channels()) do
+  print(channel.name, channel.primary_frequency)
+end
+</code></pre>
+<p>You should see <code>door factory.door</code>. <code>afn</code>, <code>bridge</code>, and <code>channel</code> are ordinary Lua variable names used in these examples; you can choose different names.</p>
+<h3 id="3-send-a-one-second-signal">3. Send a one-second signal</h3>
+<pre><code class="language-lua">local afn = require(&quot;afn&quot;)
+local result = afn.pulse(&quot;door&quot;) -- Defaults to strength 15 for 20 ticks
+assert(result.success, result.error)
+</code></pre>
+<p><code>pulse</code> activates a channel that already exists in the bridge. Because this channel has a valid primary frequency, it sends a Create/AFN wireless signal. If the primary frequency is empty, it still activates inside the bridge, but no wireless transmitter is registered.</p>
+<h3 id="4-read-and-write-values-directly">4. Read and write values directly</h3>
+<pre><code class="language-lua">local afn = require(&quot;afn&quot;)
+
+local before = assert(afn.value(&quot;door&quot;))
+print(&quot;before:&quot;, before.value)
+
+local result = afn.set_value(&quot;door&quot;, &quot;OPEN&quot;)
+assert(result.success, result.error)
+
+local after = assert(afn.value(&quot;door&quot;))
+print(&quot;after:&quot;, after.value)
+</code></pre>
+<p>An ordinary overwrite does not require a revision. <code>set_value</code> does not itself activate the channel; condition rules configured separately in the GUI may activate it when its value changes. Activation does not automatically create a value either.</p>
+<h3 id="5-set-the-primary-and-secondary-frequencies">5. Set the primary and secondary frequencies</h3>
+<pre><code class="language-lua">local afn = require(&quot;afn&quot;)
+
+assert(afn.set_primary_frequency(&quot;door&quot;, &quot;factory.door&quot;).success)
+assert(afn.set_secondary(&quot;door&quot;, &quot;manual&quot;, &quot;factory.zone_a&quot;).success)
+
+-- Clear the second ordinary frequency when a secondary frequency is not needed:
+assert(afn.set_secondary(&quot;door&quot;, &quot;none&quot;).success)
+</code></pre>
+<p>Secondary frequency modes are <code>none</code>, <code>manual</code>, and <code>auth</code>. <code>none</code> clears the secondary frequency; <code>manual</code> writes ordinary frequency text. Players should configure authentication boards for the current tiled bridge in the GUI's actual channel frequency slots; Lua cannot submit or reconstruct Owner, ACL, or hidden authentication identities. <code>auth</code> retains the legacy bridge's linked credential semantics. It does not create an authentication board in the current channel, and without the legacy credential it cannot establish a valid authenticated wireless link.</p>
+<h2 id="common-operations-at-a-glance">Common operations at a glance</h2>
+<p>Run <code>local afn = require("afn")</code> before each of the following examples.</p>
+<table>
+<thead>
+<tr>
+<th>Purpose</th>
+<th>Shortest form</th>
+<th>Permission</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>List all channels</td>
+<td><code>afn.channels()</code></td>
+<td>Read</td>
+</tr>
+<tr>
+<td>Read a complete channel</td>
+<td><code>afn.get("door")</code></td>
+<td>Read</td>
+</tr>
+<tr>
+<td>Read the value, including the absent state</td>
+<td><code>afn.value("door")</code></td>
+<td>Read</td>
+</tr>
+<tr>
+<td>Read primary and secondary frequencies</td>
+<td><code>afn.frequency("door")</code></td>
+<td>Read</td>
+</tr>
+<tr>
+<td>Activate for 1 second</td>
+<td><code>afn.pulse("door")</code></td>
+<td>Activate</td>
+</tr>
+<tr>
+<td>Activate continuously</td>
+<td><code>afn.set("door")</code></td>
+<td>Activate</td>
+</tr>
+<tr>
+<td>Stop continuous activation created by this computer</td>
+<td><code>afn.clear("door")</code></td>
+<td>Admitted</td>
+</tr>
+<tr>
+<td>Write a value directly</td>
+<td><code>afn.set_value("door", "OPEN")</code></td>
+<td>Configure</td>
+</tr>
+<tr>
+<td>Clear to "no value"</td>
+<td><code>afn.clear_value("door")</code></td>
+<td>Configure</td>
+</tr>
+<tr>
+<td>Change the primary frequency</td>
+<td><code>afn.set_primary_frequency("door", "factory.door")</code></td>
+<td>Configure</td>
+</tr>
+<tr>
+<td>Change the ordinary secondary frequency</td>
+<td><code>afn.set_secondary("door", "manual", "factory.zone_a")</code></td>
+<td>Configure</td>
+</tr>
+<tr>
+<td>Transmit temporarily for 1 second</td>
+<td><code>afn.pulse_temporary("factory.bell")</code></td>
+<td>Activate</td>
+</tr>
+<tr>
+<td>Read the whole screen's dimensions and regions</td>
+<td><code>afn.screen()</code></td>
+<td>Read</td>
+</tr>
+<tr>
+<td>Configure the screen layout</td>
+<td><code>afn.set_screen({placements={...}})</code></td>
+<td>Configure</td>
+</tr>
+<tr>
+<td>Read a channel's screen settings</td>
+<td><code>afn.display("door")</code></td>
+<td>Read</td>
+</tr>
+<tr>
+<td>Change the interaction mode and colors</td>
+<td><code>afn.set_display("door", {mode="switch", control_color=0x88CC66})</code></td>
+<td>Configure</td>
+</tr>
+</tbody>
+</table>
+<h2 id="optional-parameters-variables-and-revision">Optional parameters, variables, and revision</h2>
+<h3 id="square-brackets-are-not-lua-code">Square brackets are not Lua code</h3>
+<p>Square brackets in signatures indicate optional parameters:</p>
+<pre><code class="language-text">afn.set_value(channel, value[, revision[, bridge_name]])
+</code></pre>
+<p>Do not type the square brackets in an actual call. With only one bridge, you can usually omit the final <code>bridge_name</code>. To specify the last parameter while skipping an intermediate parameter, use <code>nil</code> as a placeholder:</p>
+<pre><code class="language-lua">afn.set_value(&quot;notice&quot;, &quot;新内容&quot;, nil, &quot;left&quot;)
+afn.set_secondary(&quot;door&quot;, &quot;none&quot;, nil, &quot;left&quot;)
+</code></pre>
+<p><code>bridge_name</code> is the peripheral name assigned by CC, such as <code>left</code> or a name on the wired network; it is not a channel name, block title, or primary frequency.</p>
+<h3 id="what-old-and-current-mean">What <code>old</code> and <code>current</code> mean</h3>
+<pre><code class="language-lua">local current = assert(afn.value(&quot;counter&quot;))
+</code></pre>
+<p><code>current</code> is simply a local variable name chosen by the author to hold the returned table:</p>
+<pre><code class="language-lua">{
+  present = true,
+  kind = &quot;real&quot;,
+  value = 12,
+  revision = 7
+}
+</code></pre>
+<p>It is not an AFN keyword. <code>old</code>, <code>data</code>, or <code>counter_state</code> would work just as well.</p>
+<h3 id="why-revision-can-usually-be-omitted">Why revision can usually be omitted</h3>
+<p>To replace a value with specific content, write it directly:</p>
+<pre><code class="language-lua">local result = afn.set_value(&quot;notice&quot;, &quot;列车即将进站&quot;)
+assert(result.success, result.error)
+</code></pre>
+<p>Passing the old revision is recommended only when the new value depends on the old value you just read, such as incrementing a counter:</p>
+<pre><code class="language-lua">local current = assert(afn.value(&quot;counter&quot;))
+local result = afn.set_value(&quot;counter&quot;, current.value + 1, current.revision)
+
+if not result.success and result.error == &quot;revision_conflict&quot; then
+  printError(&quot;The value has changed; read it again before recalculating&quot;)
+else
+  assert(result.success, result.error)
+end
+</code></pre>
+<p>The revision is a monotonically increasing version number on each bridge. Clearing a value also advances its tombstone revision, so the sequence "value present → no value → value present again" does not cause an ABA misidentification. After a conflict, read again and recalculate instead of blindly retrying submissions in a loop.</p>
+<h2 id="unified-channels-and-values">Unified channels and values</h2>
+<h3 id="three-writable-value-types">Three writable value types</h3>
+<table>
+<thead>
+<tr>
+<th>Lua input</th>
+<th><code>kind</code></th>
+<th>Read result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string</td>
+<td><code>text</code></td>
+<td>string</td>
+</tr>
+<tr>
+<td>boolean</td>
+<td><code>boolean</code></td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>Finite number</td>
+<td><code>real</code></td>
+<td>number</td>
+</tr>
+<tr>
+<td>Contiguous array of 1–128 finite numbers</td>
+<td><code>real</code></td>
+<td>Array for multiple elements; a single element still returns a number</td>
+</tr>
+</tbody>
+</table>
+<p>Text is limited to 1024 Unicode code points and 4096 UTF-8 bytes. Real arrays reject empty tables, sparse tables, nonnumeric elements, NaN, positive or negative infinity, and inputs with more than 128 elements. Valid components are normalized toward zero to at most three decimal places at the model boundary. An invalid write is rejected atomically, with nothing partially saved. Chart and switch screen settings display up to 8 components; this does not limit the length of arrays stored or transmitted by a channel.</p>
+<pre><code class="language-lua">local ok1 = afn.set_value(&quot;notice&quot;, &quot;列车即将进站&quot;)
+local ok2 = afn.set_value(&quot;door_open&quot;, true)
+local ok3 = afn.set_value(&quot;pose&quot;, {12.5, 64, -8, 0, 0, 0, 1})
+assert(ok1.success and ok2.success and ok3.success)
+
+local bad = afn.set_value(&quot;pose&quot;, {1, 2, 0/0})
+print(bad.success, bad.error) -- false invalid_information_value
+</code></pre>
+<p>Empty text <code>""</code> is a present text value. Only <code>clear_value</code> produces <code>present=false</code>. Legacy <code>coordinate/player</code> values in saved data can be read, but remain read-only.</p>
+<h3 id="wireless-value-transmission-boundaries">Wireless value transmission boundaries</h3>
+<ul>
+<li>AFN bridge → AFN bridge: signal strength can carry a snapshot of the current value.</li>
+<li>AFN bridge → ordinary Create receiver: only strength is transmitted; ordinary devices ignore the value.</li>
+<li>Ordinary Create transmitter → AFN bridge: can activate the channel, but does not change its value.</li>
+<li>Incoming wireless signals are not immediately relayed as outgoing wireless signals. Only a later new local activation can send the currently stored value as a new local snapshot.</li>
+<li>The highest strength wins across multiple sources; sources carrying values select a single winner by strength and stable source ID.</li>
+<li>Write priority within the same tick is player &gt; CC:T &gt; Synaxis &gt; wireless.</li>
+</ul>
+<h3 id="eight-screen-modes">Eight screen modes</h3>
+<p><code>default</code>, <code>switch</code>, <code>bar</code>, <code>gauge</code>, <code>map</code>, <code>logistics</code>, <code>stock</code>, and <code>dialogue</code> correspond to text, switches, bar charts, gauges, maps, logistics, stock, and dialogue. Modes interpret the unified channel value without restricting its storage type; logistics separately displays preconfigured supply groups. Dialogue uses pager JSON and supports text and item-count emotes, a latest-message view or history list, and simple replies. Invalid values only cause a visual fallback; switching views never overwrites the raw value.</p>
+<p>Integer adjustment affects only screen touch controls, not writes from CC:T, Synaxis, wireless signals, or the ordinary GUI. Tiled bridges use rectangular regions instead of cycling through full-screen channels. The legacy display-list and selected-channel functions remain available; new programs should use <code>screen/set_screen</code>.</p>
+<h2 id="permissions-and-performance">Permissions and performance</h2>
+<table>
+<thead>
+<tr>
+<th>Capability</th>
+<th>Typical functions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Read</td>
+<td><code>channels/get/value/frequency</code>, screen switching</td>
+</tr>
+<tr>
+<td>Activate</td>
+<td><code>set/pulse/toggle</code>, temporary transmissions</td>
+</tr>
+<tr>
+<td>Configure</td>
+<td>Value writes, CRUD, primary/secondary frequencies, display lists, Synaxis, redstone bindings</td>
+</tr>
+<tr>
+<td>Continued admission only</td>
+<td><code>clear</code>, <code>clear_temporary*</code>, for fail-safe cleanup</td>
+</tr>
+</tbody>
+</table>
+<p>Read, activation, and configuration switches are managed independently in the bridge GUI. Current ComputerID admission checks retain the legacy linked device credential: without that credential, nonnegative ComputerIDs are accepted; when a credential exists, its whitelist is checked, and an empty whitelist rejects all computers. <strong>An authentication board in a channel slot and this legacy device credential are separate settings.</strong> Placing an authentication board in a channel does not establish that computers are protected by a whitelist; check the GUI's CC capability switches.</p>
+<p>Lua cannot replace a real authentication board it lacks permission to manage. Updating or removing such channels may return <code>frequency_board_permission_denied</code>. An authorized player must edit the GUI frequency slots when the identity needs to change.</p>
+<p>A session is established for each ComputerID when it connects. Recalculation and updates occur only when authentication boards, whitelists, or capability switches change. Each function call performs only an O(1) cached read, without scanning the world, block entities, NBT, ACLs, or whitelists. Revoking admission or activation permission clears the continuous leases and temporary transmissions left by that computer.</p>
+<p>Incorrect argument types or counts, missing peripherals, and permission issues usually <strong>raise Lua errors</strong>; catch them with <code>pcall</code>. Operational rejections usually return <code>success=false</code> and a stable error code:</p>
+<pre><code class="language-lua">local ok, result_or_error = pcall(afn.pulse, &quot;door&quot;, 15, 20)
+if not ok then
+  printError(result_or_error) -- For example, activation permission is disabled
+elseif not result_or_error.success then
+  printError(result_or_error.error) -- For example, unknown_channel
+end
+</code></pre>
+<h2 id="common-return-tables">Common return tables</h2>
+<h3 id="action-result">Action result</h3>
+<pre><code class="language-lua">{ success=boolean, error=string, active=boolean, strength=number }
+</code></pre>
+<p><code>set_value/clear_value</code> also return <code>value_present/value_kind/value/revision</code>. On success, <code>error=""</code>.</p>
+<h3 id="configuration-result">Configuration result</h3>
+<pre><code class="language-lua">{ success=boolean, error=string, channel=table|nil }
+</code></pre>
+<p>After a successful creation or update, <code>channel</code> is the latest complete snapshot; after a successful deletion, it is <code>nil</code>. Failures never apply partial changes.</p>
+<h3 id="complete-snapshot-v2">Complete snapshot v2</h3>
+<p>Main fields returned by <code>channels/get</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code>, <code>name</code>, <code>schema_version</code></td>
+<td>Stable UUID, name, current schema (2)</td>
+</tr>
+<tr>
+<td><code>receive_enabled</code>, <code>active</code>, <code>strength</code>, <code>displayed</code></td>
+<td>Whether wireless reception is allowed, current activation, strength from 0–15, display-list state</td>
+</tr>
+<tr>
+<td><code>primary_frequency</code></td>
+<td>Primary frequency; may be empty</td>
+</tr>
+<tr>
+<td><code>secondary_mode</code></td>
+<td><code>none/manual/auth</code></td>
+</tr>
+<tr>
+<td><code>secondary_frequency</code></td>
+<td>Used only by manual mode</td>
+</tr>
+<tr>
+<td><code>value_present</code></td>
+<td>Whether a value exists</td>
+</tr>
+<tr>
+<td><code>value_kind</code>, <code>channel_value</code>, <code>value_revision</code></td>
+<td>Value tag, actual value, version number</td>
+</tr>
+<tr>
+<td><code>synaxis_activation/receive/publish</code></td>
+<td><code>{enabled,format,x,y}</code></td>
+</tr>
+<tr>
+<td><code>redstone_bindings</code></td>
+<td>Array of <code>{side,strength}</code>; <code>strength</code> may be <code>"all"</code></td>
+</tr>
+<tr>
+<td><code>last_error</code></td>
+<td>Most recent wireless error; normally an empty string</td>
+</tr>
+</tbody>
+</table>
+<p>Compatibility fields <code>type/subtype/value/attach_auth/revision</code> remain available. The projection is <code>type="frequency"</code> when the primary frequency is nonempty or no value exists; otherwise, it is <code>type="information"</code>. This projection cannot express a channel with both a primary frequency and a value. New code should use the v2 fields.</p>
+<p>Channels have no enabled/disabled state. Once created, they can always be activated by redstone, CC:T, and Synaxis to transmit. <code>receive_enabled=false</code> means "send only" and blocks incoming Create wireless signals; <code>true</code> means "allow sending and receiving". Display is also explicitly configured: new channels are displayed by default, and activation does not automatically change the display list.</p>
+<h2 id="exact-lua-function-index">Exact Lua function index</h2>
+<ul>
+<li>Tiled screen: <a href="#fn-screen">screen</a> · <a href="#fn-screen-config">set_screen</a> · <a href="#fn-channel-display">display</a> · <a href="#fn-channel-display-config">set_display</a></li>
+<li>Discovery and reading: <a href="#fn-find">find</a> · <a href="#fn-channels">channels</a> · <a href="#fn-active">active</a> · <a href="#fn-display-channels">display_channels</a> · <a href="#fn-get">get</a> · <a href="#fn-state">state</a> · <a href="#fn-value">value</a> · <a href="#fn-channel-value">channel_value</a> · <a href="#fn-information">information</a> · <a href="#fn-frequency">frequency</a> · <a href="#fn-last-error">last_error</a></li>
+<li>Legacy selected channel: <a href="#fn-get-display-channel">get_display_channel</a> · <a href="#fn-set-display-channel">set_display_channel</a> · <a href="#fn-next-display-channel">next_display_channel</a> · <a href="#fn-previous-display-channel">previous_display_channel</a></li>
+<li>Activation: <a href="#fn-set">set</a> · <a href="#fn-pulse">pulse</a> · <a href="#fn-toggle">toggle</a> · <a href="#fn-clear">clear</a> · <a href="#fn-clear-all">clear_all</a></li>
+<li>Values: <a href="#fn-set-value">set_value</a> · <a href="#fn-set-channel-value">set_channel_value</a> · <a href="#fn-set-information">set_information</a> · <a href="#fn-clear-value">clear_value</a> · <a href="#fn-clear-channel-value">clear_channel_value</a></li>
+<li>Frequencies and display: <a href="#fn-set-primary-frequency">set_primary_frequency</a> · <a href="#fn-set-secondary">set_secondary</a> · <a href="#fn-set-channel-displayed">set_channel_displayed</a> · <a href="#fn-set-display-channels">set_display_channels</a></li>
+<li>Persistent configuration: <a href="#fn-create-channel">create_channel</a> · <a href="#fn-update-channel">update_channel</a> · <a href="#fn-remove-channel">remove_channel</a> · <a href="#fn-set-channel-type">set_channel_type</a> · <a href="#fn-set-information-subtype">set_information_subtype</a></li>
+<li>Synaxis and redstone: <a href="#fn-set-synaxis-activation">set_synaxis_activation</a> · <a href="#fn-set-synaxis-receive">set_synaxis_receive</a> · <a href="#fn-set-synaxis-publish">set_synaxis_publish</a> · <a href="#fn-bind-redstone">bind_redstone</a> · <a href="#fn-unbind-redstone">unbind_redstone</a></li>
+<li>Temporary transmission: <a href="#fn-transmit-temporary">transmit_temporary</a> · <a href="#fn-pulse-temporary">pulse_temporary</a> · <a href="#fn-clear-temporary">clear_temporary</a> · <a href="#fn-clear-temporary-all">clear_temporary_all</a></li>
+</ul>
+<p><a id="fn-find"></a></p>
+<h3 id="afnfind"><code>afn.find</code></h3>
+<pre><code class="language-text">afn.find([bridge_name]) -&gt; raw_bridge, resolved_name
+</code></pre>
+<p>Finds an <code>afn_bridge</code> peripheral; without a name, selects the first one found. Discovery itself does not grant read permission.</p>
+<pre><code class="language-lua">-- Success
+local raw, name = afn.find()
+print(name, type(raw))
+
+-- Failure: the name does not refer to an AFN bridge
+local ok, err = pcall(afn.find, &quot;left&quot;)
+if not ok then printError(err) end
+</code></pre>
+<p><a id="fn-channels"></a></p>
+<h3 id="afnchannels"><code>afn.channels</code></h3>
+<pre><code class="language-text">afn.channels([bridge_name]) -&gt; channel_snapshot[]
+</code></pre>
+<p>Returns complete snapshots of all channels in configuration order; requires read permission.</p>
+<pre><code class="language-lua">-- Success
+for _, c in ipairs(afn.channels()) do print(c.name, c.primary_frequency) end
+
+-- Failure: read permission is disabled
+local ok, err = pcall(afn.channels)
+if not ok then printError(err) end
+</code></pre>
+<p><a id="fn-active"></a></p>
+<h3 id="afnactive"><code>afn.active</code></h3>
+<pre><code class="language-text">afn.active([bridge_name]) -&gt; string[]
+</code></pre>
+<p>Returns the names of channels with an effective strength greater than 0, including local and incoming wireless activation; requires read permission.</p>
+<pre><code class="language-lua">-- Success
+for _, name in ipairs(afn.active()) do print(&quot;active&quot;, name) end
+
+-- Failure: the specified bridge does not exist
+local ok, err = pcall(afn.active, &quot;missing&quot;)
+if not ok then printError(err) end
+</code></pre>
+<p><a id="fn-display-channels"></a></p>
+<h3 id="afndisplay_channels"><code>afn.display_channels</code></h3>
+<pre><code class="language-text">afn.display_channels([bridge_name]) -&gt; string[]
+</code></pre>
+<p>Returns the current effective display list; requires read permission. Legacy screens use its order; positions on the new tiled screen are determined by <code>screen().placements</code>.</p>
+<pre><code class="language-lua">-- Success
+print(textutils.serialize(afn.display_channels()))
+
+-- Failure: bridge_name must be a string
+local ok, err = pcall(afn.display_channels, 123)
+if not ok then printError(err) end
+</code></pre>
+<p><a id="fn-get"></a></p>
+<h3 id="afnget"><code>afn.get</code></h3>
+<pre><code class="language-text">afn.get(channel[, bridge_name]) -&gt; channel_snapshot|nil
+</code></pre>
+<p>Returns one complete snapshot; returns <code>nil</code> for an unknown name.</p>
+<pre><code class="language-lua">-- Success
+local c = assert(afn.get(&quot;door&quot;))
+print(c.primary_frequency, c.value_present)
+
+-- Failure result: an unknown channel is not an exception
+assert(afn.get(&quot;missing&quot;) == nil)
+</code></pre>
+<p><a id="fn-state"></a></p>
+<h3 id="afnstate"><code>afn.state</code></h3>
+<pre><code class="language-text">afn.state(channel[, bridge_name]) -&gt; table|nil
+</code></pre>
+<p>Returns <code>{receive_enabled,active,strength,displayed,type,subtype,value_present,value_kind,revision}</code>. <code>receive_enabled=false</code> means send only; <code>type/subtype</code> are legacy projections; an unknown channel returns <code>nil</code>.</p>
+<pre><code class="language-lua">-- Success
+local s = assert(afn.state(&quot;door&quot;))
+print(s.active, s.strength, s.value_present)
+
+-- Failure: the computer is not admitted
+local ok, err = pcall(afn.state, &quot;door&quot;)
+if not ok then printError(err) end
+</code></pre>
+<p><a id="fn-value"></a></p>
+<h3 id="afnvalue"><code>afn.value</code></h3>
+<pre><code class="language-text">afn.value(channel[, bridge_name]) -&gt; {present,kind,value,revision}|nil
+</code></pre>
+<p>Returns <code>nil</code> for an unknown channel. A known channel without a value returns <code>{present=false,kind="",value="",revision=tombstone}</code>.</p>
+<pre><code class="language-lua">-- Success: the absent-value state can also be distinguished
+local v = assert(afn.value(&quot;door&quot;))
+if v.present then print(v.kind, textutils.serialize(v.value)) else print(&quot;no value&quot;) end
+
+-- Failure result: unknown channel
+assert(afn.value(&quot;missing&quot;) == nil)
+</code></pre>
+<p><a id="fn-channel-value"></a></p>
+<h3 id="afnchannel_value"><code>afn.channel_value</code></h3>
+<p>An exact alias of <code>afn.value</code>, with the same parameters and return values.</p>
+<pre><code class="language-lua">-- Success
+local v = assert(afn.channel_value(&quot;door&quot;))
+print(v.revision)
+
+-- Failure
+local ok, err = pcall(afn.channel_value, &quot;door&quot;, &quot;missing_bridge&quot;)
+if not ok then printError(err) end
+</code></pre>
+<p><a id="fn-information"></a></p>
+<h3 id="afninformation-compatibility"><code>afn.information</code> (compatibility)</h3>
+<pre><code class="language-text">afn.information(channel[, bridge_name]) -&gt; {value,subtype,revision}|nil
+</code></pre>
+<p><code>afn.information</code> is the compatibility read interface for unified values: it returns an existing value without checking the legacy <code>type</code>; it returns <code>nil</code> when the value is absent or the channel is unknown. New code should use <code>afn.value</code> to distinguish unknown channels from known channels without values.</p>
+<pre><code class="language-lua">-- Success: channels with both a primary frequency and a value are readable too
+local info = assert(afn.information(&quot;door&quot;))
+print(info.subtype, info.value)
+
+-- Failure result: nil when no value exists
+if afn.information(&quot;value_less&quot;) == nil then print(&quot;no value&quot;) end
+</code></pre>
+<p><a id="fn-frequency"></a></p>
+<h3 id="afnfrequency"><code>afn.frequency</code></h3>
+<pre><code class="language-text">afn.frequency(channel[, bridge_name]) -&gt; {primary,secondary_mode,secondary_frequency,attach_auth}|nil
+</code></pre>
+<p><code>attach_auth</code> is the compatibility boolean projection of <code>secondary_mode=="auth"</code>.</p>
+<pre><code class="language-lua">-- Success
+local f = assert(afn.frequency(&quot;door&quot;))
+print(f.primary, f.secondary_mode)
+
+-- Failure result
+assert(afn.frequency(&quot;missing&quot;) == nil)
+</code></pre>
+<p><a id="fn-last-error"></a></p>
+<h3 id="afnlast_error"><code>afn.last_error</code></h3>
+<pre><code class="language-text">afn.last_error(channel[, bridge_name]) -&gt; string|nil
+</code></pre>
+<p>Returns the most recent wireless error, such as <code>invalid_frequency_or_auth</code> or <code>wireless_unavailable</code>; returns <code>nil</code> if there is no error or the channel is unknown.</p>
+<pre><code class="language-lua">-- Success
+local err = afn.last_error(&quot;door&quot;)
+if err then printError(err) end
+
+-- Failure: disabled read permission raises an error
+local ok, err2 = pcall(afn.last_error, &quot;door&quot;)
+if not ok then printError(err2) end
+</code></pre>
+<p><a id="fn-get-display-channel"></a></p>
+<h3 id="afnget_display_channel"><code>afn.get_display_channel</code></h3>
+<pre><code class="language-text">afn.get_display_channel([bridge_name]) -&gt; string|nil
+</code></pre>
+<p>Returns the current channel in the legacy selected-channel model, or <code>nil</code> when the list is empty. Requires read permission.</p>
+<pre><code class="language-lua">-- Success
+print(afn.get_display_channel() or &quot;standby&quot;)
+
+-- Failure
+local ok, err = pcall(afn.get_display_channel, &quot;missing&quot;)
+if not ok then printError(err) end
+</code></pre>
+<p><a id="fn-set-display-channel"></a></p>
+<h3 id="afnset_display_channel"><code>afn.set_display_channel</code></h3>
+<pre><code class="language-text">afn.set_display_channel(channel[, bridge_name]) -&gt; boolean
+</code></pre>
+<p>Selects a channel from the current display list without activating it or changing its value. Requires read permission.</p>
+<pre><code class="language-lua">-- Success
+assert(afn.set_display_channel(&quot;door&quot;))
+
+-- Failure result: not in the display list
+assert(not afn.set_display_channel(&quot;hidden&quot;))
+</code></pre>
+<p><a id="fn-next-display-channel"></a></p>
+<h3 id="afnnext_display_channel"><code>afn.next_display_channel</code></h3>
+<pre><code class="language-text">afn.next_display_channel([bridge_name]) -&gt; string|nil
+</code></pre>
+<p>Switches to the next entry and returns its name; an empty list returns <code>nil</code>.</p>
+<pre><code class="language-lua">-- Success
+print(afn.next_display_channel() or &quot;standby&quot;)
+
+-- Failure
+local ok, err = pcall(afn.next_display_channel, false)
+if not ok then printError(err) end
+</code></pre>
+<p><a id="fn-previous-display-channel"></a></p>
+<h3 id="afnprevious_display_channel"><code>afn.previous_display_channel</code></h3>
+<pre><code class="language-text">afn.previous_display_channel([bridge_name]) -&gt; string|nil
+</code></pre>
+<p>Switches to the previous entry and returns its name; an empty list returns <code>nil</code>.</p>
+<pre><code class="language-lua">-- Success
+print(afn.previous_display_channel() or &quot;standby&quot;)
+
+-- Failure
+local ok, err = pcall(afn.previous_display_channel, &quot;missing&quot;)
+if not ok then printError(err) end
+</code></pre>
+<p><a id="fn-set"></a></p>
+<h3 id="afnset"><code>afn.set</code></h3>
+<pre><code class="language-text">afn.set(channel[, strength[, bridge_name]]) -&gt; action_result
+</code></pre>
+<p>Creates or replaces a continuous activation lease for the current ComputerID. Strength is 1–15, defaulting to 15; requires activation permission.</p>
+<pre><code class="language-lua">-- Success
+local r = afn.set(&quot;door&quot;, 12)
+assert(r.success, r.error)
+
+-- Failure result
+local bad = afn.set(&quot;missing&quot;, 15)
+print(bad.success, bad.error) -- false unknown_channel
+</code></pre>
+<p><a id="fn-pulse"></a></p>
+<h3 id="afnpulse"><code>afn.pulse</code></h3>
+<pre><code class="language-text">afn.pulse(channel[, strength[, ticks[, bridge_name]]]) -&gt; action_result
+</code></pre>
+<p>Creates a timed lease lasting 1–1200 ticks. Defaults to strength 15 for 20 ticks.</p>
+<pre><code class="language-lua">-- Success
+assert(afn.pulse(&quot;bell&quot;, 15, 40).success)
+
+-- Failure: an out-of-range argument raises an error
+local ok, err = pcall(afn.pulse, &quot;bell&quot;, 15, 1201)
+if not ok then printError(err) end
+</code></pre>
+<p><a id="fn-toggle"></a></p>
+<h3 id="afntoggle"><code>afn.toggle</code></h3>
+<pre><code class="language-text">afn.toggle(channel[, strength[, bridge_name]]) -&gt; action_result
+</code></pre>
+<p>Toggles only the current ComputerID's continuous lease. It does not clear sources from other computers, redstone, Synaxis, or wireless signals.</p>
+<pre><code class="language-lua">-- Success
+local r = afn.toggle(&quot;maintenance&quot;, 8)
+print(r.success, r.active)
+
+-- Failure result
+local bad = afn.toggle(&quot;missing&quot;, 8)
+print(bad.error) -- unknown_channel
+</code></pre>
+<p><a id="fn-clear"></a></p>
+<h3 id="afnclear"><code>afn.clear</code></h3>
+<pre><code class="language-text">afn.clear(channel[, bridge_name]) -&gt; action_result
+</code></pre>
+<p>Clears the current ComputerID's lease on this channel. It remains available after activation permission is disabled, but the computer must still be admitted; revoking whitelist admission automatically cleans up the lease.</p>
+<pre><code class="language-lua">-- Success
+assert(afn.clear(&quot;door&quot;).success)
+
+-- Failure result
+local bad = afn.clear(&quot;missing&quot;)
+print(bad.error) -- unknown_channel
+</code></pre>
+<p><a id="fn-clear-all"></a></p>
+<h3 id="afnclear_all"><code>afn.clear_all</code></h3>
+<pre><code class="language-text">afn.clear_all(channel[, bridge_name]) -&gt; action_result
+</code></pre>
+<p>Clears all runtime sources on the target channel; requires configuration permission.</p>
+<pre><code class="language-lua">-- Success
+assert(afn.clear_all(&quot;emergency&quot;).success)
+
+-- Failure: configuration permission is disabled
+local ok, err = pcall(afn.clear_all, &quot;emergency&quot;)
+if not ok then printError(err) end
+</code></pre>
+<p><a id="fn-set-value"></a></p>
+<h3 id="afnset_value"><code>afn.set_value</code></h3>
+<pre><code class="language-text">afn.set_value(channel, value[, expected_revision[, bridge_name]]) -&gt; value_action_result
+</code></pre>
+<p>Writes or replaces the unified value according to its Lua type, including creating a value where none exists; does not activate the channel. <code>expected_revision</code> may be omitted.</p>
+<pre><code class="language-lua">-- Success: simple overwrite
+local r = afn.set_value(&quot;door&quot;, {12.5, 64, -8})
+assert(r.success, r.error)
+print(r.value_kind, r.revision)
+
+-- Failure: an invalid array is rejected atomically
+local bad = afn.set_value(&quot;door&quot;, {[1]=1, [3]=3})
+print(bad.success, bad.error) -- false invalid_information_value
+</code></pre>
+<p><a id="fn-set-channel-value"></a></p>
+<h3 id="afnset_channel_value"><code>afn.set_channel_value</code></h3>
+<p>An exact alias of <code>afn.set_value</code>.</p>
+<pre><code class="language-lua">-- Success
+assert(afn.set_channel_value(&quot;door&quot;, true).success)
+
+-- Failure: stale revision
+local bad = afn.set_channel_value(&quot;door&quot;, false, -1)
+print(bad.success, bad.error) -- false revision_conflict
+</code></pre>
+<p><a id="fn-set-information"></a></p>
+<h3 id="afnset_information-compatibility"><code>afn.set_information</code> (compatibility)</h3>
+<pre><code class="language-text">afn.set_information(channel, value[, expected_revision[, bridge_name]]) -&gt; action_result
+</code></pre>
+<p><code>afn.set_information</code> is the compatibility write interface for unified values and can create a previously absent value. Its semantics match <code>set_value</code>, but the compatibility raw method returns only the basic action fields. New code should use <code>set_value</code> to receive the value and revision fields.</p>
+<pre><code class="language-lua">-- Success
+assert(afn.set_information(&quot;door&quot;, &quot;OPEN&quot;).success)
+
+-- Failure result
+local bad = afn.set_information(&quot;door&quot;, 0/0)
+print(bad.success, bad.error) -- false invalid_information_value
+</code></pre>
+<p><a id="fn-clear-value"></a></p>
+<h3 id="afnclear_value"><code>afn.clear_value</code></h3>
+<pre><code class="language-text">afn.clear_value(channel[, expected_revision[, bridge_name]]) -&gt; value_action_result
+</code></pre>
+<p>Clears to "no value" and advances the tombstone revision if a value actually existed; does not stop activation.</p>
+<pre><code class="language-lua">-- Success
+local r = afn.clear_value(&quot;door&quot;)
+assert(r.success and not r.value_present, r.error)
+
+-- Failure: concurrent modification conflict
+local bad = afn.clear_value(&quot;door&quot;, -1)
+print(bad.success, bad.error) -- false revision_conflict
+</code></pre>
+<p><a id="fn-clear-channel-value"></a></p>
+<h3 id="afnclear_channel_value"><code>afn.clear_channel_value</code></h3>
+<p>An exact alias of <code>afn.clear_value</code>.</p>
+<pre><code class="language-lua">-- Success
+assert(afn.clear_channel_value(&quot;door&quot;).success)
+
+-- Failure result
+local bad = afn.clear_channel_value(&quot;missing&quot;)
+print(bad.error) -- unknown_channel
+</code></pre>
+<p><a id="fn-set-primary-frequency"></a></p>
+<h3 id="afnset_primary_frequency"><code>afn.set_primary_frequency</code></h3>
+<pre><code class="language-text">afn.set_primary_frequency(channel, frequency[, bridge_name]) -&gt; configuration_result
+</code></pre>
+<p>Sets the primary frequency. An empty string is valid: it clears the primary frequency and leaves the wireless network without clearing the value or local configuration.</p>
+<pre><code class="language-lua">-- Success
+assert(afn.set_primary_frequency(&quot;door&quot;, &quot;factory.door.*&quot;).success)
+
+-- Failure result
+local bad = afn.set_primary_frequency(&quot;door&quot;, &quot;broken.[&quot;)
+print(bad.success, bad.error) -- false invalid_frequency
+</code></pre>
+<p><a id="fn-set-secondary"></a></p>
+<h3 id="afnset_secondary"><code>afn.set_secondary</code></h3>
+<pre><code class="language-text">afn.set_secondary(channel, mode[, frequency[, bridge_name]]) -&gt; configuration_result
+</code></pre>
+<p><code>mode</code> is <code>none/manual/auth</code>. <code>manual</code> requires a valid frequency; other modes ignore the frequency. <code>auth</code> links only the legacy device credential and cannot create an authentication board or adopt an arbitrary channel's identity. Current real authentication boards are configured in the GUI. Use <code>nil</code> as a placeholder when specifying a named bridge while omitting the frequency.</p>
+<pre><code class="language-lua">-- Success
+assert(afn.set_secondary(&quot;door&quot;, &quot;manual&quot;, &quot;factory.zone_a&quot;).success)
+assert(afn.set_secondary(&quot;door&quot;, &quot;none&quot;).success)
+
+-- Failure result
+local bad = afn.set_secondary(&quot;door&quot;, &quot;manual&quot;)
+print(bad.success, bad.error) -- false invalid_secondary
+</code></pre>
+<p><a id="fn-set-channel-displayed"></a></p>
+<h3 id="afnset_channel_displayed"><code>afn.set_channel_displayed</code></h3>
+<pre><code class="language-text">afn.set_channel_displayed(channel, displayed[, bridge_name]) -&gt; boolean
+</code></pre>
+<p>Changes one channel's display flag; the target must exist. Requires configuration permission. Activation does not automatically change the display flag.</p>
+<pre><code class="language-lua">-- Success
+assert(afn.set_channel_displayed(&quot;door&quot;, true))
+
+-- Failure result
+assert(not afn.set_channel_displayed(&quot;missing&quot;, true))
+</code></pre>
+<p><a id="fn-set-display-channels"></a></p>
+<h3 id="afnset_display_channels"><code>afn.set_display_channels</code></h3>
+<pre><code class="language-text">afn.set_display_channels(channel_names[, bridge_name]) -&gt; boolean
+</code></pre>
+<p>Atomically replaces the display list and its order. The argument must be a contiguous array of existing, unique channel-name strings; an empty array is valid. Unlisted channels are not displayed and are not automatically added when active.</p>
+<pre><code class="language-lua">-- Success
+assert(afn.set_display_channels({&quot;door&quot;, &quot;notice&quot;, &quot;boiler&quot;}))
+
+-- Failure result: duplicate name; the old list is retained
+assert(not afn.set_display_channels({&quot;door&quot;, &quot;door&quot;}))
+</code></pre>
+<p><a id="fn-create-channel"></a></p>
+<h3 id="afncreate_channel"><code>afn.create_channel</code></h3>
+<pre><code class="language-text">afn.create_channel(definition[, bridge_name]) -&gt; configuration_result
+</code></pre>
+<p>Use v2 fields and omit the legacy <code>type</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td>Yes</td>
+<td>Unique name, up to 16 characters</td>
+</tr>
+<tr>
+<td><code>primary_frequency</code></td>
+<td>Explicit value recommended</td>
+<td>May be empty; even an empty value explicitly selects the unified definition</td>
+</tr>
+<tr>
+<td><code>secondary_mode</code></td>
+<td>No</td>
+<td><code>none</code> (default), <code>manual</code>, <code>auth</code></td>
+</tr>
+<tr>
+<td><code>secondary_frequency</code></td>
+<td>In manual mode</td>
+<td>Ordinary secondary frequency</td>
+</tr>
+<tr>
+<td><code>value_present</code></td>
+<td>No</td>
+<td>Inferred by default from whether <code>channel_value</code> exists</td>
+</tr>
+<tr>
+<td><code>value_kind</code></td>
+<td>No</td>
+<td><code>text/boolean/real</code>; inferred from the Lua type if omitted</td>
+</tr>
+<tr>
+<td><code>channel_value</code></td>
+<td>When value_present=true</td>
+<td>Actual value</td>
+</tr>
+<tr>
+<td><code>receive_enabled</code></td>
+<td>No</td>
+<td>Defaults to true; false means send only, true allows sending and receiving</td>
+</tr>
+<tr>
+<td><code>displayed</code></td>
+<td>No</td>
+<td>Defaults to true</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-lua">-- Success: one channel has both a wireless primary frequency and a value
+local r = afn.create_channel({
+  name = &quot;door&quot;,
+  primary_frequency = &quot;factory.door&quot;,
+  secondary_mode = &quot;none&quot;,
+  value_present = true,
+  value_kind = &quot;text&quot;,
+  channel_value = &quot;CLOSED&quot;,
+  receive_enabled = true,
+  displayed = true
+})
+assert(r.success, r.error)
+
+-- Failure: manual mode has no ordinary secondary frequency
+local bad = afn.create_channel({
+  name = &quot;broken&quot;, primary_frequency = &quot;factory.broken&quot;,
+  secondary_mode = &quot;manual&quot;
+})
+print(bad.success, bad.error)
+</code></pre>
+<p>Legacy fields <code>type/frequency/subtype/value/attach_auth</code> are still accepted for migrating old programs. Do not submit them together with v2 fields that have different meanings; conflicts raise a Lua argument error.</p>
+<p><a id="fn-update-channel"></a></p>
+<h3 id="afnupdate_channel"><code>afn.update_channel</code></h3>
+<pre><code class="language-text">afn.update_channel(channel, changes[, bridge_name]) -&gt; configuration_result
+</code></pre>
+<p>Atomically updates the supplied fields, leaving omitted fields unchanged. Recommended fields are <code>name/primary_frequency/secondary_mode/secondary_frequency/value_present/value_kind/channel_value/receive_enabled/displayed</code>. <code>receive_enabled=false</code> only disables incoming wireless signals; it does not disable the channel or stop local transmission. To clear the value, supply only <code>value_present=false</code>; use <code>set_value</code> for value changes sensitive to concurrency.</p>
+<pre><code class="language-lua">-- Success
+local r = afn.update_channel(&quot;door&quot;, {
+  name = &quot;yard_door&quot;,
+  primary_frequency = &quot;yard.door&quot;,
+  channel_value = &quot;READY&quot;,
+  value_kind = &quot;text&quot;
+})
+assert(r.success, r.error)
+
+-- Failure: declares no value while supplying one; no changes are applied
+local bad = afn.update_channel(&quot;yard_door&quot;, {
+  value_present = false, channel_value = &quot;conflict&quot;
+})
+print(bad.success, bad.error)
+</code></pre>
+<p><a id="fn-remove-channel"></a></p>
+<h3 id="afnremove_channel"><code>afn.remove_channel</code></h3>
+<pre><code class="language-text">afn.remove_channel(channel[, bridge_name]) -&gt; configuration_result
+</code></pre>
+<p>Deletes a persistent channel and cleans up its leases, wireless actors, and Synaxis endpoints. On success, <code>channel=nil</code>.</p>
+<pre><code class="language-lua">-- Success
+local r = afn.remove_channel(&quot;temporary_channel&quot;)
+assert(r.success and r.channel == nil, r.error)
+
+-- Failure result
+local bad = afn.remove_channel(&quot;missing&quot;)
+print(bad.error) -- unknown_channel
+</code></pre>
+<p><a id="fn-set-channel-type"></a></p>
+<h3 id="afnset_channel_type-deprecated-compatibility"><code>afn.set_channel_type</code> (deprecated compatibility)</h3>
+<pre><code class="language-text">afn.set_channel_type(channel, legacy_type[, replacement[, bridge_name]])
+  -&gt; configuration_result
+</code></pre>
+<p><code>frequency/information</code> are compatibility projections only; they do not represent the current storage model:</p>
+<ul>
+<li><code>frequency</code> only ensures that a primary frequency exists. If supplied, replacement must be a valid primary frequency; the existing value is retained.</li>
+<li><code>information</code> only ensures that a value exists and clears the primary/secondary frequencies. If supplied, replacement is parsed using the current value tag.</li>
+</ul>
+<p>New programs should use <code>set_primary_frequency</code>, <code>set_secondary</code>, <code>set_value</code>, and <code>clear_value</code> to modify the independent fields explicitly.</p>
+<pre><code class="language-lua">-- Compatibility success: existing values are retained
+local r = afn.set_channel_type(&quot;door&quot;, &quot;frequency&quot;, &quot;factory.door&quot;)
+assert(r.success, r.error)
+
+-- Failure: neither a primary frequency nor replacement exists
+local bad = afn.set_channel_type(&quot;value_only&quot;, &quot;frequency&quot;)
+print(bad.success, bad.error)
+</code></pre>
+<p><a id="fn-set-information-subtype"></a></p>
+<h3 id="afnset_information_subtype-deprecated-compatibility"><code>afn.set_information_subtype</code> (deprecated compatibility)</h3>
+<pre><code class="language-text">afn.set_information_subtype(channel, subtype[, replacement[, bridge_name]])
+  -&gt; configuration_result
+</code></pre>
+<p>Legacy value-tag conversion interface. Newly created values can use only <code>real/text/boolean</code>; changing the type usually also requires a compatible replacement. New programs should call <code>set_value</code> directly; its Lua type determines the tag.</p>
+<pre><code class="language-lua">-- Compatibility success
+assert(afn.set_information_subtype(&quot;door&quot;, &quot;boolean&quot;, true).success)
+
+-- Failure: coordinate/player are read-only
+local bad = afn.set_information_subtype(&quot;door&quot;, &quot;coordinate&quot;, {0, 64, 0})
+print(bad.success, bad.error) -- information_subtype_read_only
+</code></pre>
+<p><a id="fn-set-synaxis-activation"></a></p>
+<h3 id="afnset_synaxis_activation"><code>afn.set_synaxis_activation</code></h3>
+<pre><code class="language-text">afn.set_synaxis_activation(channel, enabled[, format[, x, y[, bridge_name]]])
+  -&gt; configuration_result
+</code></pre>
+<p>Configures the independent Synaxis → bridge activation input. Only <code>real/boolean</code> formats are allowed; omitting format or passing an empty string retains the current format. x and y must be supplied together and must both be within 0–112. Explicitly calling this function, even to disable the input, exits the legacy migration semantics in which a value port also activates the channel.</p>
+<pre><code class="language-lua">-- Success
+local r = afn.set_synaxis_activation(&quot;door&quot;, true, &quot;real&quot;, 24, 60)
+assert(r.success, r.error)
+
+-- Failure result: the activation port does not support vec3
+local bad = afn.set_synaxis_activation(&quot;door&quot;, true, &quot;vec3&quot;)
+print(bad.success, bad.error) -- unsupported_synaxis_activation_format
+</code></pre>
+<p><a id="fn-set-synaxis-receive"></a></p>
+<h3 id="afnset_synaxis_receive"><code>afn.set_synaxis_receive</code></h3>
+<pre><code class="language-text">afn.set_synaxis_receive(channel, enabled[, format[, x, y[, bridge_name]]])
+  -&gt; configuration_result
+</code></pre>
+<p>Configures the Synaxis → bridge value input, which writes values without activating the channel. Supported formats are <code>real/boolean/vec3/quaternion</code>; omitting the format retains the current format. Short arrays overwrite the leading elements and retain the old tail; longer arrays extend the value. An invalid frame leaves the old value unchanged.</p>
+<pre><code class="language-lua">-- Success
+assert(afn.set_synaxis_receive(&quot;pose&quot;, true, &quot;vec3&quot;, 20, 70).success)
+
+-- Failure result: coordinates must be paired and within range
+local bad = afn.set_synaxis_receive(&quot;pose&quot;, true, &quot;vec3&quot;, 200, 70)
+print(bad.success, bad.error) -- invalid_synaxis_position
+</code></pre>
+<p><a id="fn-set-synaxis-publish"></a></p>
+<h3 id="afnset_synaxis_publish"><code>afn.set_synaxis_publish</code></h3>
+<pre><code class="language-text">afn.set_synaxis_publish(channel, enabled[, format[, x, y[, bridge_name]]])
+  -&gt; configuration_result
+</code></pre>
+<p>Configures the bridge → Synaxis value output, which publishes values without activating the channel. Failed conversions output schema-safe defaults: false, 0, or all-zero arrays; Quaternion fills a missing <code>w</code> with 1.</p>
+<pre><code class="language-lua">-- Success
+assert(afn.set_synaxis_publish(&quot;pose&quot;, true, &quot;quaternion&quot;, 88, 70).success)
+
+-- Failure result: new Pose/Twist ports cannot be created
+local bad = afn.set_synaxis_publish(&quot;pose&quot;, true, &quot;pose&quot;)
+print(bad.success, bad.error) -- unsupported_synaxis_format
+</code></pre>
+<p>The three directions together allow at most 32 Synaxis ports per bridge. Enabling only value input/output does not count as activation; a Synaxis activation lease is created only when the activation port receives a valid Real/Boolean.</p>
+<p><a id="fn-bind-redstone"></a></p>
+<h3 id="afnbind_redstone"><code>afn.bind_redstone</code></h3>
+<pre><code class="language-text">afn.bind_redstone(channel, side, strength[, bridge_name])
+  -&gt; configuration_result
+</code></pre>
+<p><code>side</code> is <code>front/back/left/right/up/down/all</code>, relative to the front of the screen; <code>strength</code> is 1–15 or the string <code>"all"</code>. The same input may be bound to multiple channels; an identical combination is idempotent.</p>
+<pre><code class="language-lua">-- Success: any direction and any nonzero strength
+assert(afn.bind_redstone(&quot;door&quot;, &quot;all&quot;, &quot;all&quot;).success)
+
+-- Failure: invalid direction
+local bad = afn.bind_redstone(&quot;door&quot;, &quot;north&quot;, 15)
+print(bad.success, bad.error) -- invalid_redstone_binding
+</code></pre>
+<p><a id="fn-unbind-redstone"></a></p>
+<h3 id="afnunbind_redstone"><code>afn.unbind_redstone</code></h3>
+<pre><code class="language-text">afn.unbind_redstone(channel, side[, bridge_name]) -&gt; configuration_result
+</code></pre>
+<p>Deletes all strength rows under this <strong>exact side selector</strong>. <code>"all"</code> deletes only omnidirectional rows, leaving the six specific directions untouched.</p>
+<pre><code class="language-lua">-- Success
+assert(afn.unbind_redstone(&quot;door&quot;, &quot;front&quot;).success)
+
+-- Failure result
+local bad = afn.unbind_redstone(&quot;door&quot;, &quot;north&quot;)
+print(bad.success, bad.error) -- invalid_redstone_binding
+</code></pre>
+<p><a id="fn-transmit-temporary"></a></p>
+<h3 id="afntransmit_temporary"><code>afn.transmit_temporary</code></h3>
+<pre><code class="language-text">afn.transmit_temporary(frequency[, strength[, attach_auth[, bridge_name]]])
+  -&gt; {success,error,active,strength,handle}
+</code></pre>
+<p>Creates a continuous wireless transmission that does not belong to a persistent channel, defaulting to strength 15. Temporary APIs transmit only strength, without carrying any channel value. <code>attach_auth=true</code> depends on the legacy linked device authentication credential; without it, the result is <code>auth_board_unavailable</code>. It does not select or fabricate an identity from current channel frequency slots. To send on a current authenticated channel, configure the real boards in the GUI first, then call <code>set/pulse</code>.</p>
+<pre><code class="language-lua">-- Success
+local tx = afn.transmit_temporary(&quot;factory.alarm&quot;, 12, false)
+assert(tx.success, tx.error)
+print(tx.handle)
+
+-- Failure result: invalid frequency
+local bad = afn.transmit_temporary(&quot;broken.[&quot;)
+print(bad.success, bad.error)
+</code></pre>
+<p><a id="fn-pulse-temporary"></a></p>
+<h3 id="afnpulse_temporary"><code>afn.pulse_temporary</code></h3>
+<pre><code class="language-text">afn.pulse_temporary(frequency[, strength[, ticks[, attach_auth[, bridge_name]]]])
+  -&gt; {success,error,active,strength,handle}
+</code></pre>
+<p>Creates a temporary wireless transmission lasting 1–1200 ticks; defaults to strength 15 for 20 ticks.</p>
+<pre><code class="language-lua">-- Success
+local tx = afn.pulse_temporary(&quot;station.bell&quot;, 15, 40, false)
+assert(tx.success, tx.error)
+
+-- Failure: an out-of-range argument raises an error
+local ok, err = pcall(afn.pulse_temporary, &quot;station.bell&quot;, 15, 1201)
+if not ok then printError(err) end
+</code></pre>
+<p><a id="fn-clear-temporary"></a></p>
+<h3 id="afnclear_temporary"><code>afn.clear_temporary</code></h3>
+<pre><code class="language-text">afn.clear_temporary(handle[, bridge_name]) -&gt; action_result
+</code></pre>
+<p>Stops one temporary transmission owned by the current ComputerID. Cleanup remains available when activation permission is disabled, but the computer must still be admitted.</p>
+<pre><code class="language-lua">-- Success
+local tx = assert(afn.transmit_temporary(&quot;factory.alarm&quot;))
+assert(afn.clear_temporary(tx.handle).success)
+
+-- Failure result
+local bad = afn.clear_temporary(&quot;missing-handle&quot;)
+print(bad.success, bad.error) -- unknown_temporary_handle
+</code></pre>
+<p><a id="fn-clear-temporary-all"></a></p>
+<h3 id="afnclear_temporary_all"><code>afn.clear_temporary_all</code></h3>
+<pre><code class="language-text">afn.clear_temporary_all([bridge_name]) -&gt; integer
+</code></pre>
+<p>Stops all temporary transmissions belonging to the current ComputerID and returns the number removed.</p>
+<pre><code class="language-lua">-- Success
+print(&quot;removed&quot;, afn.clear_temporary_all())
+
+-- Failure: rejected whitelist admission raises an error; revocation itself cleans up automatically
+local ok, err = pcall(afn.clear_temporary_all)
+if not ok then printError(err) end
+</code></pre>
+<h2 id="tiled-screen-and-interaction-configuration">Tiled screen and interaction configuration</h2>
+<p>The current bridge screen can be tiled horizontally and vertically, without the legacy large CRT device. Create channels in the GUI or with <code>create_channel</code>, then configure regions and display settings. Layout APIs use block units. An individual region no longer has the old 4×4 limit, but it must stay within the actual screen rectangle and must not overlap other regions.</p>
+<p><a id="fn-screen"></a></p>
+<h3 id="afnscreenbridge_name-raw-getscreen"><code>afn.screen([bridge_name])</code> / raw <code>getScreen()</code></h3>
+<p>Requires read permission. Returns <code>{adaptive,width,height,enabled,interaction_locked,revision,placements}</code>. <code>width/height</code> are the whole screen's dimensions in blocks; <code>revision</code> is the configuration version, not the value version. Each region contains <code>{channel,channel_id,x,y,width,height}</code>, with coordinates starting at <code>0,0</code> in the top left.</p>
+<p><a id="fn-screen-config"></a></p>
+<h3 id="afnset_screenchanges-bridge_name-raw-setscreenchanges"><code>afn.set_screen(changes[, bridge_name])</code> / raw <code>setScreen(changes)</code></h3>
+<p>Requires configuration permission. Can change <code>enabled</code>, <code>interaction_locked</code>, and <code>placements</code>; may include <code>expected_revision=afn.screen().revision</code> to avoid overwriting other configuration changes. Omitted fields remain unchanged. <code>placements</code> replaces the entire layout; an empty array clears it. Entries identify channels by <code>channel</code> or <code>channel_id</code>; if both are given, they must identify the same channel. Each channel can have at most one region. A region may use any positive integer width and height within the connected bridge screen's bounds, but cannot overlap or extend outside them. Rectangular layouts are supported only on tiled bridges.</p>
+<p>Returns <code>{success,error,screen}</code>; failure leaves the original configuration unchanged. Turning off the screen or locking interaction does not stop wireless channels.</p>
+<pre><code class="language-lua">local afn = require(&quot;afn&quot;)
+local screen = afn.screen()
+assert(screen.width &gt;= 2 and screen.height &gt;= 2, &quot;A screen of at least 2×2 is required&quot;)
+local result = afn.set_screen({
+  expected_revision = screen.revision,
+  placements = {{channel=&quot;库存&quot;, x=0, y=0, width=2, height=2}}
+})
+assert(result.success, result.error)
+</code></pre>
+<p><a id="fn-channel-display"></a></p>
+<h3 id="afndisplaychannel-bridge_name-raw-getchanneldisplaychannel"><code>afn.display(channel[, bridge_name])</code> / raw <code>getChannelDisplay(channel)</code></h3>
+<p>Requires read permission. Returns this channel's screen configuration, or <code>nil</code> for an unknown channel. Reads use only immutable snapshots published by the server; they do not wait for <code>task_complete</code> or consume <code>timer</code> events.</p>
+<p><a id="fn-channel-display-config"></a></p>
+<h3 id="afnset_displaychannel-changes-bridge_name-raw-setchanneldisplaychannel-changes"><code>afn.set_display(channel, changes[, bridge_name])</code> / raw <code>setChannelDisplay(channel, changes)</code></h3>
+<p>Requires configuration permission. Changes only the supplied fields; may include <code>expected_revision=afn.screen().revision</code>. Returns <code>{success,error,display}</code>. Failures never apply partial changes. This does not change raw channel content or open a player confirmation dialog. Unknown fields, incorrect types, nonfinite numbers, and out-of-range values are rejected.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Format and effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mode</code></td>
+<td><code>default/switch/bar/gauge/map/logistics/stock/dialogue</code>. Horizontal bars use <code>bar_horizontal=true</code>, rather than a separate mode</td>
+</tr>
+<tr>
+<td><code>activation_condition</code></td>
+<td>Condition string, up to 1024 code points / 4096 UTF-8 bytes; an empty string disables it. Supports output syntax references and functions, comparisons, and logical operations. Continuously activates while true, without rewriting the channel value</td>
+</tr>
+<tr>
+<td><code>output_signal_strength</code></td>
+<td>Numeric string or output syntax, up to 1024 code points / 4096 UTF-8 bytes, such as <code>"8"</code>, <code>"${库存[0]}"</code>, or <code>"${strength($.传感器)}"</code>. A number or single-element numeric array result is clamped to 0–15, with fractions rounded down; missing values or errors output 0. When set, overrides local activation output without changing incoming wireless strength; directly or indirectly reading its own strength is prohibited. An empty string follows the triggering source's strength; automatic activation without an external strength source defaults to 15</td>
+</tr>
+<tr>
+<td><code>show_name</code> / <code>show_idle</code></td>
+<td>boolean; controls the channel title and idle state respectively</td>
+</tr>
+<tr>
+<td><code>dialogue_show_avatar</code> / <code>dialogue_show_name</code></td>
+<td>boolean; dialogue message avatars and sender names, shown by default</td>
+</tr>
+<tr>
+<td><code>dialogue_latest_only</code></td>
+<td>boolean; true shows only the latest message, false shows a history list that can be scrolled directly with the mouse wheel; the message body is always shown. The legacy key <code>dialogue_show_message</code> is a synonymous compatibility alias; if both keys are supplied, their values must agree</td>
+</tr>
+<tr>
+<td><code>dialogue_replies</code></td>
+<td>String array of simple dialogue replies; shares storage with <code>presets</code>, so both cannot be supplied in the same update</td>
+</tr>
+<tr>
+<td><code>dialogue_send_avatar</code> / <code>dialogue_send_name</code></td>
+<td>string; avatar/name used when the bridge sends a reply. The avatar may be <code>item:minecraft:apple</code> or <code>player:UUID</code>; empty values use anonymous identity without inferring a player</td>
+</tr>
+<tr>
+<td><code>dialogue_allow_clear</code></td>
+<td>boolean; enables a clear button on the dialogue screen that clears both history and the channel value; interaction permissions still apply</td>
+</tr>
+<tr>
+<td><code>display_output_syntax</code></td>
+<td>boolean; displays the evaluated result of the channel's output syntax. Enabling it disables screen interaction; the calculated result cannot be treated as an editable raw value</td>
+</tr>
+<tr>
+<td><code>interaction_enabled</code> / <code>change_confirmation</code></td>
+<td>boolean; controls whether players can interact and whether value changes require confirmation; does not restrict CC value writes</td>
+</tr>
+<tr>
+<td><code>integer_adjustment</code> / <code>sensitivity</code></td>
+<td>boolean / positive finite number; preferences for adjusting numbers on the screen</td>
+</tr>
+<tr>
+<td><code>charset</code></td>
+<td>Nonempty string, up to 32 characters; character set for screen text adjustment</td>
+</tr>
+<tr>
+<td><code>minimum</code> / <code>maximum</code></td>
+<td>Finite lower/upper bounds. Bar charts and gauges require the minimum to be less than the maximum; a legacy unbounded range is automatically set to 0–15 when entering a chart mode</td>
+</tr>
+<tr>
+<td><code>bar_horizontal</code></td>
+<td>boolean; horizontal bar chart</td>
+</tr>
+<tr>
+<td><code>chart_components</code></td>
+<td>Contiguous array of up to 8 <code>{name,minimum,maximum}</code> entries; used by bar charts, gauges, and array switches. Names are limited to 16 characters. Omitted bounds use the effective channel range; switches use 0–1 for legacy unbounded ranges</td>
+</tr>
+<tr>
+<td><code>presets</code></td>
+<td>String array of up to 32 entries; used for default-mode options, logistics supply groups, or simple dialogue replies. Each entry is limited to 1024 code points, with a total limit of 8192 code points</td>
+</tr>
+<tr>
+<td><code>control_color</code> / <code>background_color</code> / <code>other_color</code></td>
+<td>Integer RGB, such as <code>0x88CC66</code>; <code>-1</code> restores the default. Controls widgets, the screen background, and foreground elements such as text, numbers, and gauge needles, respectively</td>
+</tr>
+<tr>
+<td><code>control_palette</code> / <code>background_palette</code></td>
+<td>Built-in palette number 0–3; an RGB color takes precedence when set</td>
+</tr>
+<tr>
+<td><code>map_source</code></td>
+<td><code>auto/xaero/afn/grid</code>; auto selects Xaero→AFN→grid in that order. Terrain sources are resolved on the client; the server does not need Xaero installed</td>
+</tr>
+<tr>
+<td><code>map_show_connection</code> / <code>map_show_distance</code> / <code>map_show_coordinates</code></td>
+<td>boolean; controls the connecting line, distance, and coordinates independently; shown by default</td>
+</tr>
+<tr>
+<td><code>map_background_hidden</code></td>
+<td>boolean; displays only map overlays without drawing terrain</td>
+</tr>
+<tr>
+<td><code>map_dynamic_rotation</code></td>
+<td>boolean; follows the rotation of the Sable physical structure carrying the bridge, off by default; <code>map_rotation</code> corrects the orientation</td>
+</tr>
+<tr>
+<td><code>map_zoom</code> / <code>map_rotation</code></td>
+<td>Integers -4–10 / 0–3; each rotation unit is 90° clockwise</td>
+</tr>
+<tr>
+<td><code>map_world_span</code></td>
+<td>0–120000000; base world span along the map's shorter edge; 0 means not yet initialized</td>
+</tr>
+<tr>
+<td><code>map_center</code></td>
+<td><code>{x=...,z=...}</code> sets the pan center; <code>false</code> clears the retained center. Moves only the view, without writing target coordinates</td>
+</tr>
+<tr>
+<td><code>map_favorites</code></td>
+<td>Up to 16 <code>{name,x,y,z,custom_name}</code> entries; name may be omitted for automatic naming, and custom_name is optional. Coordinates must not be duplicated</td>
+</tr>
+</tbody>
+</table>
+<p>The map configuration GUI offers "Dynamic mode" to rotate the map with the Sable physical structure carrying the bridge. "Rotate map" corrects the orientation. Dynamic mode is off by default.</p>
+<p>Activation conditions reference channels on this bridge, for example <code>${温度} ≥ 30 &amp; ${开关} = true</code> or <code>${number($.温度)} &gt; 25 || ${模式} = "手动"</code>. Self-references read the raw value; references to other channels read their effective output. Single-element arrays can be compared directly; arrays with multiple elements require selection or aggregation. Supported operators are <code>=</code> / <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&gt;=</code> / <code>≥</code>, <code>&lt;=</code> / <code>≤</code>, <code>&amp;</code> / <code>&amp;&amp;</code>, <code>||</code>, and parentheses, with precedence in this order: parentheses, comparison, AND, OR. A true condition activates continuously; an empty output-strength setting defaults to 15. If a strength expression is set, its result determines the output. False conditions, missing values, or errors release the condition source without affecting other sources. An empty condition disables it. Checks run within budget only when referenced data changes. The GUI, <code>.bridge</code> files, and <code>set_display</code> share this configuration; a syntax error rejects the entire save.</p>
+<p>In output syntax, <code>add(a,b,...)</code> accepts two or more arguments, up to 8 by default; <code>sub</code>, <code>mul</code>, and <code>div</code> remain binary. Native single-number channels can be used directly in numeric functions, such as <code>${add($.燃料1,$.燃料2,$.燃料3)}</code>, without <code>[0]</code>; legacy indexing remains valid. Multicomponent REAL and JSON arrays require indexing or aggregation; their first element is not selected automatically. Numeric text can use <code>number()</code> to extract the first numeric fragment, ignoring surrounding text and commas within the numeric fragment. For example, <code>1,234,211 su</code> produces <code>1234211</code>; when text contains multiple numbers, only the first is extracted.</p>
+<p><code>if(test,yes,no)</code> requires a boolean condition and evaluates only the selected branch; a missing condition is treated as false. <code>switch(value,match,result,...[,default])</code> uses strict type matching and returns the first matching result, with an optional final default value. Match values must be scalar JSON literals; no match without a default returns missing. Both functions retain channel dependencies from all branches, but access only the selected result at runtime.</p>
+<p>To prevent feedback on the same frequency, other channels referenced by a condition, and their output dependencies, must not receive the condition channel's output frequency. References to its own raw value are allowed.</p>
+<p><code>map_*</code> fields can be changed only in <code>map</code> mode. Text options can still write values through <code>set_value</code>; array switches use <code>chart_components</code> to name elements in the group. Each logistics-mode <code>presets</code> entry can contain a dispatch statement supported by the receiver, or a single-line JSON definition of a named supply group:</p>
+<pre><code class="language-lua">local afn = require(&quot;afn&quot;)
+assert(afn.set_display(&quot;库存&quot;, {
+  mode=&quot;stock&quot;, show_name=false, show_idle=false,
+  control_color=0xD8E7CE, background_color=0x17251B
+}).success)
+
+local group = textutils.serializeJSON({name=&quot;苹果配送&quot;, items={
+  {item=&quot;minecraft:apple&quot;, count=8, address=&quot;餐厅&quot;}
+}})
+assert(afn.set_display(&quot;配送&quot;, {mode=&quot;logistics&quot;, presets={group}}).success)
+
+assert(afn.set_display(&quot;导航&quot;, {mode=&quot;map&quot;, map_source=&quot;xaero&quot;,
+  map_show_connection=false, map_show_distance=true}).success)
+</code></pre>
+<p>The logistics screen sends after a player selects a supply group. For active CC dispatch, continue to write a valid statement with <code>set_value</code>, then activate it with <code>pulse</code>; configuring supply groups alone does not place an order. The stock view parses stock mailbox output and shows only item icons and quantities. The map wheel zooms around the focus, and the middle mouse button only pans. After right-clicking a point or an external ordinary/long signal updates it to different valid coordinates, the view automatically fits only if either point is outside the view; if both are visible, the view stays unchanged. While a map is displayed, horizontal device movement also triggers low-frequency checks: the view is retained if both points are visible and fits only when either point goes outside. No movement means no fitting; middle-button dragging and drafts awaiting confirmation take priority. Identical data and CC writes do not trigger automatic following. When confirmation is enabled, drafts retain the original view; whether to fit is checked only after successful confirmation. Wireless fitting during editing is deferred until the draft ends.</p>
+<p><code>get_display_channel/set_display_channel/next_display_channel/previous_display_channel</code> retain the legacy selected-channel semantics and do not move regions on a tiled screen. <code>set_display_channels/set_channel_displayed</code> control display eligibility without automatically allocating rectangles. New programs should configure <code>placements</code> explicitly.</p>
+<h3 id="dialogue-screen-example">Dialogue screen example</h3>
+<p>First create a <code>消息</code> channel in the GUI, then configure its display and replies. <code>dialogue_latest_only=false</code> shows the history list; <code>true</code> shows only the latest message. Disabling interaction also prevents players from scrolling history.</p>
+<pre><code class="language-lua">local afn = require(&quot;afn&quot;)
+assert(afn.set_display(&quot;消息&quot;, {
+  mode=&quot;dialogue&quot;, show_name=false, show_idle=false,
+  dialogue_show_avatar=true, dialogue_show_name=true,
+  dialogue_latest_only=false,
+  dialogue_send_avatar=&quot;item:minecraft:paper&quot;,
+  dialogue_send_name=&quot;服务台&quot;, dialogue_allow_clear=true,
+  dialogue_replies={&quot;收到&quot;, &quot;请稍候&quot;}
+}).success)
+
+local message = textutils.serializeJSON({
+  avatar=&quot;item:minecraft:apple&quot;, name=&quot;仓库&quot;,
+  messages={&quot;到货：&quot;, {[&quot;minecraft:apple&quot;]=8}, &quot;请查收&quot;}
+})
+assert(afn.set_value(&quot;消息&quot;, message).success)
+assert(afn.pulse(&quot;消息&quot;).success)
+</code></pre>
+<p><code>messages</code> can mix text with multiple stock objects, arranging item entries as icon/count emotes. Plain text without a chat JSON wrapper is interpreted as an anonymous message.</p>
+<p>Physical map buttons, the GUI's "Activate immediately after modification", and <code>.bridge</code> import/export do not imply the existence of Lua fields with the same names. The table above defines the current valid <code>set_display</code> fields. Unknown fields reject the entire update; GUI labels cannot be used directly as API keys.</p>
+<h2 id="cc-events">CC events</h2>
+<p>Connected computers with read permission can listen for:</p>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Parameter 2 (payload)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>afn_channel_started</code></td>
+<td><code>{channel,type,active=true,strength}</code></td>
+</tr>
+<tr>
+<td><code>afn_channel_stopped</code></td>
+<td><code>{channel,type,active=false,strength=0}</code></td>
+</tr>
+<tr>
+<td><code>afn_channel_changed</code></td>
+<td>Strength changes while active</td>
+</tr>
+<tr>
+<td><code>afn_channel_value_changed</code></td>
+<td>Adds <code>revision,value_present,value_kind,channel_value</code></td>
+</tr>
+<tr>
+<td><code>afn_information_changed</code></td>
+<td>Legacy compatibility alias of the preceding event</td>
+</tr>
+<tr>
+<td><code>afn_display_changed</code></td>
+<td><code>{channel}</code>; an empty string means no selection</td>
+</tr>
+<tr>
+<td><code>afn_channel_timeout</code></td>
+<td>A channel or temporary transmission expires; temporary payloads include <code>operation,handle,active=false</code></td>
+</tr>
+<tr>
+<td><code>afn_channel_rejected</code></td>
+<td>The current computer's action is rejected; includes <code>operation,error</code> and optional <code>channel</code></td>
+</tr>
+</tbody>
+</table>
+<p>Lua module constants:</p>
+<pre><code class="language-lua">local afn = require(&quot;afn&quot;)
+print(afn.CHANNEL_VALUE_CHANGED)       -- afn_channel_value_changed
+print(afn.LEGACY_INFORMATION_CHANGED) -- afn_information_changed
+
+while true do
+  local _, event = os.pullEvent(afn.CHANNEL_VALUE_CHANGED)
+  print(event.channel, event.value_present, event.revision)
+end
+</code></pre>
+<p>Events are bounded, deduplicated state notifications rather than an unlimited message queue. Starting to listen does not replay all historical state, and a total per-tick budget applies. To obtain authoritative current state, call <code>afn.get/value</code> after receiving an event.</p>
+<h2 id="raw-afn_bridge-peripheral-methods">Raw <code>afn_bridge</code> peripheral methods</h2>
+<p><code>require("afn")</code> is a convenience wrapper around the raw peripheral. The channel enable/disable API has been removed. Current raw dynamic method indices are 0–42; screen methods are appended at the end, leaving the names and parameters at indices 0–38 unchanged. The <code>p</code> used below is:</p>
+<pre><code class="language-lua">local p = peripheral.find(&quot;afn_bridge&quot;)
+assert(p, &quot;no AFN bridge&quot;)
+</code></pre>
+<p>Where "failure" in the table says <code>nil/false</code>, it means a normal failure result. Argument or permission errors can still be raised; use <code>pcall</code>.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">Index</th>
+<th>Raw method and parameters</th>
+<th>Returns</th>
+<th>Short success / failure examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">0</td>
+<td><code>listChannels()</code></td>
+<td>Snapshot array</td>
+<td><code>#p.listChannels()</code>; raises an error without read permission</td>
+</tr>
+<tr>
+<td style="text-align: right;">1</td>
+<td><code>listActiveChannels()</code></td>
+<td>Name array</td>
+<td><code>p.listActiveChannels()</code>; raises an error without read permission</td>
+</tr>
+<tr>
+<td style="text-align: right;">2</td>
+<td><code>listDisplayChannels()</code></td>
+<td>Name array</td>
+<td><code>p.listDisplayChannels()</code>; raises an error without read permission</td>
+</tr>
+<tr>
+<td style="text-align: right;">3</td>
+<td><code>getChannel(channel)</code></td>
+<td>Snapshot or nil</td>
+<td><code>p.getChannel("door")</code>; unknown name→nil</td>
+</tr>
+<tr>
+<td style="text-align: right;">4</td>
+<td><code>getState(channel)</code></td>
+<td>Compact state or nil</td>
+<td><code>p.getState("door")</code>; unknown name→nil</td>
+</tr>
+<tr>
+<td style="text-align: right;">5</td>
+<td><code>getInformation(channel)</code></td>
+<td>Legacy value table or nil</td>
+<td>Value exists→table; absent/unknown→nil</td>
+</tr>
+<tr>
+<td style="text-align: right;">6</td>
+<td><code>getLastError(channel)</code></td>
+<td>string or nil</td>
+<td>No wireless error→nil; raises an error without read permission</td>
+</tr>
+<tr>
+<td style="text-align: right;">7</td>
+<td><code>getDisplayChannel()</code></td>
+<td>Name or nil</td>
+<td>Selected entry→string; empty list→nil</td>
+</tr>
+<tr>
+<td style="text-align: right;">8</td>
+<td><code>setDisplayChannel(channel)</code></td>
+<td>boolean</td>
+<td>Displayable→true; hidden/unknown→false</td>
+</tr>
+<tr>
+<td style="text-align: right;">9</td>
+<td><code>nextDisplayChannel()</code></td>
+<td>Name or nil</td>
+<td>Successful switch→string; empty list→nil</td>
+</tr>
+<tr>
+<td style="text-align: right;">10</td>
+<td><code>previousDisplayChannel()</code></td>
+<td>Name or nil</td>
+<td>Successful switch→string; empty list→nil</td>
+</tr>
+<tr>
+<td style="text-align: right;">11</td>
+<td><code>set(channel[,strength])</code></td>
+<td>Action result</td>
+<td><code>p.set("door",15)</code>; unknown→<code>success=false</code></td>
+</tr>
+<tr>
+<td style="text-align: right;">12</td>
+<td><code>pulse(channel[,strength[,ticks]])</code></td>
+<td>Action result</td>
+<td><code>p.pulse("door",15,20)</code>; ticks&gt;1200 raises an error</td>
+</tr>
+<tr>
+<td style="text-align: right;">13</td>
+<td><code>toggle(channel[,strength])</code></td>
+<td>Action result</td>
+<td><code>p.toggle("door",8)</code>; unknown→failure table</td>
+</tr>
+<tr>
+<td style="text-align: right;">14</td>
+<td><code>clear(channel)</code></td>
+<td>Action result</td>
+<td>Clear own source→success; unknown→failure table</td>
+</tr>
+<tr>
+<td style="text-align: right;">15</td>
+<td><code>clearAll(channel)</code></td>
+<td>Action result</td>
+<td>Clear all sources→success; raises an error without configuration permission</td>
+</tr>
+<tr>
+<td style="text-align: right;">16</td>
+<td><code>setInformation(channel,value[,revision])</code></td>
+<td>Basic action result</td>
+<td>Can write a previously absent value; stale revision→failure table</td>
+</tr>
+<tr>
+<td style="text-align: right;">17</td>
+<td><code>setChannelDisplayed(channel,boolean)</code></td>
+<td>boolean</td>
+<td>Known target→true; unknown→false</td>
+</tr>
+<tr>
+<td style="text-align: right;">18</td>
+<td><code>setDisplayChannels(names)</code></td>
+<td>boolean</td>
+<td>Valid contiguous array→true; duplicate/unknown→false</td>
+</tr>
+<tr>
+<td style="text-align: right;">19</td>
+<td><code>createChannel(definition)</code></td>
+<td>Configuration result</td>
+<td>Valid v2 table→success; invalid definition→failure table</td>
+</tr>
+<tr>
+<td style="text-align: right;">20</td>
+<td><code>updateChannel(channel,changes)</code></td>
+<td>Configuration result</td>
+<td>Atomic update→success; unknown→failure table</td>
+</tr>
+<tr>
+<td style="text-align: right;">21</td>
+<td><code>removeChannel(channel)</code></td>
+<td>Configuration result</td>
+<td>Deletion→<code>channel=nil</code>; unknown→failure table</td>
+</tr>
+<tr>
+<td style="text-align: right;">22</td>
+<td><code>setChannelType(channel,type[,replacement])</code></td>
+<td>Configuration result</td>
+<td>Legacy compatibility intent; missing required replacement→failure</td>
+</tr>
+<tr>
+<td style="text-align: right;">23</td>
+<td><code>setInformationSubtype(channel,subtype[,replacement])</code></td>
+<td>Configuration result</td>
+<td>Legacy compatibility conversion; read-only tag→failure</td>
+</tr>
+<tr>
+<td style="text-align: right;">24</td>
+<td><code>setSynaxisReceive(channel,enabled[,format[,x,y]])</code></td>
+<td>Configuration result</td>
+<td>Valid value input port→success; invalid coordinates→failure</td>
+</tr>
+<tr>
+<td style="text-align: right;">25</td>
+<td><code>setSynaxisPublish(channel,enabled[,format[,x,y]])</code></td>
+<td>Configuration result</td>
+<td>Valid value output port→success; legacy Pose/Twist→failure</td>
+</tr>
+<tr>
+<td style="text-align: right;">26</td>
+<td><code>bindRedstone(channel,side,strength)</code></td>
+<td>Configuration result</td>
+<td><code>"all","all"</code>→success; invalid direction raises an error or returns failure</td>
+</tr>
+<tr>
+<td style="text-align: right;">27</td>
+<td><code>unbindRedstone(channel,side)</code></td>
+<td>Configuration result</td>
+<td>Valid selector→success; invalid direction→failure</td>
+</tr>
+<tr>
+<td style="text-align: right;">28</td>
+<td><code>transmit(frequency[,strength[,attach_auth]])</code></td>
+<td>Temporary result</td>
+<td>Success includes handle; invalid frequency→failure table</td>
+</tr>
+<tr>
+<td style="text-align: right;">29</td>
+<td><code>pulseTemporary(frequency[,strength[,ticks[,attach_auth]]])</code></td>
+<td>Temporary result</td>
+<td>Success includes handle; out-of-range timeout raises an error</td>
+</tr>
+<tr>
+<td style="text-align: right;">30</td>
+<td><code>clearTemporary(handle)</code></td>
+<td>Action result</td>
+<td>Own handle→success; unknown→failure table</td>
+</tr>
+<tr>
+<td style="text-align: right;">31</td>
+<td><code>clearTemporaryAll()</code></td>
+<td>Number removed</td>
+<td>Returns 0..32; raises an error if not admitted</td>
+</tr>
+<tr>
+<td style="text-align: right;">32</td>
+<td><code>getChannelValue(channel)</code></td>
+<td><code>{present,kind,value,revision}</code> or nil</td>
+<td>Known channel without a value still returns a table; unknown→nil</td>
+</tr>
+<tr>
+<td style="text-align: right;">33</td>
+<td><code>setChannelValue(channel,value[,revision])</code></td>
+<td>Action result with value fields</td>
+<td>Valid type→success; invalid value/conflict→failure</td>
+</tr>
+<tr>
+<td style="text-align: right;">34</td>
+<td><code>clearChannelValue(channel[,revision])</code></td>
+<td>Action result with value fields</td>
+<td>Clear to absent→success; stale revision→failure</td>
+</tr>
+<tr>
+<td style="text-align: right;">35</td>
+<td><code>getFrequency(channel)</code></td>
+<td>Primary/secondary frequency table or nil</td>
+<td>Known→table; unknown→nil</td>
+</tr>
+<tr>
+<td style="text-align: right;">36</td>
+<td><code>setPrimaryFrequency(channel,frequency)</code></td>
+<td>Configuration result</td>
+<td>Empty string can clear it; invalid expression→failure</td>
+</tr>
+<tr>
+<td style="text-align: right;">37</td>
+<td><code>setSecondary(channel,mode[,frequency])</code></td>
+<td>Configuration result</td>
+<td>none/auth or manual+frequency→success; invalid→failure</td>
+</tr>
+<tr>
+<td style="text-align: right;">38</td>
+<td><code>setSynaxisActivation(channel,enabled[,format[,x,y]])</code></td>
+<td>Configuration result</td>
+<td>real/boolean→success; vec3 etc.→failure</td>
+</tr>
+<tr>
+<td style="text-align: right;">39</td>
+<td><code>getScreen()</code></td>
+<td>Screen state</td>
+<td>Includes dimensions, configuration revision, and placements; requires read permission</td>
+</tr>
+<tr>
+<td style="text-align: right;">40</td>
+<td><code>setScreen(changes)</code></td>
+<td><code>{success,error,screen}</code></td>
+<td>Valid layout→success; overlapping/out of bounds→failure</td>
+</tr>
+<tr>
+<td style="text-align: right;">41</td>
+<td><code>getChannelDisplay(channel)</code></td>
+<td>Screen configuration or nil</td>
+<td>Known channel→table; unknown→nil</td>
+</tr>
+<tr>
+<td style="text-align: right;">42</td>
+<td><code>setChannelDisplay(channel,changes)</code></td>
+<td><code>{success,error,display}</code></td>
+<td>Atomic update; invalid field/out of range→failure</td>
+</tr>
+</tbody>
+</table>
+<p>Raw methods do not have the wrapper's final <code>bridge_name</code> argument, because <code>p</code> already represents a specific peripheral.</p>
+<h2 id="compatibility-migration">Compatibility migration</h2>
+<ul>
+<li>Raw indices are 0–42. New screen methods are appended after the existing 0–38, preserving compatibility with function names and parameters in older scripts.</li>
+<li><code>createChannel/updateChannel</code> use <code>receive_enabled</code> to switch between "send only" and "allow sending and receiving"; there is no separate enabled state.</li>
+<li><code>afn.information/set_information</code> remain available and now map to unified optional values; <code>value/set_value/clear_value</code> are recommended.</li>
+<li><code>set_channel_type/set_information_subtype</code> remain available but are deprecated. They express only legacy intent and cannot restore the mutually exclusive storage model.</li>
+<li>Snapshots retain <code>type/subtype/value/attach_auth/revision</code>, but new programs should read <code>schema_version=2</code> and the independent v2 fields.</li>
+<li><code>afn_information_changed</code> is sent alongside the new <code>afn_channel_value_changed</code>, allowing existing listeners to keep working.</li>
+<li>Saved legacy semantics in which a Synaxis value port also activates the channel are retained until a player or CC explicitly uses the new activation-port settings. Explicitly enabling or disabling activation both complete this migration.</li>
+</ul>
+<h2 id="common-error-codes">Common error codes</h2>
+<table>
+<thead>
+<tr>
+<th>Error code</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>unknown_channel</code></td>
+<td>The channel name does not exist; do not use the primary frequency as the channel name</td>
+</tr>
+<tr>
+<td><code>revision_conflict</code></td>
+<td>The value has changed; read it again before recalculating</td>
+</tr>
+<tr>
+<td><code>information_write_conflict</code></td>
+<td>A higher-priority source has already written in the same tick</td>
+</tr>
+<tr>
+<td><code>invalid_information_value</code></td>
+<td>Invalid type, length, finite-number requirement, or array structure</td>
+</tr>
+<tr>
+<td><code>information_subtype_read_only</code></td>
+<td>Legacy coordinate/player values cannot be modified</td>
+</tr>
+<tr>
+<td><code>invalid_frequency</code></td>
+<td>Invalid primary frequency expression</td>
+</tr>
+<tr>
+<td><code>invalid_secondary</code></td>
+<td>Invalid secondary mode or manual frequency</td>
+</tr>
+<tr>
+<td><code>invalid_synaxis_position</code></td>
+<td>x/y are not paired or are outside 0–112</td>
+</tr>
+<tr>
+<td><code>unsupported_synaxis_format</code></td>
+<td>The value port requests a format that cannot be newly created</td>
+</tr>
+<tr>
+<td><code>unsupported_synaxis_activation_format</code></td>
+<td>The activation port is not real/boolean</td>
+</tr>
+<tr>
+<td><code>synaxis_port_limit</code></td>
+<td>The combined total of the three port types has reached 32</td>
+</tr>
+<tr>
+<td><code>channel_limit</code></td>
+<td>The bridge has reached 64 channels</td>
+</tr>
+<tr>
+<td><code>runtime_source_limit</code></td>
+<td>A single channel has reached 256 runtime sources</td>
+</tr>
+<tr>
+<td><code>invalid_frequency_or_auth</code></td>
+<td>Wireless primary/secondary frequencies or the authentication link are currently invalid</td>
+</tr>
+<tr>
+<td><code>frequency_board_permission_denied</code></td>
+<td>The current computer cannot replace/remove a real authentication board; an authorized player must edit it</td>
+</tr>
+<tr>
+<td><code>auth_board_unavailable</code></td>
+<td>Temporary <code>attach_auth</code> has no available legacy device credential; send through a channel configured in the GUI</td>
+</tr>
+<tr>
+<td><code>wireless_unavailable</code></td>
+<td>The Create wireless runtime is currently unavailable</td>
+</tr>
+<tr>
+<td><code>invalid_screen_configuration</code></td>
+<td>Invalid screen field, type, numeric range, or array structure</td>
+</tr>
+<tr>
+<td><code>invalid_screen_layout</code></td>
+<td>Duplicate, overlapping, out-of-bounds, or incorrectly sized rectangles</td>
+</tr>
+<tr>
+<td><code>screen_layout_requires_adaptive_bridge</code></td>
+<td>Legacy bridges do not support tiled rectangular layouts</td>
+</tr>
+</tbody>
+</table>
+<p>Permission errors usually raise readable Lua text directly, such as <code>computer read access is disabled...</code>, rather than returning an error code from the table above.</p>
+<h2 id="frequency-expression-quick-reference">Frequency expression quick reference</h2>
+<p>Primary and manual secondary frequencies use AFN transmitter expressions: <code>?</code> matches one character, <code>*</code> matches arbitrary text within one layer, <code>**</code> matches across layers, <code>[A-C]</code> is a character set, and <code>positive.!exclude!exclude</code> applies multiple exclusions within the current layer. Receiver addresses remain literal. For complete rules and copyable examples, see <a href="./index.en.html">AFN WIKI</a> and the <a href="./README.zh-CN.md">Chinese overview</a>.</p>
+<!-- CC_REFERENCE_END -->
+</div></details></section>
+<section class="chapter" data-title="compatibility FAQ dependencies mods versions CC Tweaked Dashpanels Synaxis CreateImprove Flight Control Aeronautics Simulated Offroad Sable Photomancy NetMusic SFN API SDK community" id="faq"><div class="section-heading"><span class="chapter-number">16</span><div><span class="eyebrow">BEFORE YOU GO</span><h2>Compatibility and FAQ</h2></div></div>
+<details class="fold"><summary><span>Which mods integrate with AFN, and what versions are needed?</span><span class="fold-sign">+</span></summary><div class="fold-content">
+<p>AFN 1.8.0 requires <b>Minecraft 1.21.1, NeoForge 21.1.218+, Java 21</b>. “Optional” below means install as needed; AFN's core features work without those mods.</p>
+<div class="table-wrap compatibility-table"><table><thead><tr><th>Mod</th><th>Requirement</th><th>Integration and version conditions</th></tr></thead><tbody>
+<tr><td><a href="https://modrinth.com/mod/create" rel="noopener noreferrer" target="_blank">Create</a></td><td>Required</td><td><code>6.0.0 ≤ version &lt; 7.0.0</code>; provides the redstone network, logistics, displays and device foundations.</td></tr>
+<tr><td><a href="https://modrinth.com/mod/cc-tweaked" rel="noopener noreferrer" target="_blank">CC:Tweaked</a></td><td>Optional</td><td><code>1.118 ≤ version &lt; 2</code>; bridge peripheral and <code>afn</code> Lua API.</td></tr>
+<tr><td><a href="https://modrinth.com/mod/dashpanels" rel="noopener noreferrer" target="_blank">Dashpanels</a></td><td>Optional</td><td><b>2.1+</b>; AFN control, display, map and radar panel modules.</td></tr>
+<tr><td><a href="https://modrinth.com/mod/synaxis" rel="noopener noreferrer" target="_blank">Synaxis</a></td><td>Optional</td><td>Cimulink activation, value-input and value-output ports. AFN sets no minimum or maximum runtime version.</td></tr>
+<tr><td><a href="https://github.com/MoloXDD/CreateImprove" rel="noopener noreferrer" target="_blank">CreateImprove</a></td><td>Optional</td><td><b>1.4.0+</b> enables AFN integration: text frequency links and signal routers.</td></tr>
+<tr><td><a href="https://modrinth.com/mod/create-flight-control" rel="noopener noreferrer" target="_blank">Create: Flight Control</a></td><td>Optional</td><td><b>0.8.3+</b> enables integration: flight-control parameters and navigation terminal data.</td></tr>
+<tr><td><a href="https://modrinth.com/mod/create-connected" rel="noopener noreferrer" target="_blank">Create: Connected</a></td><td>Optional</td><td>Write parameters to clutches, kinetic batteries, kinetic bridges and related devices.</td></tr>
+<tr><td><a href="https://modrinth.com/mod/create-big-cannons" rel="noopener noreferrer" target="_blank">Create Big Cannons</a></td><td>Optional</td><td>Read data, write parameters and control stationary cannon mounts.</td></tr>
+<tr><td><a href="https://github.com/TartaricAcid/NetMusic" rel="noopener noreferrer" target="_blank">NetMusic</a></td><td>Optional</td><td>Read record-player state, songs and lyrics; read and control broadcasts on speakers.</td></tr>
+<tr><td><a href="https://modrinth.com/mod/create-aeronautics" rel="noopener noreferrer" target="_blank">Create Aeronautics / Simulated Project / Offroad</a></td><td>Optional</td><td>The three components of the Aeronautics combined distribution; integrate directional/modulated receivers, navigation tables and corresponding mechanical parameters.</td></tr>
+<tr><td><a href="https://modrinth.com/mod/sable" rel="noopener noreferrer" target="_blank">Sable</a></td><td>Optional</td><td>Moving-structure coordinates, terminals following structures, and long-signal keepalive for Aeronautics structures. The <a href="#security">long-signal notes</a> include large-structure limits.</td></tr>
+<tr><td><a href="https://modrinth.com/mod/sable-schematic-tool" rel="noopener noreferrer" target="_blank">Sable Photomancy / Sable Schematic API</a></td><td>Optional</td><td>Integrates schematic capture, editing and construction when <code>sable_schematic_api</code> is provided.</td></tr>
+<tr><td><a href="https://modrinth.com/mod/xaeros-world-map" rel="noopener noreferrer" target="_blank">Xaero's World Map</a></td><td>Optional · Client</td><td>Map terrain source; not required on the server.</td></tr>
+<tr><td><a href="https://www.mcmod.cn/class/31749.html" rel="noopener noreferrer" target="_blank">Touhou Little Maid: Butler (SFN)</a></td><td>Optional add-on</td><td>Uses the AFN API for maid butlers, channels and logistics dispatch. Its current dependency declares <b>AFN 1.2.1+</b>, <a href="https://github.com/TartaricAcid/TouhouLittleMaid" rel="noopener noreferrer" target="_blank">Touhou Little Maid</a> <b>1.5.2+</b>.</td></tr>
+<tr><td><a href="https://modrinth.com/mod/jei" rel="noopener noreferrer" target="_blank">JEI</a>, <a href="https://modrinth.com/mod/inventory-profiles-next" rel="noopener noreferrer" target="_blank">Inventory Profiles Next</a>, <a href="https://modrinth.com/mod/trashslot" rel="noopener noreferrer" target="_blank">TrashSlot</a></td><td>Optional · Client</td><td>Overlay and widget compatibility in AFN configuration screens.</td></tr>
+</tbody></table></div>
+<p>Integration without a listed version threshold detects available interfaces; this does not mean every version is verified. Check each mod's download page for its own dependencies and compatible versions.</p>
+</div></details>
+<details class="fold"><summary><span>How do I connect another mod to the AFN channel system?</span><span class="fold-sign">+</span></summary><div class="fold-content"><p>Visit the <a href="https://github.com/zhengkanqin/AFN-WIKI/tree/main/API" rel="noopener noreferrer" target="_blank">GitHub API directory</a>, open <a href="https://github.com/zhengkanqin/AFN-WIKI/blob/main/API/create_afn-channel-api.jar" rel="noopener noreferrer" target="_blank"><code>create_afn-channel-api.jar</code></a> and click <b>Download raw file</b> to download. The directory also includes Javadoc and integration examples.</p><p>Follow the <a href="https://github.com/zhengkanqin/AFN-WIKI/blob/main/API/QUICKSTART.md" rel="noopener noreferrer" target="_blank">SDK quick start</a> using <code>compileOnly</code> and only the <code>com.createafn.api.channel</code> public interfaces. The current SDK requires AFN <b>1.1.6+</b>; the Channel API version is <b>1.1</b>. Install full AFN at runtime. The API JAR is for development only; add-ons must not bundle its classes.</p></div></details>
+<details class="fold"><summary><span>Where is AFN heading?</span><span class="fold-sign">+</span></summary><div class="fold-content"><p>AFN aims to connect everything: let devices from different mods share data, respond to commands and become a smart system built by the player.</p><p>We will keep integrating more mods and opening up integration capabilities. AFN strengthens connections from within, while other mod authors extend the channel system through the API. Together, we can bring more devices online, keep data flowing and take players' ideas further!</p></div></details>
+<details class="fold"><summary><span>Where can we discuss AFN?</span><span class="fold-sign">+</span></summary><div class="fold-content"><p>The WIKI may open a community group later, depending on circumstances.</p></div></details>
+<div class="closing-note"><svg><use href="#i-gear"></use></svg><div><h3>Connect more devices</h3><p>Start with a Frequency Board, and let data flow between devices.</p></div><a class="button" href="#quickstart">Back to the first step ↑</a></div></section>
+<footer><a class="footer-brand" href="#welcome">AFN<span>.</span></a><p>Create: Advanced Frequency Network · AFN WIKI 1.8.0<br/>NeoForge 1.21.1 · Connect everything. Let data flow your way. </p><div><a href="README.md">English overview</a><a href="index.html" hreflang="zh-CN" lang="zh-CN">中文</a><a href="https://space.bilibili.com/396190439" rel="noopener noreferrer" target="_blank">Bilibili</a></div></footer>
+</main></div>
+<dialog aria-labelledby="search-title" id="search-dialog"><div class="search-dialog-header"><h2 id="search-title">Search AFN WIKI</h2><button aria-label="Close search" class="icon-button" id="close-search"><svg class="icon"><use href="#i-close"></use></svg></button></div><label class="dialog-search"><svg class="icon"><use href="#i-search"></use></svg><input aria-label="Search all documentation" autocomplete="off" id="global-search" placeholder="mailbox, Mechanical Arm, number, map…" type="search"/></label><p class="search-hint">Chapters, devices and functions in one search.</p><div aria-label="Search results" id="search-results" role="region"></div><div class="dialog-footer"><span>Select a result to jump to its content</span><kbd>ESC to close</kbd></div></dialog>
+<div aria-live="polite" id="toast" role="status"></div><noscript><div class="noscript-note">The main text is directly readable. Device/function catalogs and search require JavaScript. The full reference is also available as Markdown in this directory.</div></noscript>
+</body></html>

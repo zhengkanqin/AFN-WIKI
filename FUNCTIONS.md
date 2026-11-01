@@ -1,5 +1,7 @@
 # AFN 桥接器 Lua 函数手册
 
+**适用版本：AFN 1.8.0。** [AFN WIKI](./index.html) · [中文总览](./README.zh-CN.md) · [English overview](./README.md)
+
 `require("afn")` 包与 raw `afn_bridge` 外设的函数、权限、事件、错误码及兼容字段参考。
 
 ## 五分钟入门
@@ -66,7 +68,7 @@ local after = assert(afn.value("door"))
 print("after:", after.value)
 ```
 
-普通覆盖不需要 revision。写值不会自动激活，激活也不会自动创建值。
+普通覆盖不需要 revision。`set_value` 本身不等于激活；GUI 中另行配置的条件规则可能因值变化而激活。激活也不会自动创建值。
 
 ### 5. 设置主频和副频
 
@@ -76,11 +78,11 @@ local afn = require("afn")
 assert(afn.set_primary_frequency("door", "factory.door").success)
 assert(afn.set_secondary("door", "manual", "factory.zone_a").success)
 
--- 改为使用桥接器顶部的鉴权板：
-assert(afn.set_secondary("door", "auth").success)
+-- 不需要副频时清除第二个普通频率：
+assert(afn.set_secondary("door", "none").success)
 ```
 
-副频模式只有 `none`、`manual`、`auth`。`auth` 不允许 Lua 提交 Owner、ACL 或隐藏主频，只使用桥接器当前关联的有效鉴权板。
+副频模式有 `none`、`manual`、`auth`。`none` 清除副频，`manual` 写普通频率文本。当前拼接桥接器的鉴权板应由玩家在 GUI 的真实信道频率槽中配置；Lua 不能提交或重建 Owner、ACL、隐藏鉴权身份。`auth` 保留旧桥接器关联凭证语义；它不代表“在当前信道中新建鉴权板”，缺少旧凭证时不会获得有效鉴权无线链路。
 
 ## 常用操作速查
 
@@ -98,8 +100,12 @@ assert(afn.set_secondary("door", "auth").success)
 | 直接写值 | `afn.set_value("door", "OPEN")` | 配置 |
 | 清为“无值” | `afn.clear_value("door")` | 配置 |
 | 改主频 | `afn.set_primary_frequency("door", "factory.door")` | 配置 |
-| 改为鉴权副频 | `afn.set_secondary("door", "auth")` | 配置 |
+| 改普通副频 | `afn.set_secondary("door", "manual", "factory.zone_a")` | 配置 |
 | 临时发送 1 秒 | `afn.pulse_temporary("factory.bell")` | 激活 |
+| 查看整屏尺寸与选区 | `afn.screen()` | 读取 |
+| 配置屏幕布局 | `afn.set_screen({placements={...}})` | 配置 |
+| 查看信道屏幕设置 | `afn.display("door")` | 读取 |
+| 改交互模式与配色 | `afn.set_display("door", {mode="switch", control_color=0x88CC66})` | 配置 |
 
 ## 可选参数、变量和 revision
 
@@ -115,7 +121,7 @@ afn.set_value(channel, value[, revision[, bridge_name]])
 
 ```lua
 afn.set_value("notice", "新内容", nil, "left")
-afn.set_secondary("door", "auth", nil, "left")
+afn.set_secondary("door", "none", nil, "left")
 ```
 
 `bridge_name` 是 CC 分配的外设名，例如 `left` 或有线网络上的名称；不是信道名、方块标题或主频。
@@ -172,9 +178,9 @@ revision 是每台桥接器上的单调版本号。清除值也会推进 tombsto
 | string | `text` | string |
 | boolean | `boolean` | boolean |
 | 有限 number | `real` | number |
-| 1～7 个有限 number 的连续数组 | `real` | 多项数组；单项仍返回 number |
+| 1～128 个有限 number 的连续数组 | `real` | 多项数组；单项仍返回 number |
 
-文本最多 1024 个 Unicode 码点，同时不超过 4096 个 UTF-8 字节。实数组拒绝空表、稀疏表、非数字项、NaN、正负无穷与超过 7 项的输入；合法分量在模型边界向零规范到最多三位小数，整次写入原子拒绝，不会部分保存。
+文本最多 1024 个 Unicode 码点，同时不超过 4096 个 UTF-8 字节。实数组拒绝空表、稀疏表、非数字项、NaN、正负无穷与超过 128 项的输入；合法分量在模型边界向零规范到最多三位小数，整次写入原子拒绝，不会部分保存。图表和开关的屏幕配置最多显示 8 个分量，不限制信道保存和传输的数组长度。
 
 ```lua
 local ok1 = afn.set_value("notice", "列车即将进站")
@@ -197,9 +203,11 @@ print(bad.success, bad.error) -- false invalid_information_value
 - 多来源强度取最大值；携值来源按强度和稳定来源 ID 选择唯一胜者。
 - 同 tick 写入优先级为玩家 > CC:T > Synaxis > 无线。
 
-### 五种屏幕解释
+### 八种屏幕模式
 
-默认、开关、柱状图、仪表盘、地图都是统一值的解释视图，不是存储类型。非法值只视觉回退：开关显示关闭、图表显示 0、地图只画设备点；只有真实触控才写入新值。整数调节只影响屏幕触控，不影响 CC:T、Synaxis、无线或普通 GUI 写入。
+`default`、`switch`、`bar`、`gauge`、`map`、`logistics`、`stock`、`dialogue` 分别对应文本、开关、柱状图、仪表盘、地图、物流、存量和对话。模式解释统一信道值，不限制存储类型；物流独立展示预先配置的物资组。对话使用寻呼机 JSON，支持文字与物品数量表情包、最新一条 / 历史列表及简单回复。非法值只视觉回退，不会因为切换视图覆写原始值。
+
+整数调节只影响屏幕触控，不影响 CC:T、Synaxis、无线或普通 GUI 写值。拼接桥接器使用矩形选区，不再轮播整屏信道；旧展示清单与选中项函数保留，新程序使用 `screen/set_screen`。
 
 ## 权限与性能
 
@@ -210,7 +218,9 @@ print(bad.success, bad.error) -- false invalid_information_value
 | 配置 | 写值、CRUD、主副频、展示清单、Synaxis、红石绑定 |
 | 仅需仍获准 | `clear`、`clear_temporary*`，用于故障安全清理 |
 
-没有鉴权板时，所有非负 ComputerID 均可准入；安装鉴权板后启用 ComputerID 白名单，空名单拒绝全部电脑。读取、激活、配置三个开关仍分别生效。
+读取、激活、配置开关在桥接器 GUI 独立管理。当前 ComputerID 准入检查仍保留旧设备关联凭证：无该凭证时接受非负 ComputerID；已有凭证时检查白名单，空名单拒绝全部电脑。**信道槽位里的鉴权板与这个旧设备凭证不是同一配置。** 不要通过“给信道放一块鉴权板”推断电脑已经受到白名单保护；应检查 GUI 的 CC 能力开关。
+
+Lua 无法替换自己没有权限管理的真实鉴权板；修改或删除此类信道可能返回 `frequency_board_permission_denied`。需要变更身份时，由有权限的玩家编辑 GUI 频率槽。
 
 ComputerID 在连接时建立会话。鉴权板、白名单或能力开关改变时才重算并推送；每次函数调用只做 O(1) 缓存读取，不扫描世界、方块实体、NBT、ACL 或白名单。撤销准入或激活权限会清除该电脑留下的持续租约和临时发送。
 
@@ -260,14 +270,15 @@ end
 | `redstone_bindings` | `{side,strength}` 数组，`strength` 可为 `"all"` |
 | `last_error` | 最近无线错误，正常为空串 |
 
-兼容字段 `type/subtype/value/attach_auth/revision` 仍保留一个大版本：主频非空或值不存在时投影为 `type="frequency"`；否则投影为 `type="information"`。该投影无法表达“同时有主频和值”，新代码应使用 v2 字段。
+兼容字段 `type/subtype/value/attach_auth/revision` 仍保留：主频非空或值不存在时投影为 `type="frequency"`；否则投影为 `type="information"`。该投影无法表达“同时有主频和值”，新代码应使用 v2 字段。
 
 信道没有启用/禁用状态，创建后始终可被红石、CC:T 与 Synaxis 激活并发送。`receive_enabled=false` 仅表示“仅发送”，不会接收 Create 无线入站；`true` 表示“允许发送和接收”。展示同样是显式配置：新信道默认展示，是否激活不会自动改变展示清单。
 
 ## 精确 Lua 函数索引
 
+- 拼接屏幕：[screen](#fn-screen) · [set_screen](#fn-screen-config) · [display](#fn-channel-display) · [set_display](#fn-channel-display-config)
 - 发现与读取：[find](#fn-find) · [channels](#fn-channels) · [active](#fn-active) · [display_channels](#fn-display-channels) · [get](#fn-get) · [state](#fn-state) · [value](#fn-value) · [channel_value](#fn-channel-value) · [information](#fn-information) · [frequency](#fn-frequency) · [last_error](#fn-last-error)
-- CRT：[get_display_channel](#fn-get-display-channel) · [set_display_channel](#fn-set-display-channel) · [next_display_channel](#fn-next-display-channel) · [previous_display_channel](#fn-previous-display-channel)
+- 旧选中项：[get_display_channel](#fn-get-display-channel) · [set_display_channel](#fn-set-display-channel) · [next_display_channel](#fn-next-display-channel) · [previous_display_channel](#fn-previous-display-channel)
 - 激活：[set](#fn-set) · [pulse](#fn-pulse) · [toggle](#fn-toggle) · [clear](#fn-clear) · [clear_all](#fn-clear-all)
 - 值：[set_value](#fn-set-value) · [set_channel_value](#fn-set-channel-value) · [set_information](#fn-set-information) · [clear_value](#fn-clear-value) · [clear_channel_value](#fn-clear-channel-value)
 - 频段与展示：[set_primary_frequency](#fn-set-primary-frequency) · [set_secondary](#fn-set-secondary) · [set_channel_displayed](#fn-set-channel-displayed) · [set_display_channels](#fn-set-display-channels)
@@ -341,7 +352,7 @@ if not ok then printError(err) end
 afn.display_channels([bridge_name]) -> string[]
 ```
 
-返回 CRT 当前有效展示列表和轮播顺序；需要读取权限。
+返回当前有效展示清单；需要读取权限。旧屏幕使用其顺序，新拼接屏幕的位置由 `screen().placements` 决定。
 
 ```lua
 -- 成功
@@ -492,7 +503,7 @@ if not ok then printError(err2) end
 afn.get_display_channel([bridge_name]) -> string|nil
 ```
 
-返回 CRT 当前选中信道；列表为空时 `nil`。需要读取权限。
+返回旧选中项模型的当前信道；列表为空时 `nil`。需要读取权限。
 
 ```lua
 -- 成功
@@ -773,12 +784,12 @@ print(bad.success, bad.error) -- false invalid_frequency
 afn.set_secondary(channel, mode[, frequency[, bridge_name]]) -> configuration_result
 ```
 
-`mode` 为 `none/manual/auth`。`manual` 必须提供有效频段；其他模式忽略频段。指定命名桥接器而省略频段时用 `nil` 占位。
+`mode` 为 `none/manual/auth`。`manual` 必须提供有效频段；其他模式忽略频段。`auth` 仅关联旧设备凭证，不能创建鉴权板或改用任意信道的身份；当前真实鉴权板在 GUI 配置。指定命名桥接器而省略频段时用 `nil` 占位。
 
 ```lua
 -- 成功
 assert(afn.set_secondary("door", "manual", "factory.zone_a").success)
-assert(afn.set_secondary("door", "auth").success)
+assert(afn.set_secondary("door", "none").success)
 
 -- 失败结果
 local bad = afn.set_secondary("door", "manual")
@@ -793,7 +804,7 @@ print(bad.success, bad.error) -- false invalid_secondary
 afn.set_channel_displayed(channel, displayed[, bridge_name]) -> boolean
 ```
 
-修改一条信道的 CRT 展示标记；目标必须存在。需要配置权限。激活状态不会自动改变展示标记。
+修改一条信道的展示标记；目标必须存在。需要配置权限。激活状态不会自动改变展示标记。
 
 ```lua
 -- 成功
@@ -848,7 +859,7 @@ afn.create_channel(definition[, bridge_name]) -> configuration_result
 local r = afn.create_channel({
   name = "door",
   primary_frequency = "factory.door",
-  secondary_mode = "auth",
+  secondary_mode = "none",
   value_present = true,
   value_kind = "text",
   channel_value = "CLOSED",
@@ -1032,7 +1043,7 @@ afn.bind_redstone(channel, side, strength[, bridge_name])
   -> configuration_result
 ```
 
-`side` 可为 `front/back/left/right/up/down/all`，相对 CRT 正面；`strength` 可为 1～15 或字符串 `"all"`。同一输入可绑定多条信道；完全相同的组合幂等。
+`side` 可为 `front/back/left/right/up/down/all`，相对屏幕正面；`strength` 可为 1～15 或字符串 `"all"`。同一输入可绑定多条信道；完全相同的组合幂等。
 
 ```lua
 -- 成功：任何方向、任何非零强度
@@ -1071,7 +1082,7 @@ afn.transmit_temporary(frequency[, strength[, attach_auth[, bridge_name]]])
   -> {success,error,active,strength,handle}
 ```
 
-建立不属于持久信道的持续无线发送。强度默认 15；`attach_auth=true` 时只使用桥接器有效鉴权板。临时 API 只传强度，不携任意信道值。
+建立不属于持久信道的持续无线发送，强度默认 15。临时 API 只传强度，不携任意信道值。`attach_auth=true` 依赖旧设备关联鉴权凭证，缺少它会返回 `auth_board_unavailable`；它不会从当前信道频率槽挑选或伪造身份。使用当前鉴权信道发送时，优先在 GUI 配好真实板，再调用 `set/pulse`。
 
 ```lua
 -- 成功
@@ -1144,6 +1155,137 @@ local ok, err = pcall(afn.clear_temporary_all)
 if not ok then printError(err) end
 ```
 
+## 拼接屏幕与交互配置
+
+当前使用可横纵拼接的桥接器屏幕，不需要旧大型 CRT 设备。先在 GUI 建立信道或用 `create_channel` 创建，然后配置选区和显示。布局 API 使用方块单位；单个选区没有旧的 4×4 上限，但须位于实际屏幕矩形内，且不能与其他选区重叠。
+
+<a id="fn-screen"></a>
+
+### `afn.screen([bridge_name])` / raw `getScreen()`
+
+需要读取权限。返回 `{adaptive,width,height,enabled,interaction_locked,revision,placements}`；`width/height` 是整屏方块数，`revision` 是配置版本，不是值版本。每个选区包含 `{channel,channel_id,x,y,width,height}`，坐标从左上角 `0,0` 起算。
+
+<a id="fn-screen-config"></a>
+
+### `afn.set_screen(changes[, bridge_name])` / raw `setScreen(changes)`
+
+需要配置权限。可修改 `enabled`、`interaction_locked`、`placements`，可带 `expected_revision=afn.screen().revision` 防止覆盖其他配置。未给出的字段保持不变；`placements` 是整份替换，空数组清空布局。条目用 `channel` 或 `channel_id` 标识信道；两者均给出时必须指向同一条信道。每条信道最多一个选区，选区可在已连接桥接器的屏幕边界内使用任意正整数宽高，但不能重叠或越界；矩形布局仅适用于拼接桥接器。
+
+返回 `{success,error,screen}`，失败时原配置不变。关闭屏幕或交互锁不停止无线信道。
+
+```lua
+local afn = require("afn")
+local screen = afn.screen()
+assert(screen.width >= 2 and screen.height >= 2, "需要至少 2×2 屏幕")
+local result = afn.set_screen({
+  expected_revision = screen.revision,
+  placements = {{channel="库存", x=0, y=0, width=2, height=2}}
+})
+assert(result.success, result.error)
+```
+
+<a id="fn-channel-display"></a>
+
+### `afn.display(channel[, bridge_name])` / raw `getChannelDisplay(channel)`
+
+需要读取权限。返回该信道的屏幕配置；未知信道返回 `nil`。读取只使用服务端发布的不可变快照，不等待 `task_complete`，不会抢占 `timer` 事件。
+
+<a id="fn-channel-display-config"></a>
+
+### `afn.set_display(channel, changes[, bridge_name])` / raw `setChannelDisplay(channel, changes)`
+
+需要配置权限。仅修改给出的字段，可附加 `expected_revision=afn.screen().revision`。返回 `{success,error,display}`；失败不部分提交，不改变原始信道内容，也不触发玩家确认弹窗。未知字段、错误类型、非有限数或越界数值会拒绝。
+
+| 字段 | 写法与作用 |
+| --- | --- |
+| `mode` | `default/switch/bar/gauge/map/logistics/stock/dialogue`。横向柱状图是 `bar_horizontal=true`，不是单独模式 |
+| `activation_condition` | 条件字符串，最多 1024 码点 / 4096 UTF-8 字节；空串关闭。支持输出语法引用和函数、比较及逻辑运算；条件为真时持续激活，不改写信道值 |
+| `output_signal_strength` | 数字字符串或输出语法，最多 1024 码点 / 4096 UTF-8 字节，如 `"8"`、`"${库存[0]}"`、`"${strength($.传感器)}"`。数字或单项数字数组结果限制为 0～15，小数向下取整；缺值或出错输出 0。填写后覆盖本地激活输出，不修改无线入站强度；禁止直接或间接读取自身强度。空串跟随触发源强度；没有外部强度来源的自动激活默认 15 |
+| `show_name` / `show_idle` | boolean；分别控制信道标题与待机状态 |
+| `dialogue_show_avatar` / `dialogue_show_name` | boolean；对话消息的头像与发送者名称，默认显示 |
+| `dialogue_latest_only` | boolean；true 只显示最近一条消息，false 显示可直接滚轮浏览的历史列表；正文始终显示。旧键 `dialogue_show_message` 是同义兼容别名，两键同时传入时必须一致 |
+| `dialogue_replies` | 对话简单回复字符串数组，与 `presets` 共用存储，不能在同次修改中同时传入 |
+| `dialogue_send_avatar` / `dialogue_send_name` | string；从桥接器发送回复时的头像 / 名称。头像可写 `item:minecraft:apple` 或 `player:UUID`；留空采用匿名，不推断玩家身份 |
+| `dialogue_allow_clear` | boolean；在对话屏幕启用清空按钮，同时清空历史与信道值，仍受交互权限控制 |
+| `display_output_syntax` | boolean；展示信道输出语法的计算结果。开启时禁用屏幕交互，不能把计算结果当作可改写原始值 |
+| `interaction_enabled` / `change_confirmation` | boolean；控制玩家是否可交互、修改值是否需要确认；不限制 CC 写值能力 |
+| `integer_adjustment` / `sensitivity` | boolean / 正有限数；屏幕数值调节偏好 |
+| `charset` | 非空字符串，最长 32 字符；屏幕文本调节字符集 |
+| `minimum` / `maximum` | 有限数上下限。柱状图、仪表盘要求最小值小于最大值；旧无界范围进入图表时自动设为 0～15 |
+| `bar_horizontal` | boolean；横向柱状图 |
+| `chart_components` | 连续数组，最多 8 项 `{name,minimum,maximum}`；适用于柱状图、仪表盘及数组开关。名称最长 16 字符；未给上下限时使用有效信道范围，开关旧无界范围用 0～1 |
+| `presets` | 最多 32 项的字符串数组；用于默认模式选项、物流物资组或对话简单回复。每项最多 1024 码点，总计最多 8192 码点 |
+| `control_color` / `background_color` / `other_color` | 整数 RGB，如 `0x88CC66`；`-1` 恢复默认。分别控制控件、屏幕背景，以及文字、数字和仪表指针等前景颜色 |
+| `control_palette` / `background_palette` | 内置配色编号 0～3；有 RGB 颜色时 RGB 优先 |
+| `map_source` | `auto/xaero/afn/grid`；auto 按 Xaero→AFN→网格选择。地形源在客户端解析，不要求服务器安装 Xaero |
+| `map_show_connection` / `map_show_distance` / `map_show_coordinates` | boolean；控制连线、距离与坐标，可独立关闭；默认显示 |
+| `map_background_hidden` | boolean；只显示地图叠加层，不绘制地形 |
+| `map_dynamic_rotation` | boolean；跟随桥接器所在 Sable 物理结构旋转，默认关闭；`map_rotation` 用作方向校正 |
+| `map_zoom` / `map_rotation` | 整数 -4～10 / 0～3；旋转单位为顺时针 90° |
+| `map_world_span` | 0～120000000；地图短边的基础世界跨度，0 表示尚未初始化 |
+| `map_center` | `{x=...,z=...}` 指定平移中心；`false` 清除保留中心。只移动视野，不写目标坐标 |
+| `map_favorites` | 最多 16 项 `{name,x,y,z,custom_name}`；name 可省略自动命名，custom_name 可省略。不可重复坐标 |
+
+地图配置 GUI 可开启“动态模式”，使地图随桥接器所在 Sable 物理结构旋转；“旋转地图”用于校正方向，动态模式默认关闭。
+
+激活条件引用本桥接器的信道，例如 `${温度} ≥ 30 & ${开关} = true` 或 `${number($.温度)} > 25 || ${模式} = "手动"`。引用自身读取原始值，引用其他信道读取有效输出；单项数组可直接比较，多项数组需选取或聚合。支持 `=` / `==`、`!=`、`<`、`>`、`>=` / `≥`、`<=` / `≤`、`&` / `&&`、`||` 和括号，优先级为括号、比较、并且、或者。条件为真时持续激活，空输出强度配置默认使用 15；设置强度表达式后按其结果输出。条件为假、缺值或错误时释放条件来源，其他来源不受影响；留空关闭。仅在引用的数据更新时按预算检测。GUI、`.bridge` 文件和 `set_display` 使用同一配置，语法错误会拒绝整次保存。
+
+输出语法中的 `add(a,b,...)` 支持两个或更多参数，默认最多 8 项；`sub`、`mul`、`div` 仍为二元。原生单数字信道可直接用于数值函数，例如 `${add($.燃料1,$.燃料2,$.燃料3)}`，无需 `[0]`；旧下标仍有效。多分量 REAL 和 JSON 数组需下标或聚合，不自动取首项。数字文本可用 `number()` 强制提取首个数值片段，周围文字会忽略，数值片段内的逗号也会忽略，例如 `1,234,211 su` 得到 `1234211`；文本中有多个数值时只取第一个。
+
+`if(test,yes,no)` 要求布尔条件，只计算被选中的分支；缺失条件按 false 处理。`switch(value,match,result,...[,default])` 按严格类型匹配并返回首个命中结果，可附最后一个默认值；匹配值须为标量 JSON 字面量，未命中且无默认值时返回 missing。两种函数都保留所有分支的信道依赖，但运行时只访问选中的结果。
+
+为避免同频反馈，条件引用的其他信道及其输出依赖不得接收本条件信道的输出频率；自身原始值引用允许。
+
+`map_*` 字段只允许在 `map` 模式下修改。文本选项写入值可继续调用 `set_value`；数组开关通过 `chart_components` 命名组内元素。物流模式的 `presets` 每项可填写接收端支持的调配语句，或使用一行 JSON 定义命名物资组：
+
+```lua
+local afn = require("afn")
+assert(afn.set_display("库存", {
+  mode="stock", show_name=false, show_idle=false,
+  control_color=0xD8E7CE, background_color=0x17251B
+}).success)
+
+local group = textutils.serializeJSON({name="苹果配送", items={
+  {item="minecraft:apple", count=8, address="餐厅"}
+}})
+assert(afn.set_display("配送", {mode="logistics", presets={group}}).success)
+
+assert(afn.set_display("导航", {mode="map", map_source="xaero",
+  map_show_connection=false, map_show_distance=true}).success)
+```
+
+物流屏幕由玩家选择物资组后发送。CC 主动调配仍使用现有 `set_value` 写入合法语句，再用 `pulse` 激活；配置物资组本身不会发单。存量视图解析存量信箱输出，仅显示物品图标与数量。地图滚轮以焦点缩放，中键仅平移；右键选点或外部普通/长信号更新为不同的合法坐标后，仅在任一点越界时自动适配，两点可见则保持视野。显示地图时，设备水平移动也会触发低频检查：两点可见便保持视野，任一点越界才适配；未移动不适配，中键拖动和待确认草稿优先。相同数据和 CC 写入不自动跟随。开启二次确认时，草稿保持原视野，成功确认后才判断是否适配；编辑期间的无线适配等草稿结束后再判断。
+
+`get_display_channel/set_display_channel/next_display_channel/previous_display_channel` 继续保留旧选中项语义，不移动拼接屏幕的选区。`set_display_channels/set_channel_displayed` 控制展示资格，不自动分配矩形；新程序请明确配置 `placements`。
+
+
+### 对话屏幕示例
+
+先在 GUI 建立“消息”信道，再配置它的显示与回复。`dialogue_latest_only=false` 显示历史列表，`true` 只显示最新一条；关闭交互也会阻止玩家滚动历史。
+
+```lua
+local afn = require("afn")
+assert(afn.set_display("消息", {
+  mode="dialogue", show_name=false, show_idle=false,
+  dialogue_show_avatar=true, dialogue_show_name=true,
+  dialogue_latest_only=false,
+  dialogue_send_avatar="item:minecraft:paper",
+  dialogue_send_name="服务台", dialogue_allow_clear=true,
+  dialogue_replies={"收到", "请稍候"}
+}).success)
+
+local message = textutils.serializeJSON({
+  avatar="item:minecraft:apple", name="仓库",
+  messages={"到货：", {["minecraft:apple"]=8}, "请查收"}
+})
+assert(afn.set_value("消息", message).success)
+assert(afn.pulse("消息").success)
+```
+
+`messages` 可混排文字与多个存量对象，物品条目作为图标 / 数量表情包排列。没有聊天 JSON 包装的纯文本按匿名消息解释。
+
+地图实体按钮、GUI 的“修改后立即激活”及 `.bridge` 导入导出并不意味着存在同名 Lua 字段；当前 `set_display` 的合法字段以上表为准。未知字段会拒绝整次修改，不能直接写 GUI 文本作为 API 键。
+
 ## CC 事件
 
 有读取权限的已连接电脑可监听：
@@ -1176,7 +1318,7 @@ end
 
 ## raw `afn_bridge` 外设方法
 
-`require("afn")` 只是对 raw 外设的便捷包装。启用/禁用信道 API 已移除，当前 raw 动态方法索引为 0～38。下面的 `p` 是：
+`require("afn")` 只是对 raw 外设的便捷包装。启用/禁用信道 API 已移除，当前 raw 动态方法索引为 0～42；屏幕方法追加在末尾，原 0～38 的名称和参数不变。下面的 `p` 是：
 
 ```lua
 local p = peripheral.find("afn_bridge")
@@ -1226,12 +1368,16 @@ assert(p, "no AFN bridge")
 | 36 | `setPrimaryFrequency(channel,frequency)` | 配置结果 | 空串可清除；非法表达式→失败 |
 | 37 | `setSecondary(channel,mode[,frequency])` | 配置结果 | none/auth 或 manual+频率→成功；非法→失败 |
 | 38 | `setSynaxisActivation(channel,enabled[,format[,x,y]])` | 配置结果 | real/boolean→成功；vec3 等→失败 |
+| 39 | `getScreen()` | 屏幕状态 | 含尺寸、配置 revision 与 placements；需要读取权限 |
+| 40 | `setScreen(changes)` | `{success,error,screen}` | 合法布局→成功；重叠/越界→失败 |
+| 41 | `getChannelDisplay(channel)` | 屏幕配置或 nil | 已知信道→table；未知→nil |
+| 42 | `setChannelDisplay(channel,changes)` | `{success,error,display}` | 原子更新；非法字段/越界→失败 |
 
 raw 方法没有包装器的最后 `bridge_name` 参数，因为 `p` 已经代表具体外设。
 
 ## 兼容迁移
 
-- raw 索引现为 0～38；旧 `setEnabled` 已随信道禁用概念一并移除，其后的方法索引前移一位。
+- raw 索引为 0～42；新增屏幕方法只追加在原有 0～38 后，旧脚本的函数名称与参数保持兼容。
 - `createChannel/updateChannel` 使用 `receive_enabled` 切换“仅发送”与“允许发送和接收”；没有独立的启用状态。
 - `afn.information/set_information` 保留，现映射统一可选值；推荐 `value/set_value/clear_value`。
 - `set_channel_type/set_information_subtype` 保留但弃用；它们只表达旧意图，不能恢复互斥存储模型。
@@ -1257,10 +1403,16 @@ raw 方法没有包装器的最后 `bridge_name` 参数，因为 `p` 已经代�
 | `channel_limit` | 桥接器达到 64 条信道 |
 | `runtime_source_limit` | 单信道运行来源达到 256 |
 | `invalid_frequency_or_auth` | 无线主副频或鉴权关联当前无效 |
+| `frequency_board_permission_denied` | 当前电脑不能替换 / 移除真实鉴权板，改由有权限的玩家编辑 |
+| `auth_board_unavailable` | 临时 `attach_auth` 没有可用的旧设备凭证；使用 GUI 已配置的信道发送 |
 | `wireless_unavailable` | Create 无线运行环境当前不可用 |
+| `invalid_screen_configuration` | 屏幕字段、类型、数值范围或数组结构非法 |
+| `invalid_screen_layout` | 矩形重复、重叠、越界或尺寸不合法 |
+| `screen_layout_requires_adaptive_bridge` | 旧桥接器不支持拼接矩形布局 |
 
 权限错误通常直接抛出可读 Lua 文本，例如 `computer read access is disabled...`，而不是返回上表错误码。
 
 ## 频段表达式速查
 
-主频和 manual 副频使用 AFN 发送端表达式：`?` 单字符、`*` 单层任意文本、`**` 跨层、`[A-C]` 字符集合、`正向.!排除!排除` 当前层多重排除。接收端地址保持字面量；更完整的规则、局部排除与性能说明见项目根目录 [README](../../README.md)。
+主频和 manual 副频使用 AFN 发送端表达式：`?` 单字符、`*` 单层任意文本、`**` 跨层、`[A-C]` 字符集合、`正向.!排除!排除` 当前层多重排除。接收端地址保持字面量；更完整的规则和可复制示例见 [AFN WIKI](./index.html) 与 [中文总览](./README.zh-CN.md)。
+

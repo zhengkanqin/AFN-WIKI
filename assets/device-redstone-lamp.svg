@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="120" viewBox="0 0 160 120" fill="none">
+  <title>Minecraft redstone lamp</title>
+  <desc>A cubic redstone lamp on a low stone base, with amber glass and the dark diamond lattice of the Minecraft block.</desc>
+  <defs>
+    <g id="afn-lamp-face">
+      <path d="M0 0h40v40H0Z" fill="#80522e"/>
+      <path d="M5 5h11v11H5ZM24 5h11v11H24ZM5 24h11v11H5ZM24 24h11v11H24Z" fill="#bd8243"/>
+      <path d="m20 7 13 13-13 13L7 20Z" fill="#d09a55" stroke="#583c2a" stroke-width="2.8"/>
+      <path d="M0 0h40v40H0Z" stroke="#48372b" stroke-width="3.8"/>
+      <path d="m5 5 9 9m12 12 9 9M35 5l-9 9M14 26l-9 9" stroke="#583c2a" stroke-width="2.8"/>
+      <path d="m15 18 5-5 5 5" stroke="#e4b66f" stroke-width="1.7"/>
+    </g>
+  </defs>
+  <g stroke="#30393b" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+    <path d="m34 83 46-24 46 24v8l-46 24-46-24Z" fill="#52605d"/>
+    <path d="m34 83 46 24 46-24-46-24Z" fill="#97a08b"/>
+    <path d="M80 107v8l46-24v-8Z" fill="#414d4b"/>
+    <path d="m39 84 41 21 41-21" stroke="#bdc5a9" stroke-width="1.3"/>
+  </g>
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <use href="#afn-lamp-face" transform="matrix(1.025 .525 0 1.025 39 41)"/>
+    <use href="#afn-lamp-face" transform="matrix(1.025 -.525 0 1.025 80 62)"/>
+    <path d="M80 62 121 41v41l-41 21Z" fill="#3b3028" fill-opacity=".12"/>
+    <use href="#afn-lamp-face" transform="matrix(1.025 -.525 1.025 .525 39 41)"/>
+    <path d="m39 41 41-21 41 21-41 21Z" fill="#f2cc89" fill-opacity=".1"/>
+    <path d="m39 41 41-21 41 21v41l-41 21-41-21Z" stroke="#30393b" stroke-width="2.2"/>
+    <path d="M39 41 80 62l41-21M80 62v41" stroke="#48372b" stroke-width="2.4"/>
+  </g>
+</svg>
