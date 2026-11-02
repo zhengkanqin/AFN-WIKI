@@ -104,73 +104,73 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "高度传感器",
-      "group": "Simulated Project",
+      "group": "航空学",
       "description": "世界高度或气压",
       "example": "63.4 m",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "速度传感器",
-      "group": "Simulated Project",
+      "group": "航空学",
       "description": "相对速度与方向",
       "example": "12.0 m/s",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "姿态传感器",
-      "group": "Simulated Project",
+      "group": "航空学",
       "description": "俯仰角与滚转角",
       "example": "4.2°",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "光学传感器",
-      "group": "Simulated Project",
+      "group": "航空学",
       "description": "检测到的方块或与目标的距离",
       "example": "石头 · 4 格",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "激光传感器",
-      "group": "Simulated Project",
+      "group": "航空学",
       "description": "命中距离",
       "example": "7.5 格",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "便携式引擎",
-      "group": "Simulated Project",
+      "group": "航空学",
       "description": "剩余或总燃烧时间",
       "example": "12.0 s",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "对接连接器",
-      "group": "Simulated Project",
+      "group": "航空学",
       "description": "对接对象",
       "example": "Airship Alpha",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "导航台",
-      "group": "Simulated Project",
+      "group": "航空学",
       "description": "目标距离或预计抵达时间",
       "example": "1,280 格",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "无线红石打字机",
-      "group": "Simulated Project",
+      "group": "航空学",
       "description": "输入文本",
       "example": "前往码头",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "螺旋齿轮/螺旋传动杆",
-      "group": "Simulated Project",
+      "group": "航空学",
       "description": "物品吞吐量",
       "example": "16/min",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "热空气燃烧室/蒸汽喷口",
@@ -206,6 +206,89 @@ window.AFN_DEVICE_CATALOG = {
       "description": "电量、百分比或进度条",
       "example": "64%",
       "mod": "Create: Connected"
+    },
+    {
+      "name": "蓄电池",
+      "group": "创想附加",
+      "description": "连接蓄电池任一组成方块，读取整个结构的储能、总容量、剩余容量、百分比或进度条。前三项为精确整数 FE，不附单位或 K/M 缩写。",
+      "example": "500000",
+      "mod": "Create Crafts & Additions",
+      "sections": [
+        {
+          "heading": "单项读数",
+          "paragraphs": [
+            "在自动读取下拉列表中勾选「储存的 FE 能量」「容量」「剩余的 FE 能量」「百分比」或「进度条」。只选储能时，下例表示 500000 FE；百分比保留 %，进度条为短文本条。",
+            "单项读数保留文本。需要计算时先取第一个分量，再转为数字，例如 ${add(number($[0]),1)} 输出 500001。"
+          ],
+          "code": "500000"
+        },
+        {
+          "heading": "组合读数",
+          "paragraphs": [
+            "多选时输出 JSON，数值保持数字类型。可用 ${$.容量} 或 ${$.储存的_FE_能量} 引用对应字段，${add($.容量,1)} 可直接计算。"
+          ],
+          "code": "{\"储存的_FE_能量\":500000,\"容量\":2000000,\"剩余的_FE_能量\":1500000}"
+        }
+      ]
+    },
+    {
+      "name": "柴油引擎",
+      "group": "柴油动力",
+      "description": "实际转速（RPM）、转向（0 顺时针／1 逆时针）、生产运行状态、应力容量（SU），以及燃料的流体量、储罐容量（mB）、名称与注册名。数值不附单位，空流体名称和注册名为空。",
+      "example": "128",
+      "mod": "Create Diesel Generators",
+      "sections": [
+        {
+          "heading": "组合读数",
+          "paragraphs": [
+            "下拉列表中勾选需要的字段，单选保留原始文本；如需计算，使用 ${number($[0])}。多选组成 JSON，可按字段名读取，例如 ${$.流体量}。",
+            "运行表示引擎是否在生产动力；被其他动力源带动时，实际转速可以非零而运行仍为 false。只为勾选字段取样。"
+          ],
+          "code": "{\"转速\":128,\"方向\":0,\"运行\":true,\"应力容量\":4096,\"流体量\":1000}"
+        }
+      ]
+    },
+    {
+      "name": "模块柴油引擎",
+      "group": "柴油动力",
+      "description": "读取整组模块的实际转速、转向、生产运行状态、应力容量及燃料信息。可把信箱附在任意成员上，读数自动取自主控制器。未加载的控制器不强行加载。",
+      "example": "{\"转速\":128,\"运行\":true,\"流体量\":1000}",
+      "mod": "Create Diesel Generators"
+    },
+    {
+      "name": "大型柴油引擎",
+      "group": "柴油动力",
+      "description": "读取当前引擎的转向、生产运行状态与燃料信息；实际 RPM 和应力容量取其对应的共同动力曲轴，因此同轴引擎可能显示相同的转速和容量。燃料量、容量为 mB。",
+      "example": "{\"转速\":128,\"运行\":true,\"方向\":0,\"流体量\":1000}",
+      "mod": "Create Diesel Generators"
+    },
+    {
+      "name": "动力曲轴",
+      "group": "柴油动力",
+      "description": "读取实际转速（RPM）、运行状态和应力容量（SU）。燃料信息应从连接的大型柴油引擎读取。",
+      "example": "{\"转速\":128,\"运行\":true,\"应力容量\":4096}",
+      "mod": "Create Diesel Generators"
+    },
+    {
+      "name": "化学炮塔（放置式化学喷雾器）",
+      "group": "柴油动力",
+      "description": "读取当前和目标水平角／俯仰角（度）、喷射状态，以及流体量、储罐容量（mB）、流体名称与注册名。喷射状态反映实际是否喷射，并非只看喷射请求。",
+      "example": "{\"当前水平角\":90,\"当前俯仰角\":-20,\"喷射中\":true,\"流体量\":500}",
+      "mod": "Create Diesel Generators"
+    },
+    {
+      "name": "可控燃烧室",
+      "group": "柴油动力",
+      "description": "读取燃烧速率（阀门开度 0～1）、热量、输出强度（0～15）及燃料的流体量、储罐容量（mB）、名称、注册名。燃烧速率不是每刻耗油量；未燃烧时热量可能为 -1。",
+      "example": "{\"燃烧速率\":0.5,\"热量\":1.5,\"输出强度\":9,\"流体量\":500}",
+      "mod": "Create Diesel Generators"
+    },
+    {
+      "name": "抽油机油泵",
+      "group": "柴油动力",
+      "description": "读取原油储量，沿用本体的整数 B 文本；1 B=1000 mB。小于一桶的余量会按本体规则舍去。",
+      "example": "500B",
+      "mod": "Create Diesel Generators"
     },
     {
       "name": "横向流体储罐（锅炉结构）",
@@ -503,91 +586,91 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "铭牌（全部颜色）",
-      "group": "Simulated Project",
+      "group": "航空学",
       "description": "name=铭牌文本（任意颜色铭牌共用，最多 32 字符，可含换行）；text_color=文字颜色（英文色名或 0–15 序号）；glow=是否发光（true/false）。",
       "example": "{\"name\":\"东侧仓库\",\"text_color\":\"yellow\",\"glow\":true}",
       "fields": "name、text_color、glow",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "便携式引擎",
-      "group": "Simulated Project",
+      "group": "航空学",
       "description": "rotation_direction=输出方向：clockwise=顺时针（cw/正转）、counter_clockwise=逆时针（ccw/反转）；JSON 可写 0/1。",
       "example": "{\"rotation_direction\":\"clockwise\"}",
       "fields": "rotation_direction",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "万向节传感器",
-      "group": "Simulated Project",
+      "group": "航空学",
       "description": "axis=万向节设定角（度，-90–90）。",
       "example": "{\"axis\":30}",
       "fields": "axis（−90–90°）",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "光学传感器",
-      "group": "Simulated Project",
+      "group": "航空学",
       "description": "range=光学传感器探测距离（1–4096）。",
       "example": "{\"range\":128}",
       "fields": "range（1–4096）",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "激光指示器",
-      "group": "Simulated Project",
+      "group": "航空学",
       "description": "max_range=激光最大射程（格，1 到服务器上限）。",
       "example": "{\"max_range\":64}",
       "fields": "max_range（1 至服务器上限）",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "速度传感器",
-      "group": "Simulated Project",
+      "group": "航空学",
       "description": "max_speed=速度传感器量程（1–50）。",
       "example": "{\"max_speed\":20}",
       "fields": "max_speed（1–50）",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "舵轮",
-      "group": "Simulated Project",
+      "group": "航空学",
       "description": "max_angle=舵轮最大转角（度，1–360）。",
       "example": "{\"max_angle\":90}",
       "fields": "max_angle（1–360°）",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "扭力弹簧",
-      "group": "Simulated Project",
+      "group": "航空学",
       "description": "max_angle=扭力弹簧最大行程角度（度，1–360）。",
       "example": "{\"max_angle\":180}",
       "fields": "max_angle（1–360°）",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "旋转轴承",
-      "group": "Simulated Project",
+      "group": "航空学",
       "description": "locking=锁定模式：locked_always=始终锁定、locked_default=默认锁定、unlocked_default=默认解锁、unlocked_always=始终解锁；JSON 可写 0–3。",
       "example": "{\"locking\":\"locked_default\"}",
       "fields": "locking",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "红石累加器",
-      "group": "Simulated Project",
+      "group": "航空学",
       "description": "delay=累加延时（tick，2–72000）。",
       "example": "{\"delay\":20}",
       "fields": "delay（2–72000 tick）",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "红石电感器",
-      "group": "Simulated Project",
+      "group": "航空学",
       "description": "delay=电感延时（tick，0–72000）。",
       "example": "{\"delay\":20}",
       "fields": "delay（0–72000 tick）",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "螺旋桨轴承",
@@ -623,11 +706,11 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "车轮支座",
-      "group": "Create: Offroad",
+      "group": "航空学",
       "description": "suspension_strength=顶面减震/悬挂强度（5–180）。",
       "example": "{\"suspension_strength\":30}",
       "fields": "suspension_strength（5–180）",
-      "mod": "Create: Offroad"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "固定式火炮底座",
@@ -668,6 +751,163 @@ window.AFN_DEVICE_CATALOG = {
           "after": [
             "每次收到并输出这条内容，就追加一次瞄准后的射击请求。只想调整朝向时，移除 fire_count 字段。"
           ]
+        }
+      ]
+    },
+    {
+      "name": "电动马达",
+      "group": "创想附加",
+      "description": "远程设置目标转速与方向。转速范围跟随本体配置，默认 −256–256 RPM；供电与红石启停仍由电动马达本身决定。",
+      "example": "{\"speed\":64,\"direction\":\"reverse\"}",
+      "fields": "speed（整数 RPM）、direction（forward / reverse）",
+      "mod": "Create Crafts & Additions",
+      "sections": [
+        {
+          "heading": "最简写法",
+          "paragraphs": [
+            "直接发送整数：64 正转、-64 反转、0 停转。也可写 64,1 或「转速 64 方向 反转」。"
+          ],
+          "code": "-64"
+        },
+        {
+          "heading": "同时设置转速与方向",
+          "paragraphs": [
+            "speed 是有符号转速；提供 direction 时由它决定方向，speed 只取绝对值。forward/正转 对应 0，reverse/反转 对应 1；也接受 顺时针/逆时针、cw/ccw，方向以马达自身设置为准。"
+          ],
+          "code": "{\"speed\":64,\"direction\":\"reverse\"}"
+        },
+        {
+          "heading": "只改一个字段",
+          "paragraphs": [
+            "JSON 可以只提供 speed 或 direction。只改方向时保留当前转速大小；下例把现有转速切换为反转。"
+          ],
+          "code": "{\"direction\":\"reverse\"}"
+        }
+      ]
+    },
+    {
+      "name": "柴油引擎",
+      "group": "柴油动力",
+      "description": "改变当前引擎方向；不指定 RPM，燃料与红石停机规则仍有效。",
+      "example": "{\"direction\":\"counter_clockwise\"}",
+      "fields": "direction（clockwise / counter_clockwise，0 / 1）",
+      "mod": "Create Diesel Generators",
+      "sections": [
+        {
+          "heading": "转向",
+          "paragraphs": [
+            "裸值可写 0/1、顺时针/逆时针、正转/反转或 cw/ccw。0=clockwise，1=counter_clockwise；方向相对设备本身。"
+          ],
+          "code": "1"
+        }
+      ]
+    },
+    {
+      "name": "模块柴油引擎",
+      "group": "柴油动力",
+      "description": "附着任一成员即可改变整组引擎方向；保留原生结构和停机条件。",
+      "example": "{\"direction\":\"counter_clockwise\"}",
+      "fields": "direction（clockwise / counter_clockwise，0 / 1）",
+      "mod": "Create Diesel Generators",
+      "sections": [
+        {
+          "heading": "转向",
+          "paragraphs": [
+            "裸值可写 0/1、顺时针/逆时针、正转/反转或 cw/ccw。0=clockwise，1=counter_clockwise；方向相对设备本身。"
+          ],
+          "code": "1"
+        }
+      ]
+    },
+    {
+      "name": "大型柴油引擎",
+      "group": "柴油动力",
+      "description": "改变同一动力曲轴上连接引擎的方向；仍需正确装配和供油。",
+      "example": "{\"direction\":\"counter_clockwise\"}",
+      "fields": "direction（clockwise / counter_clockwise，0 / 1）",
+      "mod": "Create Diesel Generators",
+      "sections": [
+        {
+          "heading": "转向",
+          "paragraphs": [
+            "裸值可写 0/1、顺时针/逆时针、正转/反转或 cw/ccw。0=clockwise，1=counter_clockwise；方向相对设备本身。"
+          ],
+          "code": "1"
+        }
+      ]
+    },
+    {
+      "name": "动力曲轴",
+      "group": "柴油动力",
+      "description": "通过曲轴修改连接的大型柴油引擎方向；空轴没有可配置引擎。",
+      "example": "{\"direction\":\"counter_clockwise\"}",
+      "fields": "direction（clockwise / counter_clockwise，0 / 1）",
+      "mod": "Create Diesel Generators",
+      "sections": [
+        {
+          "heading": "转向",
+          "paragraphs": [
+            "裸值可写 0/1、顺时针/逆时针、正转/反转或 cw/ccw。0=clockwise，1=counter_clockwise；方向相对设备本身。"
+          ],
+          "code": "1"
+        }
+      ]
+    },
+    {
+      "name": "化学炮塔（放置式化学喷雾器）",
+      "group": "柴油动力",
+      "description": "设置目标角度、开始或停止持续喷射，或请求单次喷射。只控制可放置方块，仍需流体与动力；转向沿用原生平滑运动。",
+      "example": "{\"yaw\":90,\"pitch\":-20,\"spray\":true,\"spray_once\":false}",
+      "fields": "yaw（水平角）、pitch（俯仰角）、spray（持续喷射）、spray_once（单次喷射）",
+      "mod": "Create Diesel Generators",
+      "sections": [
+        {
+          "heading": "角度与简写",
+          "paragraphs": [
+            "yaw 接受 -360000～360000 度并归一到 0～360；pitch 接受 -50～11 度，负值抬头。直接写 90,-20 或 [90,-20] 同时修改两角；裸数值只修改水平角。"
+          ],
+          "code": "90,-20"
+        },
+        {
+          "heading": "喷射控制",
+          "paragraphs": [
+            "spray=true 持续喷射，不会仅因信道熄灭复位；spray=false 停止持续喷射并取消待喷的单次。spray_once=true 每条消息请求一次，不等待转向完成。外部红石可能覆盖持续喷射，玩家或实体操控可能接管瞄准。JSON 可以只提供需要修改的字段。"
+          ],
+          "code": "{\"spray_once\":true}"
+        }
+      ]
+    },
+    {
+      "name": "可控燃烧室",
+      "group": "柴油动力",
+      "description": "burn_rate 为 0～1 阀门开度。实际热量取决于燃料；机械阀门驱动和外部红石仍按本体规则调整或覆盖该值。",
+      "example": "{\"burn_rate\":0.5}",
+      "fields": "burn_rate（0～1）",
+      "mod": "Create Diesel Generators",
+      "sections": [
+        {
+          "heading": "最简写法",
+          "paragraphs": [
+            "裸值 0.5 设为一半开度，0 关闭阀门。燃烧速率不是每刻耗油量；不绕过燃料条件。"
+          ],
+          "code": "0.5"
+        }
+      ]
+    },
+    {
+      "name": "抽油机曲柄",
+      "group": "柴油动力",
+      "description": "设置曲柄尺寸：normal/普通 为 0，large/大型 为 1。仍需满足抽油机原生装配与连接条件。",
+      "example": "{\"size\":\"large\"}",
+      "fields": "size（normal / large，0 / 1）",
+      "mod": "Create Diesel Generators",
+      "sections": [
+        {
+          "heading": "最简写法",
+          "paragraphs": [
+            "裸值可写 1、large 或「大型」。"
+          ],
+          "code": "1"
         }
       ]
     },

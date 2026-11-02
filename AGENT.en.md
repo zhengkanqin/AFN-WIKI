@@ -1,6 +1,6 @@
 # AFN Compact Agent Reference
 
-**AFN 1.8.0 · Create: Advanced Frequency Network · Connect everything. Let data flow your way.**
+**AFN 1.8.2 · Create: Advanced Frequency Network · Connect everything. Let data flow your way.**
 
 For Agents to understand features, design player solutions and generate configurations; this is not a developer handover. [Illustrated WIKI](./index.en.html) · [Lua function manual](./FUNCTIONS.en.md) · [Public Channel API](https://github.com/zhengkanqin/AFN-WIKI/tree/main/API) · [Chinese reference](./AGENT.md). Device names refer to in-game items; do not freely translate JSON keys, function names or commands. The actual interface and server settings take precedence over the defaults below.
 
@@ -15,12 +15,12 @@ Install on both client and server. Base environment: Minecraft **1.21.1**, NeoFo
 | Synaxis | Cimulink activation/value ports; AFN imposes no minimum or maximum runtime version |
 | CreateImprove | **1.4.0+** enables text-frequency links and Signal Router integration |
 | Create: Flight Control | **0.8.3+** enables parameter writing and navigation reading; disabled on older versions |
-| Create: Aeronautics | Readings and configuration for propeller bearings, Hot Air Burners and Steam Vents |
-| Simulated Project | Navigation tables, sensors and corresponding machine readings/configuration |
-| Create: Offroad | Wheel Mount suspension-strength configuration |
+| Create: Aeronautics | Readings and configuration for navigation tables, sensors, propeller bearings, Hot Air Burners and Steam Vents; Wheel Mount suspension-strength configuration |
 | Sable | Moving-structure coordinates, terminals following structures and structure keepalive for long signals |
 | Sable Photomancy / Schematic API | Schematic capture, editing and printing when `sable_schematic_api` is provided; supports old and new Sable paths |
 | Create: Connected | Machine parameters/readings for clutches, kinetic batteries and kinetic bridges |
+| Create Crafts & Additions | Electric Motor speed/direction; exact Accumulator FE values, percentage and progress-bar reading |
+| Create Diesel Generators | Engine/Burner/Turret state and fluid readings; engine direction, turret aiming/spraying, valve opening and crank size |
 | Create Big Cannons | Cannon readings, angles, aiming and firing |
 | NetMusic | Record-player state/song/lyrics reading; speaker reading and control |
 | Xaero's World Map | Client terrain source; not required on the server; maps/grids remain available without it |
@@ -129,11 +129,14 @@ Attach a mailbox to the target and enable automatic reading; select specific rea
 | Cuckoo Clock; Train Station/Observer; Elevator Contact | Time; station/train state and name; current floor |
 | Boiler Fluid Tank; Factory Gauge; Seat | Boiler state; linked factory-panel items, stock and requests; passenger name |
 | Stock Ticker / Stock Link | AFN name of the associated logistics network; unnamed placeholder text does not automatically merge networks |
-| Simulated altitude/speed/attitude/optical/laser sensors | Actual source modes such as altitude/air pressure, speed, attitude, detections/distance |
+| Aeronautics altitude/speed/attitude/optical/laser sensors | Actual source modes such as altitude/air pressure, speed, attitude, detections/distance |
 | Portable Engine, Docking Connector, Navigation Table, Wireless Redstone Typewriter, Helical Gear/Drive Rod | Their respective operating states and navigation/input/transmission readings |
 | Aeronautics Hot Air Burner / Steam Vent | Gas-related readings |
 | Flight Control Navigation Terminal | Current target index (starting at 1), target world coordinates, segment completion 0–100%; coordinates are empty without a target, progress is empty without an explicit segment-progress value |
 | CBC fixed Cannon Mount; Connected Kinetic Battery / Horizontal Boiler Tank | Yaw/pitch; battery/boiler readings |
+| Crafts & Additions Accumulator | Exact integer FE for stored/capacity/remaining capacity, percentage or progress bar; any member block reads the whole structure |
+| Diesel Generators engines / Powered Engine Shaft | Actual RPM, production state and current SU capacity; engines also expose direction 0=clockwise/1=counterclockwise and fuel mB/capacity/name/ID. Modular members read their controller; Huge Engine RPM/capacity come from the shared shaft |
+| Diesel Generators Chemical Turret / Burner / Pumpjack Hole | Current/target yaw/pitch, actual spraying and fluid readings; valve opening 0–1, heat, output 0–15 and fluid; original oil reserves in integer B |
 | Vanilla Note Block, Target, Respawn Anchor, Command Block, Enchanting Table; CC:T computer | Note/hit/charge/specified scoreboard entry/enchantment/computer content from the corresponding display sources |
 | NetMusic Speaker | Broadcast address, name, range and playback state |
 | NetMusic Record Player | Playback state, song title, artist, translated title, total/elapsed/remaining seconds, progress, current/all lyrics, song URL, loop, redstone, VIP, read-only and disc presence |
@@ -156,12 +159,16 @@ Mailbox reception → output syntax → attached device; hidden terminals share 
 | Mechanical Saw/Basin | `result` selects a **result item**, not a recipe ID; Chinese names are supported; `minecraft:air` clears the filter; recipe conditions cannot be bypassed |
 | Mechanical Roller; Brass Repeater family; Valve Handle | `mode/material`; `delay`; `angle` |
 | Sequenced Gearshift | Text or `steps`; turn/drive/delay/await/stop, directions forward/reverse/fast-forward/fast-reverse; at most 5 steps including an automatically added stop. Writing stops the old program; apply redstone separately to start |
-| Simulated Nameplate | `name/text_color/glow` |
+| Aeronautics Nameplate | `name/text_color/glow` |
 | Portable Engine, Universal Joint/Optical/Speed Sensor, Laser Pointer | `rotation_direction`, `axis`, `range`, `max_speed`, `max_range` |
 | Steering Wheel/Torsion Spring; Rotation Bearing; Redstone Accumulator/Inductor | `max_angle`; `locking`; `delay` |
-| Aeronautics Propeller/Gyro Propeller Bearing; Hot Air Burner; Steam Exhaust; Offroad Wheel Mount | `thrust_direction`; `hot_air_amount`; `steam_amount`; `suspension_strength` |
+| Aeronautics Propeller/Gyro Propeller Bearing; Hot Air Burner; Steam Exhaust; Wheel Mount | `thrust_direction`; `hot_air_amount`; `steam_amount`; `suspension_strength` |
 | CBC fixed Cannon Mount | `yaw/pitch/fire_count` or integer world `target:[x,y,z]`; target takes priority over angles, then fires after turning. Angle-only/target-only writes cancel pending shots; at most 64 queued shots retained for 1200 ticks; no ballistic compensation |
 | Connected Gauge Board, Centrifugal/Flywheel/Overstress Clutch, Kinetic Battery/Bridge | Display content, `speed_threshold/direction/delay`, `direction/stress_multiplier` |
+| Crafts & Additions Electric Motor | Signed integer `speed` RPM, 0 stops; `direction` forward/reverse or 0/1 overrides the sign and alone preserves speed magnitude. Bare `-64` or `{"speed":64,"direction":"reverse"}`; range follows motor configuration |
+| Diesel Generators engines / Powered Engine Shaft | `direction=clockwise/counter_clockwise` (0/1); bare `1` or `{"direction":"counter_clockwise"}`. Whole modular groups / engines on one shaft change together; an empty shaft cannot be configured |
+| Diesel Generators Chemical Turret | `yaw/pitch/spray/spray_once`; bare `90,-20` or `{"yaw":90,"pitch":-20,"spray":true,"spray_once":false}`. Yaw normalizes 0–360, pitch −50–11. Sustained spraying needs `spray=false` to stop, not a falling channel signal; single spray does not wait for aiming. Fluid/power remain required |
+| Diesel Generators Burner / Pumpjack Crank | `burn_rate` valve opening 0–1, bare `0.5`; crank `size=normal/large` (0/1). Original mechanical, redstone and assembly conditions remain active |
 | Vanilla Note Block; NetMusic Speaker | `instrument/note`; `state/source/name/range` (stopping a live stream disconnects it; play reconnects) |
 
 ```text
@@ -228,6 +235,9 @@ Pagers provide multichannel chat: each channel has its own frequency/name, long 
 ```
 
 `messages` can mix text and multiple stock JSON/Map objects, displayed as item-icon/quantity emotes. Unformatted text is received anonymously; disabling both identity fields sends plain text. Bridge Conversation/DP Radio use the same parser. Empty custom bridge avatar/name fields mean anonymous; player identity is not guessed.
+
+
+Geometry messages: send bare map-terminal `{"points":[{"position":[0,64,0],"name":"Warehouse"}],"lines":[],"areas":[]}` objects directly to a pager or place them in `messages`, with no wrapper. Explicit `{"type":"map","title":"Route","dimension":"minecraft:overworld","geometry":{"points":[[0,64,0]],"lines":[{"points":[[0,64,0],[32,64,0]]}],"areas":[{"points":[[0,64,0],[32,64,0],[32,64,32]]}]}}` objects also work in `messages`. Point objects accept `position` or `pos`, plus `name/color/text_color`; lines/polygons use `points/name/color/text_color`. Coordinates must be numerical triples; lines need ≥2 vertices, polygons ≥3. Omitted dimension means the current dimension at viewing time. Per map: ≤128 vertices/16 lines and polygons; per message: ≤4 maps/256 vertices, still bounded by 1024 characters/4096 bytes. Invalid objects remain text. Pagers draw low-resolution previews only for visible cards, including partially visible ones; details allow zoom/pan. Client terrain order is Xaero→AFN→grid; other dimensions/unknown terrain use grid, with no forced chunk loading. Bridges/DP show summaries only.
 
 ## 13. Dashpanels: AFN Modules
 

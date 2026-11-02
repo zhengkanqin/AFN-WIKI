@@ -104,73 +104,73 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "Altitude Sensor",
-      "group": "Simulated Project",
+      "group": "Aeronautics",
       "description": "World altitude or air pressure",
       "example": "63.4 m",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "Speed Sensor",
-      "group": "Simulated Project",
+      "group": "Aeronautics",
       "description": "Relative speed and direction",
       "example": "12.0 m/s",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "Attitude Sensor",
-      "group": "Simulated Project",
+      "group": "Aeronautics",
       "description": "Pitch and roll",
       "example": "4.2°",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "Optical Sensor",
-      "group": "Simulated Project",
+      "group": "Aeronautics",
       "description": "Detected block or distance to the target",
       "example": "Stone - 4 blocks",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "Laser Sensor",
-      "group": "Simulated Project",
+      "group": "Aeronautics",
       "description": "Hit distance",
       "example": "7.5 blocks",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "Portable Engine",
-      "group": "Simulated Project",
+      "group": "Aeronautics",
       "description": "Remaining or total burn time",
       "example": "12.0 s",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "Docking Connector",
-      "group": "Simulated Project",
+      "group": "Aeronautics",
       "description": "Docking partner",
       "example": "Airship Alpha",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "Navigation Table",
-      "group": "Simulated Project",
+      "group": "Aeronautics",
       "description": "Distance to the target or estimated arrival time",
       "example": "1,280 blocks",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "Wireless Redstone Typewriter",
-      "group": "Simulated Project",
+      "group": "Aeronautics",
       "description": "Entered text",
       "example": "Head to the dock",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "Worm Gear / Worm Drive Rod",
-      "group": "Simulated Project",
+      "group": "Aeronautics",
       "description": "Item throughput",
       "example": "16/min",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "Hot Air Burner / Steam Vent",
@@ -206,6 +206,89 @@ window.AFN_DEVICE_CATALOG = {
       "description": "Charge, percentage or progress bar",
       "example": "64%",
       "mod": "Create: Connected"
+    },
+    {
+      "name": "Accumulator",
+      "group": "Create Crafts & Additions",
+      "description": "Attach to any block of the accumulator structure to read total stored energy, capacity, remaining capacity, percentage or a progress bar. The first three are exact integer FE values without units or K/M abbreviations.",
+      "example": "500000",
+      "mod": "Create Crafts & Additions",
+      "sections": [
+        {
+          "heading": "Single reading",
+          "paragraphs": [
+            "Select stored energy, total capacity, remaining energy, percentage or progress bar in the Automatic Read dropdown. With only stored energy selected, the example means 500000 FE. Percentages retain %, while progress bars use compact text.",
+            "A single reading remains text. For calculations, select the first component and convert it to a number: ${add(number($[0]),1)} produces 500001."
+          ],
+          "code": "500000"
+        },
+        {
+          "heading": "Combined readings",
+          "paragraphs": [
+            "Multiple selections produce JSON and preserve numerical values as numbers. Keys follow the selected field labels, with spaces and punctuation replaced by underscores; ${add($.Total_Capacity,1)} calculates directly with the capacity field."
+          ],
+          "code": "{\"Energy_Stored_in\":500000,\"Total_Capacity\":2000000,\"Remaining\":1500000}"
+        }
+      ]
+    },
+    {
+      "name": "Diesel Engine",
+      "group": "Diesel Generators",
+      "description": "Actual speed (RPM), direction (0 clockwise / 1 counterclockwise), power-production state, stress capacity (SU), fuel amount/tank capacity (mB), fluid name and ID. Numerical readings have no units; empty-fluid names and IDs are empty.",
+      "example": "128",
+      "mod": "Create Diesel Generators",
+      "sections": [
+        {
+          "heading": "Combined readings",
+          "paragraphs": [
+            "Select the fields you need in the dropdown. A single reading remains text; use ${number($[0])} for calculations. Multiple selections form JSON, accessible by field name such as ${$.Fluid_Amount}.",
+            "Running indicates whether the engine produces power. When driven by another source, actual RPM can be nonzero while Running is false. Only selected fields are sampled."
+          ],
+          "code": "{\"Speed\":128,\"Direction\":0,\"Running\":true,\"Stress_Capacity\":4096,\"Fluid_Amount\":1000}"
+        }
+      ]
+    },
+    {
+      "name": "Modular Diesel Engine",
+      "group": "Diesel Generators",
+      "description": "Read actual speed, direction, production state, stress capacity and fuel information for the group. Attach a mailbox to any member; readings resolve to the controller without force-loading it.",
+      "example": "{\"Speed\":128,\"Running\":true,\"Fluid_Amount\":1000}",
+      "mod": "Create Diesel Generators"
+    },
+    {
+      "name": "Huge Diesel Engine",
+      "group": "Diesel Generators",
+      "description": "Read this engine’s direction, production state and fuel information. Actual RPM and stress capacity come from its shared Powered Engine Shaft, so engines on the same shaft may report identical speed and capacity. Fuel amount and capacity are mB.",
+      "example": "{\"Speed\":128,\"Running\":true,\"Direction\":0,\"Fluid_Amount\":1000}",
+      "mod": "Create Diesel Generators"
+    },
+    {
+      "name": "Powered Engine Shaft",
+      "group": "Diesel Generators",
+      "description": "Read actual speed (RPM), running state and stress capacity (SU). Read fuel information from the connected Huge Diesel Engine instead.",
+      "example": "{\"Speed\":128,\"Running\":true,\"Stress_Capacity\":4096}",
+      "mod": "Create Diesel Generators"
+    },
+    {
+      "name": "Chemical Turret (placed chemical sprayer)",
+      "group": "Diesel Generators",
+      "description": "Read current/target yaw and pitch in degrees, actual spraying state, fluid amount/tank capacity in mB, fluid name and ID. Spraying reflects actual emission, not merely a request to spray.",
+      "example": "{\"Current_Yaw\":90,\"Current_Pitch\":-20,\"Spraying\":true,\"Fluid_Amount\":500}",
+      "mod": "Create Diesel Generators"
+    },
+    {
+      "name": "Burner",
+      "group": "Diesel Generators",
+      "description": "Read burn rate (valve opening 0–1), heat, output strength (0–15), fuel amount/tank capacity in mB, fluid name and ID. Burn rate is not fuel consumption per tick; heat may be -1 when unlit.",
+      "example": "{\"Burn_Rate\":0.5,\"Heat\":1.5,\"Output_Strength\":9,\"Fluid_Amount\":500}",
+      "mod": "Create Diesel Generators"
+    },
+    {
+      "name": "Pumpjack Hole",
+      "group": "Diesel Generators",
+      "description": "Read oil reserves using the original integer B text (1 B=1000 mB). Fractions of a bucket are discarded by the original reading.",
+      "example": "500B",
+      "mod": "Create Diesel Generators"
     },
     {
       "name": "Horizontal Fluid Tank (boiler structure)",
@@ -503,91 +586,91 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "Nameplate (all colors)",
-      "group": "Simulated Project",
+      "group": "Aeronautics",
       "description": "name = nameplate text (shared by all nameplate colors, up to 32 characters, including newlines); text_color = text color (English color name or index 0-15); glow = whether it glows (true/false).",
       "example": "{\"name\":\"East Warehouse\",\"text_color\":\"yellow\",\"glow\":true}",
       "fields": "name, text_color, glow",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "Portable Engine",
-      "group": "Simulated Project",
+      "group": "Aeronautics",
       "description": "rotation_direction = output direction: clockwise (cw/forward) or counter_clockwise (ccw/reverse). JSON accepts 0/1.",
       "example": "{\"rotation_direction\":\"clockwise\"}",
       "fields": "rotation_direction",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "Gimbal Sensor",
-      "group": "Simulated Project",
+      "group": "Aeronautics",
       "description": "axis = gimbal set angle (-90 to 90 degrees).",
       "example": "{\"axis\":30}",
       "fields": "axis (−90–90°)",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "Optical Sensor",
-      "group": "Simulated Project",
+      "group": "Aeronautics",
       "description": "range = optical sensor detection range (1-4096).",
       "example": "{\"range\":128}",
       "fields": "range (1–4096)",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "Laser Pointer",
-      "group": "Simulated Project",
+      "group": "Aeronautics",
       "description": "max_range = maximum laser range in blocks, from 1 to the server limit.",
       "example": "{\"max_range\":64}",
       "fields": "max_range (1 to the server limit)",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "Speed Sensor",
-      "group": "Simulated Project",
+      "group": "Aeronautics",
       "description": "max_speed = speed sensor measurement range (1-50).",
       "example": "{\"max_speed\":20}",
       "fields": "max_speed (1–50)",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "Steering Wheel",
-      "group": "Simulated Project",
+      "group": "Aeronautics",
       "description": "max_angle = maximum steering wheel angle (1-360 degrees).",
       "example": "{\"max_angle\":90}",
       "fields": "max_angle (1–360°)",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "Torsion Spring",
-      "group": "Simulated Project",
+      "group": "Aeronautics",
       "description": "max_angle = maximum torsion spring travel angle (1-360 degrees).",
       "example": "{\"max_angle\":180}",
       "fields": "max_angle (1–360°)",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "Rotary Bearing",
-      "group": "Simulated Project",
+      "group": "Aeronautics",
       "description": "locking = locking mode: locked_always = always locked, locked_default = locked by default, unlocked_default = unlocked by default, unlocked_always = always unlocked. JSON accepts 0-3.",
       "example": "{\"locking\":\"locked_default\"}",
       "fields": "locking",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "Redstone Accumulator",
-      "group": "Simulated Project",
+      "group": "Aeronautics",
       "description": "delay = accumulation delay (2-72000 ticks).",
       "example": "{\"delay\":20}",
       "fields": "delay (2–72000 tick)",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "Redstone Inductor",
-      "group": "Simulated Project",
+      "group": "Aeronautics",
       "description": "delay = inductance delay (0-72000 ticks).",
       "example": "{\"delay\":20}",
       "fields": "delay (0–72000 tick)",
-      "mod": "Simulated Project"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "Propeller Bearing",
@@ -623,11 +706,11 @@ window.AFN_DEVICE_CATALOG = {
     },
     {
       "name": "Wheel Mount",
-      "group": "Create: Offroad",
+      "group": "Aeronautics",
       "description": "suspension_strength = suspension/shock absorption strength on the top face (5-180).",
       "example": "{\"suspension_strength\":30}",
       "fields": "suspension_strength (5–180)",
-      "mod": "Create: Offroad"
+      "mod": "Create: Aeronautics"
     },
     {
       "name": "Fixed Cannon Mount",
@@ -668,6 +751,163 @@ window.AFN_DEVICE_CATALOG = {
           "after": [
             "Each reception and output of this content adds one request to aim and then fire. Remove fire_count to adjust direction only."
           ]
+        }
+      ]
+    },
+    {
+      "name": "Electric Motor",
+      "group": "Create Crafts & Additions",
+      "description": "Set the target speed and direction remotely. The range follows the motor configuration, defaulting to −256–256 RPM. Power supply and redstone shutoff remain controlled by the motor itself.",
+      "example": "{\"speed\":64,\"direction\":\"reverse\"}",
+      "fields": "speed (integer RPM), direction (forward / reverse)",
+      "mod": "Create Crafts & Additions",
+      "sections": [
+        {
+          "heading": "Shorthand",
+          "paragraphs": [
+            "Send an integer directly: 64 runs forward, -64 reverses, and 0 stops. The pair 64,1 also selects reverse rotation."
+          ],
+          "code": "-64"
+        },
+        {
+          "heading": "Set speed and direction together",
+          "paragraphs": [
+            "speed is signed RPM. When direction is supplied, it determines direction and speed supplies only the magnitude. forward corresponds to 0; reverse corresponds to 1. cw/ccw and the Chinese aliases are also accepted, relative to the motor's own direction setting."
+          ],
+          "code": "{\"speed\":64,\"direction\":\"reverse\"}"
+        },
+        {
+          "heading": "Change one field",
+          "paragraphs": [
+            "JSON may contain speed or direction alone. Changing only direction preserves the current speed magnitude; this example reverses it."
+          ],
+          "code": "{\"direction\":\"reverse\"}"
+        }
+      ]
+    },
+    {
+      "name": "Diesel Engine",
+      "group": "Diesel Generators",
+      "description": "Change this engine’s direction without setting RPM. Fuel and redstone shutdown rules still apply.",
+      "example": "{\"direction\":\"counter_clockwise\"}",
+      "fields": "direction (clockwise / counter_clockwise, 0 / 1)",
+      "mod": "Create Diesel Generators",
+      "sections": [
+        {
+          "heading": "Direction",
+          "paragraphs": [
+            "Bare values accept 0/1, clockwise/counter_clockwise or cw/ccw. 0=clockwise and 1=counter_clockwise, relative to the device itself."
+          ],
+          "code": "1"
+        }
+      ]
+    },
+    {
+      "name": "Modular Diesel Engine",
+      "group": "Diesel Generators",
+      "description": "Attach to any member to change the whole group’s direction. Original structure and shutdown conditions still apply.",
+      "example": "{\"direction\":\"counter_clockwise\"}",
+      "fields": "direction (clockwise / counter_clockwise, 0 / 1)",
+      "mod": "Create Diesel Generators",
+      "sections": [
+        {
+          "heading": "Direction",
+          "paragraphs": [
+            "Bare values accept 0/1, clockwise/counter_clockwise or cw/ccw. 0=clockwise and 1=counter_clockwise, relative to the device itself."
+          ],
+          "code": "1"
+        }
+      ]
+    },
+    {
+      "name": "Huge Diesel Engine",
+      "group": "Diesel Generators",
+      "description": "Change connected engines on the same Powered Engine Shaft. Correct assembly and fuel are still required.",
+      "example": "{\"direction\":\"counter_clockwise\"}",
+      "fields": "direction (clockwise / counter_clockwise, 0 / 1)",
+      "mod": "Create Diesel Generators",
+      "sections": [
+        {
+          "heading": "Direction",
+          "paragraphs": [
+            "Bare values accept 0/1, clockwise/counter_clockwise or cw/ccw. 0=clockwise and 1=counter_clockwise, relative to the device itself."
+          ],
+          "code": "1"
+        }
+      ]
+    },
+    {
+      "name": "Powered Engine Shaft",
+      "group": "Diesel Generators",
+      "description": "Configure connected Huge Diesel Engines through their shaft. An empty shaft has no engine to configure.",
+      "example": "{\"direction\":\"counter_clockwise\"}",
+      "fields": "direction (clockwise / counter_clockwise, 0 / 1)",
+      "mod": "Create Diesel Generators",
+      "sections": [
+        {
+          "heading": "Direction",
+          "paragraphs": [
+            "Bare values accept 0/1, clockwise/counter_clockwise or cw/ccw. 0=clockwise and 1=counter_clockwise, relative to the device itself."
+          ],
+          "code": "1"
+        }
+      ]
+    },
+    {
+      "name": "Chemical Turret (placed chemical sprayer)",
+      "group": "Diesel Generators",
+      "description": "Set target angles, start/stop sustained spraying, or request a single spray. This controls the placed block and still requires fluid and kinetic power. Rotation follows the original smooth movement.",
+      "example": "{\"yaw\":90,\"pitch\":-20,\"spray\":true,\"spray_once\":false}",
+      "fields": "yaw, pitch, spray (sustained), spray_once (single spray)",
+      "mod": "Create Diesel Generators",
+      "sections": [
+        {
+          "heading": "Angles and shorthand",
+          "paragraphs": [
+            "yaw accepts -360000–360000 degrees and normalizes to 0–360; pitch accepts -50–11 degrees, with negative values aiming upward. Send 90,-20 or [90,-20] to set both; a bare number changes only yaw."
+          ],
+          "code": "90,-20"
+        },
+        {
+          "heading": "Spraying",
+          "paragraphs": [
+            "spray=true keeps spraying even after the channel deactivates; spray=false stops sustained spraying and cancels a pending single spray. Each message with spray_once=true requests one spray without waiting for rotation to finish. External redstone may override sustained spraying; player/entity control may take over aiming. JSON may supply only the fields to change."
+          ],
+          "code": "{\"spray_once\":true}"
+        }
+      ]
+    },
+    {
+      "name": "Burner",
+      "group": "Diesel Generators",
+      "description": "burn_rate is the valve opening from 0 to 1. Actual heat depends on fuel; mechanical valve movement and external redstone still adjust or override it under the original rules.",
+      "example": "{\"burn_rate\":0.5}",
+      "fields": "burn_rate (0–1)",
+      "mod": "Create Diesel Generators",
+      "sections": [
+        {
+          "heading": "Shorthand",
+          "paragraphs": [
+            "Bare 0.5 sets half opening, while 0 closes the valve. Burn rate is not fuel consumption per tick and does not bypass fuel requirements."
+          ],
+          "code": "0.5"
+        }
+      ]
+    },
+    {
+      "name": "Pumpjack Crank",
+      "group": "Diesel Generators",
+      "description": "Set crank size: normal is 0, large is 1. Original pumpjack assembly and connection requirements still apply.",
+      "example": "{\"size\":\"large\"}",
+      "fields": "size (normal / large, 0 / 1)",
+      "mod": "Create Diesel Generators",
+      "sections": [
+        {
+          "heading": "Shorthand",
+          "paragraphs": [
+            "Send bare 1 or large."
+          ],
+          "code": "1"
         }
       ]
     },

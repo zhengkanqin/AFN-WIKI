@@ -1,6 +1,6 @@
 # AFN 精简 Agent 文档
 
-**AFN 1.8.0 · Create: Advanced Frequency Network · 万物互联，让数据随心流动。**
+**AFN 1.8.2 · Create: Advanced Frequency Network · 万物互联，让数据随心流动。**
 
 供 Agent 理解功能、为玩家设计方案与生成配置；不是开发接手说明。[图文 WIKI](./index.html) · [Lua 函数手册](./FUNCTIONS.md) · [公开 Channel API](https://github.com/zhengkanqin/AFN-WIKI/tree/main/API)。设备名称指游戏内物品，文中的 JSON 键、函数名与命令不可随意翻译。实际界面和服务器配置优先于下列默认值。
 
@@ -15,12 +15,12 @@
 | Synaxis | Cimulink 激活/值端口；AFN 不设运行版本上下限 |
 | CreateImprove | **1.4.0+** 才启用文字频率链路、信号路由器适配 |
 | 飞控学 Create: Flight Control | **0.8.3+** 才启用参数写入与导航读取；更低版本不启用 |
-| 航空学 Create: Aeronautics | 螺旋桨轴承、热空气燃烧室与蒸汽排放口的读数和配置 |
-| Simulated Project | 导航台、传感器与对应机械参数的读取和配置 |
-| Create: Offroad | 车轮支座的悬挂强度配置 |
+| 航空学 Create: Aeronautics | 导航台、传感器、螺旋桨轴承、热空气燃烧室与蒸汽排放口的读数和配置；车轮支座的悬挂强度配置 |
 | Sable | 移动结构坐标、终端随动与结构长信号保活 |
 | Sable Photomancy / Schematic API | 提供 `sable_schematic_api` 时支持蓝图采集、编辑、打印；兼容新旧 Sable 链路 |
 | Create: Connected | 离合器、动力电池、动力桥等机械参数与读数 |
+| Create Crafts & Additions 创想附加 | 电动马达转速/方向；蓄电池精确 FE、百分比与进度条读取 |
+| Create Diesel Generators 柴油动力 | 各类引擎/燃烧室/炮塔读数与燃料；引擎转向、炮塔转向/喷射、燃烧室开度、曲柄尺寸 |
 | Create Big Cannons | 火炮读数、调角、瞄准与射击 |
 | NetMusic 网络音乐机 | 唱片机状态/歌曲/歌词读取，播音喇叭读取与控制 |
 | Xaero's World Map | 客户端地形源，服务器不必安装；缺少时仍有地图/网格功能 |
@@ -129,11 +129,14 @@ tag:minecraft:logs                    标签规则
 | 布谷鸟钟；列车站/侦测器；升降机锚点 | 时间；站点/列车状态、名称；当前楼层 |
 | 锅炉流体储罐；工厂仪表；座椅 | 锅炉状态；所连工厂面板物品、存量、请求；乘客名 |
 | 仓储发报机/链接站 | 所属物流网络的 AFN 名称；未命名占位文本不自动并网 |
-| Simulated 高度/速度/姿态/光学/激光传感器 | 高度/气压、速度、姿态、探测结果/距离等实际来源模式 |
+| 航空学高度/速度/姿态/光学/激光传感器 | 高度/气压、速度、姿态、探测结果/距离等实际来源模式 |
 | 便携式引擎、对接连接器、导航台、无线红石打字机、螺旋齿轮/传动杆 | 各自运行状态、导航/输入/传动读数 |
 | 航空学热空气燃烧室/蒸汽喷口 | 气体相关读数 |
 | 飞控学导航终端 | 当前目标序号（1 起）、目标世界坐标、线段完成百分比 0～100；无目标坐标为空，无明确线段进度时进度为空 |
 | CBC 固定火炮底座；Connected 动能电池/横向锅炉储罐 | 水平/俯仰角；电池/锅炉读数 |
+| 创想附加蓄电池 | 储能/容量/剩余容量为精确整数 FE；百分比或进度条；任一组成块读取整个结构 |
+| 柴油动力三类引擎/动力曲轴 | 实际 RPM、生产运行状态、当前应力容量 SU；引擎另有方向0顺时针/1逆时针与燃料mB/容量/名称/ID。模块读整组控制器；大型引擎RPM和容量取共同动力曲轴 |
+| 柴油动力化学炮塔/可控燃烧室/抽油机油泵 | 当前/目标yaw、pitch、实际喷射及流体；阀门开度0～1、热量、输出0～15与流体；原生原油储量整数B |
 | 原版音符盒、标靶、重生锚、命令方块、附魔台；CC:T 电脑 | 对应显示来源的音符/命中/充能/指定记分项/附魔/电脑内容 |
 | NetMusic 播音喇叭 | 广播地址、名称、范围、播放状态 |
 | NetMusic 唱片机 | 播放状态、歌名、歌手、译名、总/已播/剩余秒数、进度、当前/全部歌词、歌曲地址、循环、红石、VIP、只读、是否有唱片 |
@@ -156,12 +159,16 @@ NetMusic 进度是服务端倒计时估算，不是精确音频时间；只为�
 | 动力锯/工作盆 | `result` 选**结果物品**而非配方 ID；支持汉字；`minecraft:air` 清筛选，不能跳过配方条件 |
 | 动力压路机；黄铜中继器系列；阀门手轮 | `mode/material`；`delay`；`angle` |
 | 可编程齿轮箱 | 文本或 `steps`；旋转/驱动/延迟/等待/停止，方向正向/反向/快进/快退；最多5步含自动补停止；写入停止旧程序，另给红石启动 |
-| Simulated 铭牌 | `name/text_color/glow` |
+| 航空学铭牌 | `name/text_color/glow` |
 | 便携式引擎、万向节/光学/速度传感器、激光指示器 | `rotation_direction`、`axis`、`range`、`max_speed`、`max_range` |
 | 舵轮/扭力弹簧；旋转轴承；红石累加器/电感器 | `max_angle`；`locking`；`delay` |
-| 航空学螺旋桨/陀螺螺旋桨轴承；热空气燃烧室；蒸汽排放口；Offroad 车轮支座 | `thrust_direction`；`hot_air_amount`；`steam_amount`；`suspension_strength` |
+| 航空学螺旋桨/陀螺螺旋桨轴承；热空气燃烧室；蒸汽排放口；车轮支座 | `thrust_direction`；`hot_air_amount`；`steam_amount`；`suspension_strength` |
 | CBC 固定式火炮底座 | `yaw/pitch/fire_count` 或世界整数 `target:[x,y,z]`；目标优先于角度，转向后射击；只转角/目标取消待发，最多待发64发、保留1200 tick；不补偿弹道 |
 | Connected 仪表板、离心/飞轮/过应力离合器、动能电池/桥 | 显示内容、`speed_threshold/direction/delay`、`direction/stress_multiplier` |
+| 创想附加电动马达 | `speed` 有符号整数 RPM，0 停转；`direction` forward/reverse 或 0/1，出现时覆盖符号，单独提供保留当前转速大小；裸值 `-64` 或 `{"speed":64,"direction":"reverse"}`，范围跟随本体配置 |
+| 柴油动力三类引擎/动力曲轴 | `direction=clockwise/counter_clockwise`（0/1、顺时针/逆时针）；裸1或`{"direction":"counter_clockwise"}`，模块整组/大型同轴联动，空轴不可配置 |
+| 柴油动力化学炮塔 | `yaw/pitch/spray/spray_once`；裸`90,-20`或`{"yaw":90,"pitch":-20,"spray":true,"spray_once":false}`。yaw归一0～360，pitch −50～11；持续设置需`spray=false`关闭，不随信道熄灭复位；单次不等待瞄准；仍需流体/动力 |
+| 柴油动力可控燃烧室/抽油机曲柄 | `burn_rate`阀门开度0～1，裸0.5；曲柄`size=normal/large`（0/1）。原生机械驱动、红石与装配条件仍有效 |
 | 原版音符盒；NetMusic 播音喇叭 | `instrument/note`；`state/source/name/range`（直播停止断开连接，play 重连） |
 
 ```text
@@ -228,6 +235,9 @@ NetMusic 进度是服务端倒计时估算，不是精确音频时间；只为�
 ```
 
 `messages` 可混合文本及多个存量 JSON/Map 对象，按物品图标+数量的表情包显示。非格式文本按匿名内容接收；发消息两身份项均关闭时发送纯文本。桥接器对话/DP 无线电共用解析；桥接器自定义发送头像与名称留空按匿名，不猜玩家身份。
+
+
+几何消息：地图终端的裸 `{"points":[{"position":[0,64,0],"name":"仓库"}],"lines":[],"areas":[]}` 可直接发送给寻呼机或放入 `messages`，无需包装。也支持显式 `{"type":"map","title":"路线","dimension":"minecraft:overworld","geometry":{"points":[[0,64,0]],"lines":[{"points":[[0,64,0],[32,64,0]]}],"areas":[{"points":[[0,64,0],[32,64,0],[32,64,32]]}]}}`。点对象可用 `position` 或 `pos` 及 `name/color/text_color`，线面用 `points/name/color/text_color`；坐标必须数值三元组，线≥2顶点，面≥3，维度省略=查看时当前维度。单图≤128顶点/16线面，单消息≤4图/256顶点，仍受1024字符/4096字节限制；无效对象保留原文。寻呼机可见卡片低清预览（部分可见即可）、点开详情缩放/平移；地形按客户端Xaero→AFN→网格，跨维度/未知地形为网格，不强加载区块。桥接器/DP只显示摘要。
 
 ## 13. Dashpanels：AFN Modules
 

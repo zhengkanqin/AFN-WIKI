@@ -1,6 +1,6 @@
 # AFN 桥接器 Lua 函数手册
 
-**适用版本：AFN 1.8.0。** [AFN WIKI](https://zhengkanqin.github.io/AFN-WIKI/) · [中文总览](./README.zh-CN.md) · [English overview](./README.md)
+**适用版本：AFN 1.8.2。** [AFN WIKI](https://zhengkanqin.github.io/AFN-WIKI/) · [中文总览](./README.zh-CN.md) · [English overview](./README.md)
 
 `require("afn")` 包与 raw `afn_bridge` 外设的函数、权限、事件、错误码及兼容字段参考。
 

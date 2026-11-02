@@ -6,11 +6,11 @@
 
 Create: Advanced Frequency Network
 
-**AFN 1.8.0 · Minecraft 1.21.1 · NeoForge · Create 6.0.0+**
+**AFN 1.8.2 · Minecraft 1.21.1 · NeoForge · Create 6.0.0+**
 
 Wireless redstone with addresses, permissions and data. Read instruments through Mailboxes, configure machines over a channel, build a control screen, and connect portable maps, pagers and computers to the same network.
 
-Install AFN on client and server. Create is required. CC:Tweaked, Synaxis, Xaero World Map, Aeronautics / Simulated, Create: Connected and other integrations contribute features when their corresponding mods are installed.
+Install AFN on client and server. Create is required. CC:Tweaked, Synaxis, Xaero World Map, Aeronautics, Create: Connected and other integrations contribute features when their corresponding mods are installed.
 
 ## Organize wireless redstone with frequencies
 
@@ -156,6 +156,8 @@ One selection keeps the original text; multiple selections produce JSON. Keys us
 | Cuckoo Clock; Train Station / Observer; Elevator Contact | Time; train details / names; current floor |
 | Factory Gauge; Seat | Connected panel stock / request state; passenger name |
 | Stock Ticker / Stock Link | The logistics network's AFN name |
+| Crafts & Additions Accumulator | Exact integer FE for stored energy, total/remaining capacity; percentage or progress bar |
+| Diesel Generators engines, Chemical Turret, Burner and Pumpjack Hole | Engine actual RPM/direction/running/current SU capacity and fuel; turret angles/spraying/fluid; Burner valve/heat/output; oil reserves in B |
 | Flight Control Navigation Terminal (0.8.3+) | Current waypoint number (starting at 1), target world coordinates x,y,z, and current leg completion percentage 0–100 |
 | NetMusic: Music Player / Megaphone | Track metadata, playback, estimated progress and lyrics; stream address, name, range and broadcast state |
 
@@ -170,6 +172,10 @@ Display targets receive text. Machine targets accept a plain primary value or JS
 | --- | --- | --- |
 | Nixie Tube / Display Board | `Warehouse online` | Display text; boards also support segment widths, colors and cycling |
 | Rotation Speed Controller | `128` or `{"speed":128}` | Set target RPM |
+| Crafts & Additions Electric Motor | `-64` or `{"speed":64,"direction":"reverse"}` | Set integer RPM/direction; 0 stops. Range, power and redstone shutoff follow the motor's own rules |
+| Diesel Generators engines and Powered Engine Shaft | `1` or `{"direction":"counter_clockwise"}` | Change direction for modular groups / engines on a shared shaft |
+| Diesel Generators Chemical Turret | `{"yaw":90,"pitch":-20,"spray":true}` | Smooth aiming and sustained spraying; send `{"spray":false}` to stop |
+| Diesel Generators Burner and Pumpjack Crank | `{"burn_rate":0.5}`; `{"size":"large"}` | Set valve opening 0–1; change crank size |
 | Packager | `{"items":[{"id":"minecraft:apple","count":4}]}` | Package the requested items |
 | Frogport / Postbox | `{"address":"Dock"}` | Set a package address |
 | Stock Ticker / Stock Link | `{"network":"main"}` | Join a named logistics network |
