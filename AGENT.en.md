@@ -134,7 +134,8 @@ Attach a mailbox to the target and enable automatic reading; select specific rea
 | Portable Engine, Docking Connector, Navigation Table, Wireless Redstone Typewriter, Helical Gear/Drive Rod | Their respective operating states and navigation/input/transmission readings |
 | Aeronautics Hot Air Burner / Steam Vent | Gas-related readings |
 | Flight Control Navigation Terminal | Current target index (starting at 1), target world coordinates, segment completion 0–100%; coordinates are empty without a target, progress is empty without an explicit segment-progress value |
-| CBC fixed Cannon Mount; Connected Kinetic Battery / Horizontal Boiler Tank | Yaw/pitch; battery/boiler readings |
+| CBC Cannon Mount / Fixed Cannon Mount | Ordinary: actual local yaw, pitch and assembly state; fixed: integer ±45-degree angle settings |
+| Connected Kinetic Battery / Horizontal Boiler Tank | Battery/boiler readings |
 | Crafts & Additions Accumulator | Exact integer FE for stored/capacity/remaining capacity, percentage or progress bar; any member block reads the whole structure |
 | Diesel Generators engines / Powered Engine Shaft | Actual RPM, production state and current SU capacity; engines also expose direction 0=clockwise/1=counterclockwise and fuel mB/capacity/name/ID. Modular members read their controller; Huge Engine RPM/capacity come from the shared shaft |
 | Diesel Generators Chemical Turret / Burner / Pumpjack Hole | Current/target yaw/pitch, actual spraying and fluid readings; valve opening 0–1, heat, output 0–15 and fluid; original oil reserves in integer B |
@@ -168,6 +169,7 @@ Mailbox reception → output syntax → attached device; hidden terminals share 
 | Portable Engine, Universal Joint/Optical/Speed Sensor, Laser Pointer | `rotation_direction`, `axis`, `range`, `max_speed`, `max_range` |
 | Steering Wheel/Torsion Spring; Rotation Bearing; Redstone Accumulator/Inductor | `max_angle`; `locking`; `delay` |
 | Aeronautics Propeller/Gyro Propeller Bearing; Hot Air Burner; Steam Exhaust; Wheel Mount | `thrust_direction`; `hot_air_amount`; `steam_amount`; `suspension_strength` |
+| CBC Cannon Mount | Decimal local `yaw` ±360 degrees (0 south/90 west/180 north/270 east), decimal `pitch` ±90 degrees within native cannon limits; integer world `target` overrides angles, `fire_count` 0–64. Shorthand `120.5,30,1`. No RPM; active source holds angles. Inactivity/unload/disassembly/replacement releases and cancels shots. No ballistics; both mounts share limits of 64 shots/mount, 256 pending mounts/server and 1200 ticks |
 | CBC fixed Cannon Mount | `yaw/pitch/fire_count` or integer world `target:[x,y,z]`; target takes priority over angles, then fires after turning. Angle-only/target-only writes cancel pending shots; at most 64 queued shots retained for 1200 ticks; no ballistic compensation |
 | Connected Gauge Board, Centrifugal/Flywheel/Overstress Clutch, Kinetic Battery/Bridge | Display content, `speed_threshold/direction/delay`, `direction/stress_multiplier` |
 | Crafts & Additions Electric Motor | Signed integer `speed` RPM, 0 stops; `direction` forward/reverse or 0/1 overrides the sign and alone preserves speed magnitude. Bare `-64` or `{"speed":64,"direction":"reverse"}`; range follows motor configuration |

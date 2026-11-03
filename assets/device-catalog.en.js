@@ -604,6 +604,66 @@ window.AFN_DEVICE_CATALOG = {
       ]
     },
     {
+      "name": "Cannon Mount - Yaw",
+      "group": "Create Big Cannons",
+      "description": "Read the ordinary Cannon Mount actual decimal yaw, normalized to 0–360 degrees.",
+      "example": "120.5",
+      "mod": "Create Big Cannons",
+      "sections": [
+        {
+          "heading": "Reading details",
+          "paragraphs": [
+            "Cannon Mount yaw is the current local heading: 0 degrees south, 90 west, 180 north and 270 east. It follows the actual barrel angle.",
+            "Directions use the mount structure coordinate frame. On moving Sable structures they are not universal world headings. The Fixed Cannon Mount ±45-degree setting is a separate reading."
+          ]
+        },
+        {
+          "heading": "Example",
+          "code": "120.5"
+        }
+      ]
+    },
+    {
+      "name": "Cannon Mount - Pitch",
+      "group": "Create Big Cannons",
+      "description": "Read the ordinary Cannon Mount actual decimal elevation; positive raises the barrel and negative lowers it.",
+      "example": "30",
+      "mod": "Create Big Cannons",
+      "sections": [
+        {
+          "heading": "Reading details",
+          "paragraphs": [
+            "Cannon Mount pitch is the current local elevation. Its native range depends on cannon type, upside-down mounting and data packs.",
+            "On moving structures this is relative to the mount structure, not the final barrel orientation in world space."
+          ]
+        },
+        {
+          "heading": "Example",
+          "code": "30"
+        }
+      ]
+    },
+    {
+      "name": "Cannon Mount - Assembly State",
+      "group": "Create Big Cannons",
+      "description": "Read whether the ordinary Cannon Mount has an assembled cannon.",
+      "example": "true",
+      "mod": "Create Big Cannons",
+      "sections": [
+        {
+          "heading": "Reading details",
+          "paragraphs": [
+            "Cannon Mount assembled is true when a cannon is assembled and false otherwise.",
+            "Assembly does not guarantee ammunition, completed cooldown or readiness to fire; the cannon still checks those conditions."
+          ]
+        },
+        {
+          "heading": "Example",
+          "code": "true"
+        }
+      ]
+    },
+    {
       "name": "Fixed Cannon Mount - Yaw",
       "group": "Create Big Cannons",
       "description": "Read \"Cannon Yaw\": the mount yaw setting, from -45 to 45 degrees, rather than a world heading. It can be selected together with pitch; multiple selections output JSON.",
@@ -2303,6 +2363,99 @@ window.AFN_DEVICE_CATALOG = {
       ]
     },
     {
+      "name": "Cannon Mount",
+      "group": "Create Big Cannons",
+      "description": "The ordinary Cannon Mount supports remote angles, direct world-coordinate aiming and queued firing. Point Mailbox automatic output at the mount or configure a Hidden Channel Terminal on it. An active source holds the angles without requiring RPM.",
+      "example": "{\"yaw\":120.5,\"pitch\":30,\"fire_count\":1}",
+      "fields": "yaw (decimal local heading −360–360 degrees), pitch (decimal elevation −90–90 degrees), target (integer world [x,y,z], overrides angles), fire_count (0–64 shots)",
+      "mod": "Create Big Cannons",
+      "anchor": "cannon-mount",
+      "sections": [
+        {
+          "heading": "Wiring and first test",
+          "paragraphs": [
+            "Assemble the cannon using CBC's native procedure first. With a Mailbox, point automatic output at the mount and receive a matching-frequency signal from the sender. With a Hidden Channel Terminal, configure it on a face of the mount.",
+            "Send the example below and keep the signal active. The mount turns to local yaw 90 degrees and elevation 20 degrees. This tests aiming without firing; add fire_count when firing is required. AFN does not assemble the cannon or supply ammunition."
+          ],
+          "code": "{\"yaw\":90,\"pitch\":20}"
+        },
+        {
+          "heading": "Field reference",
+          "paragraphs": [
+            "yaw: local heading, accepting decimal values from −360 to 360 degrees and normalized to one turn. 0 degrees south, 90 west, 180 north and 270 east. Unlike the Fixed Cannon Mount ±45-degree offset, this is a full heading in the mount structure coordinate frame.",
+            "pitch: decimal elevation from −90 to 90 degrees; positive raises the barrel. The current cannon type and mounting orientation impose additional native limits. A request outside the actual firing arc is rejected as a whole.",
+            "target: absolute integer world coordinates [x,y,z], overriding yaw and pitch in the same message. This computes direct aim without movement prediction, drag or drop compensation. Use Radar Automatic Pitch Controller when ballistic compensation is needed.",
+            "fire_count: shots to append, integer 0–64. An omitted field or 0 adds none. The count decreases only after native firing succeeds; normal assembly, ammunition and cooldown conditions apply."
+          ]
+        },
+        {
+          "heading": "Shorthand and angle settings",
+          "paragraphs": [
+            "Use yaw,pitch,shots: 120.5 changes yaw; 120.5,30 changes both angles; 120.5,30,1 turns and fires once. Empty positions preserve angles: 120.5,,1 or ,30,1; ,,1 fires once at the current angles. Complete and partial JSON are accepted."
+          ],
+          "code": "{\"yaw\":120.5,\"pitch\":30,\"fire_count\":1}"
+        },
+        {
+          "heading": "Partial JSON: change pitch only",
+          "paragraphs": [
+            "Omitted angles keep their current values. This example keeps yaw and changes elevation to 20 degrees. Because it adds no shots, it also cancels unfinished AFN firing requests."
+          ],
+          "code": "{\"pitch\":20}"
+        },
+        {
+          "heading": "Partial JSON: fire at the current angles",
+          "paragraphs": [
+            "This example appends one shot without changing angles; ,,1 is the shorthand. An unchanged command on a continuously active signal is not appended every tick. Reactivating after release or receiving changed command content executes it again. Releasing the signal also cancels unfinished requests."
+          ],
+          "code": "{\"fire_count\":1}"
+        },
+        {
+          "heading": "Aim at world coordinates",
+          "paragraphs": [
+            "The target is transformed using the current mount and Sable structure pose. Firing waits until aimed and follows native readiness rules. Omit fire_count to turn only. This route needs no Radar dependency and does not use Radar ballistic calculations."
+          ],
+          "code": "{\"target\":[100,64,200],\"fire_count\":1}"
+        },
+        {
+          "heading": "Activation and control release",
+          "paragraphs": [
+            "Requires an assembled, controllable cannon. While the automatic-output source is active, AFN directly holds the requested angles and takes priority over external angle writes. It requires no RPM and does not modify the native kinetic network.",
+            "Source inactivity, unloading, disassembly or cannon replacement releases control and cancels pending AFN shots for this ordinary mount. Changing angles or target without appending shots also cancels them. Sending only {\"fire_count\":0} does not cancel the queue."
+          ]
+        },
+        {
+          "heading": "Native limits and cannon types",
+          "paragraphs": [
+            "Default big cannon pitch limits are −30 to 60 degrees normally and −90 to 15 upside-down. Autocannons use −45 to 90 normally and −90 to 30 upside-down. Data packs can change these; the actual current cannon limits apply.",
+            "Big cannons and autocannons without operating handles retain native loading and cooldown rules. Handle autocannons cannot be directly controlled this way. Drop Mortars use a separate loading-triggered firing mechanism outside fire_count control."
+          ]
+        },
+        {
+          "heading": "Firing queue",
+          "paragraphs": [
+            "Requests execute in order, one shot at a time. At most 64 pending shots per mount and 256 pending mounts per server; requests expire after 1200 ticks (normally 60 seconds). Missing ammunition causes waiting. Native ammunition and cooldown checks are not bypassed; do not repeatedly append the same request every tick."
+          ]
+        },
+        {
+          "heading": "Read the current state",
+          "paragraphs": [
+            "Connect a separate Mailbox to the mount and enable automatic reading. Select Cannon Mount yaw, Cannon Mount pitch and Cannon Mount assembled. The first two report actual local angles; assembled is true or false. Configure the reading Mailbox separately from the controlling Mailbox.",
+            "Yaw readings are normalized to 0–360 degrees: an input of −90 degrees reads back as 270 degrees, the same direction. An assembled reading of true only confirms assembly; it does not confirm ammunition, cooldown readiness or permission for AFN control."
+          ]
+        },
+        {
+          "heading": "Example: select a target with a Map Terminal",
+          "paragraphs": [
+            "The Map Terminal sends world coordinates x,y,z. A Mailbox on the same frequency receives them; its output syntax builds the target and shot count for the ordinary Cannon Mount. round converts fractional coordinates to integers. Keep the source active to hold angles and execute pending shots."
+          ],
+          "code": "{\"target\":[${round($[0],0)},${round($[1],0)},${round($[2],0)}],\"fire_count\":1}",
+          "after": [
+            "Each actual output of this request appends one shot. Remove fire_count to track the target direction only."
+          ]
+        }
+      ]
+    },
+    {
       "name": "Fixed Cannon Mount",
       "group": "Create Big Cannons",
       "description": "Point a Mailbox automatic output at a Fixed Cannon Mount, or configure a Hidden Channel Terminal on the mount, to adjust angles, aim and fire remotely. Automatic aiming and firing require the cannon to be assembled and running.",
@@ -2348,7 +2501,7 @@ window.AFN_DEVICE_CATALOG = {
             "yaw: mount-relative yaw setting in degrees, −45–45.",
             "pitch: mount-relative pitch setting in degrees, −45–45; neither angle is a universal world heading.",
             "target: integer absolute world coordinates [x,y,z]. When present, the native mount orientation is aimed toward this position and overrides yaw/pitch. This direct mount path does not provide Radar ballistic compensation.",
-            "fire_count: 0–64 shots requested; 0 cancels queued AFN shots. Ammunition and native readiness checks still apply. Omitted angles remain unchanged."
+            "fire_count: 0–64 shots to append; 0 alone does not add or cancel shots. Changing angles or target without adding shots cancels pending requests. Ammunition and native readiness checks still apply. Omitted angles remain unchanged."
           ]
         }
       ]

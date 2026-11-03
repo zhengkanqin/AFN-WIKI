@@ -156,6 +156,7 @@ One selection keeps the original text; multiple selections produce JSON. Keys us
 | Cuckoo Clock; Train Station / Observer; Elevator Contact | Time; train details / names; current floor |
 | Factory Gauge; Seat | Connected panel stock / request state; passenger name |
 | Stock Ticker / Stock Link | The logistics network's AFN name |
+| Cannon Mount / Fixed Cannon Mount | Ordinary mount actual local yaw, pitch and assembly state; fixed mount integer angle settings within ±45 degrees |
 | Crafts & Additions Accumulator | Exact integer FE for stored energy, total/remaining capacity; percentage or progress bar |
 | Diesel Generators engines, Chemical Turret, Burner and Pumpjack Hole | Engine actual RPM/direction/running/current SU capacity and fuel; turret angles/spraying/fluid; Burner valve/heat/output; oil reserves in B |
 | Flight Control Navigation Terminal (0.8.3+) | Current waypoint number (starting at 1), target world coordinates x,y,z, and current leg completion percentage 0–100 |
@@ -172,6 +173,7 @@ Display targets receive text. Machine targets accept a plain primary value or JS
 | --- | --- | --- |
 | Nixie Tube / Display Board | `Warehouse online` | Display text; boards also support segment widths, colors and cycling |
 | Rotation Speed Controller | `128` or `{"speed":128}` | Set target RPM |
+| Cannon Mount / Fixed Cannon Mount | `{"target":[100,64,200],"fire_count":1}` | Aim directly at integer world coordinates and fire, or set `yaw/pitch`. Ordinary mounts support decimals and full-circle headings, hold while active without RPM, and release/cancel pending shots on inactivity. Fixed mounts retain integer ±45-degree settings. Neither compensates ballistics |
 | Crafts & Additions Electric Motor | `-64` or `{"speed":64,"direction":"reverse"}` | Set integer RPM/direction; 0 stops. Range, power and redstone shutoff follow the motor's own rules |
 | Diesel Generators engines and Powered Engine Shaft | `1` or `{"direction":"counter_clockwise"}` | Change direction for modular groups / engines on a shared shaft |
 | Diesel Generators Chemical Turret | `{"yaw":90,"pitch":-20,"spray":true}` | Smooth aiming and sustained spraying; send `{"spray":false}` to stop |
