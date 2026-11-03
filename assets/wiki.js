@@ -305,15 +305,35 @@
     requestAnimationFrame(() => $('#example-result').classList.add('fresh-output'));
   }
   selectExample(0);
+  function functionText(item) {
+    return [item.name, item.category, item.signature, item.description, item.example,
+      ...(item.parameters || []).flatMap(parameter => [parameter.name, parameter.description])].join(' ');
+  }
   function renderFunctions() {
     const query = $('#function-search').value;
-    const found = syntax.functions.filter(item => matches([item.name, item.category, item.signature, item.description, item.example].join(' '), query));
+    const found = syntax.functions.filter(item => matches(functionText(item), query));
     $('#function-catalog').replaceChildren(...found.map(item => {
       const card = element('details', 'function-card'); card.id = `function-${item.name}`;
       card.open = contentExpanded;
       const summary = element('summary'); summary.append(element('code', '', item.name), element('small', '', `${item.category} ＋`));
       const body = element('div', 'function-body');
       body.append(element('p', 'fields', item.signature), element('p', '', item.description));
+      if (item.parameters?.length) {
+        const wrap = element('div', 'table-wrap');
+        const table = element('table');
+        const head = element('thead'), row = element('tr');
+        row.append(element('th', '', english ? 'Parameter' : '参数'),
+          element('th', '', english ? 'Meaning and accepted values' : '含义与取值'));
+        head.append(row);
+        const rows = element('tbody');
+        item.parameters.forEach(parameter => {
+          const row = element('tr'), name = element('td');
+          name.append(element('code', '', parameter.name));
+          row.append(name, element('td', '', parameter.description));
+          rows.append(row);
+        });
+        table.append(head, rows); wrap.append(table); body.append(wrap);
+      }
       if (item.input !== undefined || item.output !== undefined) {
         const io = element('div', 'function-io');
         if (item.input !== undefined) io.append(element('p', '', `${english ? 'Input: ' : '输入：'}${item.input}`));
@@ -340,7 +360,7 @@
     searchEntries.push({kind: '章节', title, text: section.dataset.title || section.textContent.slice(0, 900), target: section.id});
   });
   for (const type of ['read', 'write']) devices[type].forEach((item, index) => searchEntries.push({kind: type === 'read' ? '读取' : '输出', title: item.name, text: deviceText(item), deviceType: type, index, target: `device-${type}-${index}`}));
-  syntax.functions.forEach(item => searchEntries.push({kind: '函数', title: item.name, text: `${item.category} ${item.signature} ${item.description}`, fn: item.name, target: `function-${item.name}`}));
+  syntax.functions.forEach(item => searchEntries.push({kind: '函数', title: item.name, text: functionText(item), fn: item.name, target: `function-${item.name}`}));
   $$('#cc-body h2,#cc-body h3,#cc-body h4').forEach(heading => {
     const anchor = heading.previousElementSibling;
     const id = heading.id || (anchor?.tagName === 'A' ? anchor.id : '');

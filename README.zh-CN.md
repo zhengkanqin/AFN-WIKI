@@ -6,7 +6,7 @@
 
 Create: Advanced Frequency Network
 
-**AFN 1.8.2 · Minecraft 1.21.1 · NeoForge · Create 6.0.0+**
+**AFN 1.8.3 · Minecraft 1.21.1 · NeoForge · Create 6.0.0+**
 
 让无线红石同时传递信号和信息：用分层频率管理设备，用信箱读取仪表和改写机器，用可拼接屏幕构建控制台，再用地图终端、寻呼机和电脑接入同一套信道。
 

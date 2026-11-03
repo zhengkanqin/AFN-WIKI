@@ -1,6 +1,6 @@
 # AFN 精简 Agent 文档
 
-**AFN 1.8.2 · Create: Advanced Frequency Network · 万物互联，让数据随心流动。**
+**AFN 1.8.3 · Create: Advanced Frequency Network · 万物互联，让数据随心流动。**
 
 供 Agent 理解功能、为玩家设计方案与生成配置；不是开发接手说明。[图文 WIKI](./index.html) · [Lua 函数手册](./FUNCTIONS.md) · [公开 Channel API](https://github.com/zhengkanqin/AFN-WIKI/tree/main/API)。设备名称指游戏内物品，文中的 JSON 键、函数名与命令不可随意翻译。实际界面和服务器配置优先于下列默认值。
 
@@ -21,6 +21,7 @@
 | Create: Connected | 离合器、动力电池、动力桥等机械参数与读数 |
 | Create Crafts & Additions 创想附加 | 电动马达转速/方向；蓄电池精确 FE、百分比与进度条读取 |
 | Create Diesel Generators 柴油动力 | 各类引擎/燃烧室/炮塔读数与燃料；引擎转向、炮塔转向/喷射、燃烧室开度、曲柄尺寸 |
+| Create: Radar 机械动力：雷达 | **5.0.3+**；雷达点集、目标、火控与告警读取；角度、目标、真实过滤器、安全区、干扰器、应答器配置 |
 | Create Big Cannons | 火炮读数、调角、瞄准与射击 |
 | NetMusic 网络音乐机 | 唱片机状态/歌曲/歌词读取，播音喇叭读取与控制 |
 | Xaero's World Map | 客户端地形源，服务器不必安装；缺少时仍有地图/网格功能 |
@@ -137,9 +138,13 @@ tag:minecraft:logs                    标签规则
 | 创想附加蓄电池 | 储能/容量/剩余容量为精确整数 FE；百分比或进度条；任一组成块读取整个结构 |
 | 柴油动力三类引擎/动力曲轴 | 实际 RPM、生产运行状态、当前应力容量 SU；引擎另有方向0顺时针/1逆时针与燃料mB/容量/名称/ID。模块读整组控制器；大型引擎RPM和容量取共同动力曲轴 |
 | 柴油动力化学炮塔/可控燃烧室/抽油机油泵 | 当前/目标yaw、pitch、实际喷射及流体；阀门开度0～1、热量、输出0～15与流体；原生原油储量整数B |
+| 雷达轴承/平面雷达/天空雷达/声呐轴承；显示器/网络控制器 | 世界点数组、地图 JSON、详细目标及点数；显示器读显示缓存，其他保留报告/干扰语义。目标另读 ID/坐标/速度/类别/友方；设备运行/范围/扫角/动力/结构与网络数量按对象出现 |
+| 雷达控制器；RWR/定向干扰器/识别应答器 | 角度、限位、对准/射击状态；告警强度与威胁列表；干扰器姿态/放电/辐射源；结构名称和登记状态（不读取识别码） |
 | 原版音符盒、标靶、重生锚、命令方块、附魔台；CC:T 电脑 | 对应显示来源的音符/命中/充能/指定记分项/附魔/电脑内容 |
 | NetMusic 播音喇叭 | 广播地址、名称、范围、播放状态 |
 | NetMusic 唱片机 | 播放状态、歌名、歌手、译名、总/已播/剩余秒数、进度、当前/全部歌词、歌曲地址、循环、红石、VIP、只读、是否有唱片 |
+
+雷达只采样勾选项，每 5 tick 共享快照；`points_array` 的 `[[x,y,z],...]` 可直给桥接器地图/DP 雷达。地图 JSON 为 `{"points":[{"position":[x,y,z]}],"total_count":N,"returned_count":M,"truncated":false}`；详细目标另用 `tracks` 数组（id/position/velocity 与可用元信息）。按完整目标限长，不截断 JSON；独立 returned_count/truncated 以点数组格式为准。多选其他读数时先提取需要的地图字段。
 
 NetMusic 进度是服务端倒计时估算，不是精确音频时间；只为勾选项取样/取歌词，歌词异步缓存且仅适用支持的歌曲源。无歌词为空；全部歌词超限给出超限文本，不截断成残缺内容。
 
@@ -169,6 +174,10 @@ NetMusic 进度是服务端倒计时估算，不是精确音频时间；只为�
 | 柴油动力三类引擎/动力曲轴 | `direction=clockwise/counter_clockwise`（0/1、顺时针/逆时针）；裸1或`{"direction":"counter_clockwise"}`，模块整组/大型同轴联动，空轴不可配置 |
 | 柴油动力化学炮塔 | `yaw/pitch/spray/spray_once`；裸`90,-20`或`{"yaw":90,"pitch":-20,"spray":true,"spray_once":false}`。yaw归一0～360，pitch −50～11；持续设置需`spray=false`关闭，不随信道熄灭复位；单次不等待瞄准；仍需流体/动力 |
 | 柴油动力可控燃烧室/抽油机曲柄 | `burn_rate`阀门开度0～1，裸0.5；曲柄`size=normal/large`（0/1）。原生机械驱动、红石与装配条件仍有效 |
+| 雷达自动偏航/自动俯仰/T 型俯仰 | `angle/min_angle/max_angle/action`；偏航 angle±360°、限位±180°（相对中立方向），俯仰均±90°，原生射界继续有效；俯仰另 `target:[x,y,z]` 世界坐标或 `target_id`，默认 `aim_only`；`mode=manual_target` 按原生条件射击，`auto/release` 归还原雷达；坐标模式需持续激活，失活或源/目标卸载即释放 |
+| 雷达网络控制器/显示器 | `target_id/clear_target`；`detect_*`、`ignore_names/identification_code`、`target_*/auto_target/line_of_sight/prefer_high_arc` 仅改已插相应过滤器；`safe_zones` from/to 世界坐标，指定 structure UUID 时为结构存储局部坐标；空数组清除 |
+| 天空雷达；定向干扰器；识别应答器 | `yaw/resume_rotation`；`yaw/pitch/enabled`（不绕过动力/红石/充能/目标）；`name/code`（20/10 字符、已加载 Sable 结构；name 仅当前结构，code 同步已加载连接链并保留名称） |
+| 雷达开火控制器 | `powered` 或裸 true/false；true 仅在来源信道激活时维持，失活/目标卸载释放。false 不永久禁止自动火控；推荐独立控制或改用俯仰 manual_target |
 | 原版音符盒；NetMusic 播音喇叭 | `instrument/note`；`state/source/name/range`（直播停止断开连接，play 重连） |
 
 ```text

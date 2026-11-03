@@ -8,7 +8,17 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${default($.items[9], 0)}",
       "input": "{\"items\":[10,20]}",
       "output": "0",
-      "outputType": "Number"
+      "outputType": "Number",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "Source value to check, supplied by a path or nested function."
+        },
+        {
+          "name": "fallback",
+          "description": "JSON literal returned when the source is absent, the path is missing, or the value is null."
+        }
+      ]
     },
     {
       "name": "exists",
@@ -18,7 +28,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${exists($.target)}",
       "input": "{\"target\":null}",
       "output": "true",
-      "outputType": "Boolean"
+      "outputType": "Boolean",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "Source or path to test; null still counts as present."
+        }
+      ]
     },
     {
       "name": "type",
@@ -28,7 +44,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${type($.target)}",
       "input": "{\"target\":[1,2]}",
       "output": "array",
-      "outputType": "Text"
+      "outputType": "Text",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "Source value whose type is inspected."
+        }
+      ]
     },
     {
       "name": "size",
@@ -38,7 +60,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${size($.items)}",
       "input": "{\"items\":[10,20,30]}",
       "output": "3",
-      "outputType": "Number"
+      "outputType": "Number",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "Text, array or object; counts characters, elements or members respectively."
+        }
+      ]
     },
     {
       "name": "number",
@@ -48,7 +76,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${number($[0])}",
       "input": "1,234,211 su",
       "output": "1234211",
-      "outputType": "Number"
+      "outputType": "Number",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "A number or text containing a number; extracts the first numeric fragment from text."
+        }
+      ]
     },
     {
       "name": "unit_number",
@@ -58,7 +92,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${unit_number($[0])}",
       "input": "8.12 kV",
       "output": "8120",
-      "outputType": "Number"
+      "outputType": "Number",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "Text containing a value and magnitude, such as 8.12 kV; k/M/G/T determine the multiplier."
+        }
+      ]
     },
     {
       "name": "game_time",
@@ -68,7 +108,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${game_time($.clock)}",
       "input": "{\"clock\":\"0:00 pm\"}",
       "output": "6000",
-      "outputType": "Number"
+      "outputType": "Number",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "Clock text such as 6:00 am; returns game ticks within the day."
+        }
+      ]
     },
     {
       "name": "text",
@@ -78,7 +124,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${text($.count)}",
       "input": "{\"count\":12}",
       "output": "12",
-      "outputType": "Text"
+      "outputType": "Text",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "Number, boolean or existing text to convert to text."
+        }
+      ]
     },
     {
       "name": "boolean",
@@ -88,7 +140,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${boolean($.flag)}",
       "input": "{\"flag\":\"true\"}",
       "output": "true",
-      "outputType": "Boolean"
+      "outputType": "Boolean",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "A boolean or text matching lowercase true / false exactly."
+        }
+      ]
     },
     {
       "name": "json",
@@ -98,7 +156,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${json($.stock)}",
       "input": "{\"stock\":{\"minecraft:apple\":8,\"minecraft:iron_ingot\":32}}",
       "output": "{\"minecraft:apple\":8,\"minecraft:iron_ingot\":32}",
-      "outputType": "JSON Text"
+      "outputType": "JSON Text",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "Existing value to serialize; this function is allowed only at the outermost level."
+        }
+      ]
     },
     {
       "name": "strength",
@@ -108,7 +172,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${strength($)}",
       "input": "No data; received strength is 7",
       "output": "7",
-      "outputType": "Number"
+      "outputType": "Number",
+      "parameters": [
+        {
+          "name": "$ / $.channel_name",
+          "description": "The full channel root whose strength is read. Use $ in a mailbox or $.channel_name on a multichannel device, without member access or array subscripts."
+        }
+      ]
     },
     {
       "name": "sum",
@@ -118,7 +188,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${sum($.values)}",
       "input": "{\"values\":[1,2,6]}",
       "output": "9",
-      "outputType": "Number"
+      "outputType": "Number",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "Nonempty numeric array; returns the sum."
+        }
+      ]
     },
     {
       "name": "avg",
@@ -128,7 +204,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${avg($.values)}",
       "input": "{\"values\":[1,2,6]}",
       "output": "3",
-      "outputType": "Number"
+      "outputType": "Number",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "Nonempty numeric array; returns the arithmetic mean."
+        }
+      ]
     },
     {
       "name": "min",
@@ -138,7 +220,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${min($.values)}",
       "input": "{\"values\":[1,2,6]}",
       "output": "1",
-      "outputType": "Number"
+      "outputType": "Number",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "Nonempty numeric array; returns its smallest element."
+        }
+      ]
     },
     {
       "name": "max",
@@ -148,7 +236,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${max($.values)}",
       "input": "{\"values\":[1,2,6]}",
       "output": "6",
-      "outputType": "Number"
+      "outputType": "Number",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "Nonempty numeric array; returns its largest element."
+        }
+      ]
     },
     {
       "name": "join",
@@ -158,7 +252,17 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${join($.labels, \" / \")}",
       "input": "{\"labels\":[\"Copper Ingot\",2,false]}",
       "output": "Copper Ingot / 2 / false",
-      "outputType": "Text"
+      "outputType": "Text",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "Array to join; elements must be text, numbers, booleans or null."
+        },
+        {
+          "name": "separator",
+          "description": "Text literal inserted between elements, such as \" / \"; an empty string concatenates them directly."
+        }
+      ]
     },
     {
       "name": "round",
@@ -168,7 +272,17 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${round(number($.reading), 1)}",
       "input": "{\"reading\":\"1.26 su\"}",
       "output": "1.3",
-      "outputType": "Number"
+      "outputType": "Number",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "Number to round."
+        },
+        {
+          "name": "digits",
+          "description": "Number of decimal places, a nonnegative integer literal; the default budget allows 0–3."
+        }
+      ]
     },
     {
       "name": "clamp",
@@ -178,7 +292,21 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${clamp($.value, 0, 15)}",
       "input": "{\"value\":23}",
       "output": "15",
-      "outputType": "Number"
+      "outputType": "Number",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "Number to constrain."
+        },
+        {
+          "name": "min",
+          "description": "Smallest allowed value, a numeric literal."
+        },
+        {
+          "name": "max",
+          "description": "Largest allowed value, a numeric literal; must be at least min."
+        }
+      ]
     },
     {
       "name": "add",
@@ -188,7 +316,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${add($.Fuel1, $.Fuel2, $.Fuel3)}",
       "input": "{\"Fuel1\":2,\"Fuel2\":3,\"Fuel3\":5}",
       "output": "10",
-      "outputType": "Number"
+      "outputType": "Number",
+      "parameters": [
+        {
+          "name": "a, b, ...",
+          "description": "Numbers to add: at least two, up to eight by default. Paths, nested functions and numeric literals are accepted; at least one argument must be a path or function."
+        }
+      ]
     },
     {
       "name": "sub",
@@ -198,7 +332,17 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${sub($.Stock, $.Demand)}",
       "input": "{\"Stock\":12,\"Demand\":5}",
       "output": "7",
-      "outputType": "Number"
+      "outputType": "Number",
+      "parameters": [
+        {
+          "name": "a",
+          "description": "Number from which b is subtracted, supplied dynamically or as a numeric literal."
+        },
+        {
+          "name": "b",
+          "description": "Number to subtract; at least one of a and b must be a path or function."
+        }
+      ]
     },
     {
       "name": "mul",
@@ -208,7 +352,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${mul(number($[0]), 2)}",
       "input": "8 su",
       "output": "16",
-      "outputType": "Number"
+      "outputType": "Number",
+      "parameters": [
+        {
+          "name": "a, b",
+          "description": "The two numbers to multiply; at least one must be a path or function."
+        }
+      ]
     },
     {
       "name": "div",
@@ -218,7 +368,17 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${div($.Completed, $.Target)}",
       "input": "{\"Completed\":3,\"Target\":4}",
       "output": "0.75",
-      "outputType": "Number"
+      "outputType": "Number",
+      "parameters": [
+        {
+          "name": "a",
+          "description": "Dividend."
+        },
+        {
+          "name": "b",
+          "description": "Divisor, which cannot be zero; at least one of a and b must be a path or function."
+        }
+      ]
     },
     {
       "name": "if",
@@ -228,7 +388,21 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${if($.enabled, \"Running\", \"Stopped\")}",
       "input": "{\"enabled\":true}",
       "output": "Running",
-      "outputType": "Text"
+      "outputType": "Text",
+      "parameters": [
+        {
+          "name": "test",
+          "description": "Boolean source; true selects yes, while false or a missing value selects no."
+        },
+        {
+          "name": "yes",
+          "description": "Result when test is true: a path, nested function or JSON literal."
+        },
+        {
+          "name": "no",
+          "description": "Result when test is false or missing; the unselected result branch is not evaluated."
+        }
+      ]
     },
     {
       "name": "switch",
@@ -238,7 +412,21 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${switch($.mode, \"auto\", \"Automatic\", \"manual\", \"Manual\", \"Unknown\")}",
       "input": "{\"mode\":\"manual\"}",
       "output": "Manual",
-      "outputType": "Text"
+      "outputType": "Text",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "Source value to match."
+        },
+        {
+          "name": "match, result, ...",
+          "description": "Ordered pairs of match literals and results. match is a JSON scalar; result may be a path, function or literal."
+        },
+        {
+          "name": "fallback",
+          "description": "Final unpaired default result; omitting it returns a missing value if no pair matches."
+        }
+      ]
     },
     {
       "name": "substr",
@@ -248,7 +436,21 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${substr($[0], 0, 5)}",
       "input": "Power: 8.12kv",
       "output": "Power",
-      "outputType": "Text"
+      "outputType": "Text",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "Text to extract from."
+        },
+        {
+          "name": "start",
+          "description": "Starting character index, an integer literal; 0 starts at the beginning and negative values count from the end."
+        },
+        {
+          "name": "length",
+          "description": "Maximum character count, a nonnegative integer literal; omit it to read through the end."
+        }
+      ]
     },
     {
       "name": "contains",
@@ -258,7 +460,17 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${contains($[0], \"Power\")}",
       "input": "Power: 8.12kv",
       "output": "true",
-      "outputType": "Boolean"
+      "outputType": "Boolean",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "Text to inspect."
+        },
+        {
+          "name": "part",
+          "description": "Case-sensitive text literal to find."
+        }
+      ]
     },
     {
       "name": "starts_with",
@@ -268,7 +480,17 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${starts_with($[0], \"Power\")}",
       "input": "Power: 8.12kv",
       "output": "true",
-      "outputType": "Boolean"
+      "outputType": "Boolean",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "Text to inspect."
+        },
+        {
+          "name": "part",
+          "description": "Case-sensitive text literal required at the beginning."
+        }
+      ]
     },
     {
       "name": "ends_with",
@@ -278,7 +500,17 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${ends_with($[0], \"su\")}",
       "input": "8120 su",
       "output": "true",
-      "outputType": "Boolean"
+      "outputType": "Boolean",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "Text to inspect."
+        },
+        {
+          "name": "part",
+          "description": "Case-sensitive text literal required at the end."
+        }
+      ]
     },
     {
       "name": "replace",
@@ -288,7 +520,21 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${replace($[0], \"Power\", \"Voltage\")}",
       "input": "Power: 8.12kv",
       "output": "Voltage: 8.12kv",
-      "outputType": "Text"
+      "outputType": "Text",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "Text to transform."
+        },
+        {
+          "name": "from",
+          "description": "Nonempty text literal to replace, matched as ordinary text."
+        },
+        {
+          "name": "to",
+          "description": "Replacement text literal; an empty string removes matches."
+        }
+      ]
     },
     {
       "name": "split",
@@ -298,7 +544,17 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${split($.line, \",\")}",
       "input": "{\"line\":\"a,b,,c\"}",
       "output": "[\"a\",\"b\",\"\",\"c\"]",
-      "outputType": "JSON Text"
+      "outputType": "JSON Text",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "Text to split."
+        },
+        {
+          "name": "separator",
+          "description": "Nonempty separator text literal; empty entries from adjacent separators are retained."
+        }
+      ]
     },
     {
       "name": "trim",
@@ -308,7 +564,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${trim($.label)}",
       "input": "{\"label\":\"  Copper Ingot  \"}",
       "output": "Copper Ingot",
-      "outputType": "Text"
+      "outputType": "Text",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "Text whose leading and trailing whitespace is removed; interior whitespace is retained."
+        }
+      ]
     },
     {
       "name": "lower",
@@ -318,7 +580,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${lower($[0])}",
       "input": "MiXeD",
       "output": "mixed",
-      "outputType": "Text"
+      "outputType": "Text",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "Text to convert to lowercase."
+        }
+      ]
     },
     {
       "name": "upper",
@@ -328,7 +596,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${upper($[0])}",
       "input": "MiXeD",
       "output": "MIXED",
-      "outputType": "Text"
+      "outputType": "Text",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "Text to convert to uppercase."
+        }
+      ]
     }
   ],
   "examples": [

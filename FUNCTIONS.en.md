@@ -1,6 +1,6 @@
 # AFN Bridge Lua Function Manual
 
-**Applies to AFN 1.8.2.** [AFN WIKI](https://zhengkanqin.github.io/AFN-WIKI/) · [Chinese manual](./FUNCTIONS.md) · [English overview](./README.md)
+**Applies to AFN 1.8.3.** [AFN WIKI](https://zhengkanqin.github.io/AFN-WIKI/) · [Chinese manual](./FUNCTIONS.md) · [English overview](./README.md)
 
 Reference for functions, permissions, events, error codes, and compatibility fields in the `require("afn")` package and the raw `afn_bridge` peripheral.
 

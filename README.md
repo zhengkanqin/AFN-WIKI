@@ -6,7 +6,7 @@
 
 Create: Advanced Frequency Network
 
-**AFN 1.8.2 · Minecraft 1.21.1 · NeoForge · Create 6.0.0+**
+**AFN 1.8.3 · Minecraft 1.21.1 · NeoForge · Create 6.0.0+**
 
 Wireless redstone with addresses, permissions and data. Read instruments through Mailboxes, configure machines over a channel, build a control screen, and connect portable maps, pagers and computers to the same network.
 

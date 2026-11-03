@@ -1,6 +1,6 @@
 # AFN Compact Agent Reference
 
-**AFN 1.8.2 · Create: Advanced Frequency Network · Connect everything. Let data flow your way.**
+**AFN 1.8.3 · Create: Advanced Frequency Network · Connect everything. Let data flow your way.**
 
 For Agents to understand features, design player solutions and generate configurations; this is not a developer handover. [Illustrated WIKI](./index.en.html) · [Lua function manual](./FUNCTIONS.en.md) · [Public Channel API](https://github.com/zhengkanqin/AFN-WIKI/tree/main/API) · [Chinese reference](./AGENT.md). Device names refer to in-game items; do not freely translate JSON keys, function names or commands. The actual interface and server settings take precedence over the defaults below.
 
@@ -21,6 +21,7 @@ Install on both client and server. Base environment: Minecraft **1.21.1**, NeoFo
 | Create: Connected | Machine parameters/readings for clutches, kinetic batteries and kinetic bridges |
 | Create Crafts & Additions | Electric Motor speed/direction; exact Accumulator FE values, percentage and progress-bar reading |
 | Create Diesel Generators | Engine/Burner/Turret state and fluid readings; engine direction, turret aiming/spraying, valve opening and crank size |
+| Create: Radar | **5.0.3+**; radar contacts, targets, fire-control and warning readings; angles, targets, installed filters, safe zones, jammers and transponders |
 | Create Big Cannons | Cannon readings, angles, aiming and firing |
 | NetMusic | Record-player state/song/lyrics reading; speaker reading and control |
 | Xaero's World Map | Client terrain source; not required on the server; maps/grids remain available without it |
@@ -137,9 +138,13 @@ Attach a mailbox to the target and enable automatic reading; select specific rea
 | Crafts & Additions Accumulator | Exact integer FE for stored/capacity/remaining capacity, percentage or progress bar; any member block reads the whole structure |
 | Diesel Generators engines / Powered Engine Shaft | Actual RPM, production state and current SU capacity; engines also expose direction 0=clockwise/1=counterclockwise and fuel mB/capacity/name/ID. Modular members read their controller; Huge Engine RPM/capacity come from the shared shaft |
 | Diesel Generators Chemical Turret / Burner / Pumpjack Hole | Current/target yaw/pitch, actual spraying and fluid readings; valve opening 0–1, heat, output 0–15 and fluid; original oil reserves in integer B |
+| Radar Bearing / Plane Radar / Sky Radar / Sonar Bearing; Monitor / Network Controller | World point arrays, map JSON, detailed contacts and counts. Monitors use display caches; others preserve reported/jammed contacts. Target ID/position/velocity/category/friendly plus applicable operating/range/sweep/power/structure/network readings |
+| Radar controllers; RWR / Directional Jammer / Identification Transponder | Angles, limits, alignment/firing; warning strength and threats; jammer orientation/discharge/emitter; structure name and identity-registration state (not identification codes) |
 | Vanilla Note Block, Target, Respawn Anchor, Command Block, Enchanting Table; CC:T computer | Note/hit/charge/specified scoreboard entry/enchantment/computer content from the corresponding display sources |
 | NetMusic Speaker | Broadcast address, name, range and playback state |
 | NetMusic Record Player | Playback state, song title, artist, translated title, total/elapsed/remaining seconds, progress, current/all lyrics, song URL, loop, redstone, VIP, read-only and disc presence |
+
+Radar only samples selected fields, sharing 5-tick snapshots. `points_array` returns `[[x,y,z],...]` directly usable by Bridge maps/DP Radar. Map JSON is `{"points":[{"position":[x,y,z]}],"total_count":N,"returned_count":M,"truncated":false}`; Detailed Contacts uses `tracks` (id/position/velocity and available metadata). Length limits remove whole contacts, never cut JSON; standalone returned_count/truncated describe Coordinate Array. Extract the map field when reading multiple items.
 
 NetMusic progress is estimated from the server countdown, not exact audio time. Only checked entries are sampled/lyrics requested. Lyrics are cached asynchronously and available only for supported song sources. Missing lyrics are empty; oversized full lyrics return limit-exceeded text rather than incomplete truncated content.
 
@@ -169,6 +174,10 @@ Mailbox reception → output syntax → attached device; hidden terminals share 
 | Diesel Generators engines / Powered Engine Shaft | `direction=clockwise/counter_clockwise` (0/1); bare `1` or `{"direction":"counter_clockwise"}`. Whole modular groups / engines on one shaft change together; an empty shaft cannot be configured |
 | Diesel Generators Chemical Turret | `yaw/pitch/spray/spray_once`; bare `90,-20` or `{"yaw":90,"pitch":-20,"spray":true,"spray_once":false}`. Yaw normalizes 0–360, pitch −50–11. Sustained spraying needs `spray=false` to stop, not a falling channel signal; single spray does not wait for aiming. Fluid/power remain required |
 | Diesel Generators Burner / Pumpjack Crank | `burn_rate` valve opening 0–1, bare `0.5`; crank `size=normal/large` (0/1). Original mechanical, redstone and assembly conditions remain active |
+| Radar Auto Yaw / Auto Pitch / T-Pitch | `angle/min_angle/max_angle/action`; yaw angle±360°, limits±180° relative to neutral; all pitch angles±90°, subject to native limits. Pitch also accepts world `target:[x,y,z]` or `target_id`, defaulting to `aim_only`; `mode=manual_target` fires under original conditions, `auto/release` restores radar control; coordinate modes require an active signal and release on inactivity/source or target unload |
+| Radar Network Controller / Monitor | `target_id/clear_target`; `detect_*`, `ignore_names/identification_code`, `target_*/auto_target/line_of_sight/prefer_high_arc` require corresponding installed filters. `safe_zones` from/to are world coordinates, or storage-local when a structure UUID is supplied; empty arrays clear zones |
+| Sky Radar; Directional Jammer; Identification Transponder | `yaw/resume_rotation`; `yaw/pitch/enabled` (power/redstone/charge/target still required); `name/code` (20/10 characters, loaded Sable structure; name affects only that structure, code propagates through the loaded connected chain while retaining names) |
+| Radar Fire Controller | `powered` or bare true/false; true is maintained while the source channel is active and released on inactivity/target unload. false does not permanently inhibit automatic fire control; prefer independent control or Pitch manual_target |
 | Vanilla Note Block; NetMusic Speaker | `instrument/note`; `state/source/name/range` (stopping a live stream disconnects it; play reconnects) |
 
 ```text

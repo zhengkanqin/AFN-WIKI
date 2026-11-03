@@ -8,7 +8,17 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${default($.items[9], 0)}",
       "input": "{\"items\":[10,20]}",
       "output": "0",
-      "outputType": "数字"
+      "outputType": "数字",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "要检查的来源值，可用路径或嵌套函数。"
+        },
+        {
+          "name": "fallback",
+          "description": "来源缺失、路径不存在或为 null 时使用的 JSON 字面量。"
+        }
+      ]
     },
     {
       "name": "exists",
@@ -18,7 +28,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${exists($.target)}",
       "input": "{\"target\":null}",
       "output": "true",
-      "outputType": "布尔"
+      "outputType": "布尔",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "要检查是否存在的来源或路径；null 仍算存在。"
+        }
+      ]
     },
     {
       "name": "type",
@@ -28,7 +44,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${type($.target)}",
       "input": "{\"target\":[1,2]}",
       "output": "array",
-      "outputType": "文本"
+      "outputType": "文本",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "要查看类型的来源值。"
+        }
+      ]
     },
     {
       "name": "size",
@@ -38,7 +60,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${size($.items)}",
       "input": "{\"items\":[10,20,30]}",
       "output": "3",
-      "outputType": "数字"
+      "outputType": "数字",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "文本、数组或对象；分别计算字符数、元素数、成员数。"
+        }
+      ]
     },
     {
       "name": "number",
@@ -48,7 +76,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${number($[0])}",
       "input": "1,234,211 su",
       "output": "1234211",
-      "outputType": "数字"
+      "outputType": "数字",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "数字或含数字的文本；文本提取第一个数字片段。"
+        }
+      ]
     },
     {
       "name": "unit_number",
@@ -58,7 +92,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${unit_number($[0])}",
       "input": "8.12 kV",
       "output": "8120",
-      "outputType": "数字"
+      "outputType": "数字",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "含数值与倍率的文本，如 8.12 kV；k/M/G/T 参与倍率换算。"
+        }
+      ]
     },
     {
       "name": "game_time",
@@ -68,7 +108,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${game_time($.clock)}",
       "input": "{\"clock\":\"0:00 pm\"}",
       "output": "6000",
-      "outputType": "数字"
+      "outputType": "数字",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "要转换的时钟文本，例如 6:00 am；返回一天内的游戏刻。"
+        }
+      ]
     },
     {
       "name": "text",
@@ -78,7 +124,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${text($.count)}",
       "input": "{\"count\":12}",
       "output": "12",
-      "outputType": "文本"
+      "outputType": "文本",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "要转成文本的数字、布尔或原有文本。"
+        }
+      ]
     },
     {
       "name": "boolean",
@@ -88,7 +140,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${boolean($.flag)}",
       "input": "{\"flag\":\"true\"}",
       "output": "true",
-      "outputType": "布尔"
+      "outputType": "布尔",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "布尔值，或完全匹配小写 true / false 的文本。"
+        }
+      ]
     },
     {
       "name": "json",
@@ -98,7 +156,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${json($.stock)}",
       "input": "{\"stock\":{\"minecraft:apple\":8,\"minecraft:iron_ingot\":32}}",
       "output": "{\"minecraft:apple\":8,\"minecraft:iron_ingot\":32}",
-      "outputType": "JSON 文本"
+      "outputType": "JSON 文本",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "要序列化的已有值；只能作为最外层函数。"
+        }
+      ]
     },
     {
       "name": "strength",
@@ -108,7 +172,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${strength($)}",
       "input": "无数据；接收强度为 7",
       "output": "7",
-      "outputType": "数字"
+      "outputType": "数字",
+      "parameters": [
+        {
+          "name": "$ / $.信道名",
+          "description": "要读取强度的完整信道根。信箱用 $，多信道设备用 $.信道名；不能在后面接成员或数组下标。"
+        }
+      ]
     },
     {
       "name": "sum",
@@ -118,7 +188,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${sum($.values)}",
       "input": "{\"values\":[1,2,6]}",
       "output": "9",
-      "outputType": "数字"
+      "outputType": "数字",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "非空数字数组；返回元素总和。"
+        }
+      ]
     },
     {
       "name": "avg",
@@ -128,7 +204,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${avg($.values)}",
       "input": "{\"values\":[1,2,6]}",
       "output": "3",
-      "outputType": "数字"
+      "outputType": "数字",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "非空数字数组；返回算术平均值。"
+        }
+      ]
     },
     {
       "name": "min",
@@ -138,7 +220,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${min($.values)}",
       "input": "{\"values\":[1,2,6]}",
       "output": "1",
-      "outputType": "数字"
+      "outputType": "数字",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "非空数字数组；返回最小元素。"
+        }
+      ]
     },
     {
       "name": "max",
@@ -148,7 +236,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${max($.values)}",
       "input": "{\"values\":[1,2,6]}",
       "output": "6",
-      "outputType": "数字"
+      "outputType": "数字",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "非空数字数组；返回最大元素。"
+        }
+      ]
     },
     {
       "name": "join",
@@ -158,7 +252,17 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${join($.labels, \" / \")}",
       "input": "{\"labels\":[\"铜锭\",2,false]}",
       "output": "铜锭 / 2 / false",
-      "outputType": "文本"
+      "outputType": "文本",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "要拼接的数组，元素限文本、数字、布尔或 null。"
+        },
+        {
+          "name": "separator",
+          "description": "元素之间插入的文本字面量，例如 \" / \"；空字符串表示直接相连。"
+        }
+      ]
     },
     {
       "name": "round",
@@ -168,7 +272,17 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${round(number($.reading), 1)}",
       "input": "{\"reading\":\"1.26 su\"}",
       "output": "1.3",
-      "outputType": "数字"
+      "outputType": "数字",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "要舍入的数字。"
+        },
+        {
+          "name": "digits",
+          "description": "保留的小数位数，非负整数字面量；默认预算允许 0～3。"
+        }
+      ]
     },
     {
       "name": "clamp",
@@ -178,7 +292,21 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${clamp($.value, 0, 15)}",
       "input": "{\"value\":23}",
       "output": "15",
-      "outputType": "数字"
+      "outputType": "数字",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "要限制范围的数字。"
+        },
+        {
+          "name": "min",
+          "description": "允许的最小值，数字字面量。"
+        },
+        {
+          "name": "max",
+          "description": "允许的最大值，数字字面量；不得小于 min。"
+        }
+      ]
     },
     {
       "name": "add",
@@ -188,7 +316,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${add($.燃料1, $.燃料2, $.燃料3)}",
       "input": "{\"燃料1\":2,\"燃料2\":3,\"燃料3\":5}",
       "output": "10",
-      "outputType": "数字"
+      "outputType": "数字",
+      "parameters": [
+        {
+          "name": "a, b, ...",
+          "description": "依次相加的数字；至少两项，默认最多 8 项。可用路径、嵌套函数或数字字面量，至少一项是路径或函数。"
+        }
+      ]
     },
     {
       "name": "sub",
@@ -198,7 +332,17 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${sub($.库存, $.需求)}",
       "input": "{\"库存\":12,\"需求\":5}",
       "output": "7",
-      "outputType": "数字"
+      "outputType": "数字",
+      "parameters": [
+        {
+          "name": "a",
+          "description": "被减数，数字来源或数字字面量。"
+        },
+        {
+          "name": "b",
+          "description": "减数；a、b 至少一项是路径或函数。"
+        }
+      ]
     },
     {
       "name": "mul",
@@ -208,7 +352,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${mul(number($[0]), 2)}",
       "input": "8 su",
       "output": "16",
-      "outputType": "数字"
+      "outputType": "数字",
+      "parameters": [
+        {
+          "name": "a, b",
+          "description": "两个相乘的数字，至少一项是路径或函数。"
+        }
+      ]
     },
     {
       "name": "div",
@@ -218,7 +368,17 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${div($.完成, $.目标)}",
       "input": "{\"完成\":3,\"目标\":4}",
       "output": "0.75",
-      "outputType": "数字"
+      "outputType": "数字",
+      "parameters": [
+        {
+          "name": "a",
+          "description": "被除数。"
+        },
+        {
+          "name": "b",
+          "description": "除数，不能为 0；a、b 至少一项是路径或函数。"
+        }
+      ]
     },
     {
       "name": "if",
@@ -228,7 +388,21 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${if($.enabled, \"运行\", \"停机\")}",
       "input": "{\"enabled\":true}",
       "output": "运行",
-      "outputType": "文本"
+      "outputType": "文本",
+      "parameters": [
+        {
+          "name": "test",
+          "description": "布尔来源；true 选 yes，false 或缺值选 no。"
+        },
+        {
+          "name": "yes",
+          "description": "条件为 true 时的结果，可用路径、嵌套函数或 JSON 字面量。"
+        },
+        {
+          "name": "no",
+          "description": "条件为 false 或缺值时的结果；未选中的结果分支不求值。"
+        }
+      ]
     },
     {
       "name": "switch",
@@ -238,7 +412,21 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${switch($.mode, \"auto\", \"自动\", \"manual\", \"手动\", \"未知\")}",
       "input": "{\"mode\":\"manual\"}",
       "output": "手动",
-      "outputType": "文本"
+      "outputType": "文本",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "要匹配的来源值。"
+        },
+        {
+          "name": "match, result, ...",
+          "description": "按顺序成对填写匹配字面量和结果；match 为 JSON 标量，result 可用路径、函数或字面量。"
+        },
+        {
+          "name": "fallback",
+          "description": "末尾省略匹配值的默认结果；不填且均不匹配时返回缺值。"
+        }
+      ]
     },
     {
       "name": "substr",
@@ -248,7 +436,21 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${substr($[0], 0, 5)}",
       "input": "Power: 8.12kv",
       "output": "Power",
-      "outputType": "文本"
+      "outputType": "文本",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "要截取的文本。"
+        },
+        {
+          "name": "start",
+          "description": "起始字符下标，整数字面量；0 为开头，负数从末尾计算。"
+        },
+        {
+          "name": "length",
+          "description": "最多截取的字符数，非负整数字面量；省略则取到末尾。"
+        }
+      ]
     },
     {
       "name": "contains",
@@ -258,7 +460,17 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${contains($[0], \"Power\")}",
       "input": "Power: 8.12kv",
       "output": "true",
-      "outputType": "布尔"
+      "outputType": "布尔",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "要检查的文本。"
+        },
+        {
+          "name": "part",
+          "description": "要查找的文本字面量，区分大小写。"
+        }
+      ]
     },
     {
       "name": "starts_with",
@@ -268,7 +480,17 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${starts_with($[0], \"Power\")}",
       "input": "Power: 8.12kv",
       "output": "true",
-      "outputType": "布尔"
+      "outputType": "布尔",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "要检查的文本。"
+        },
+        {
+          "name": "part",
+          "description": "开头应匹配的文本字面量，区分大小写。"
+        }
+      ]
     },
     {
       "name": "ends_with",
@@ -278,7 +500,17 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${ends_with($[0], \"su\")}",
       "input": "8120 su",
       "output": "true",
-      "outputType": "布尔"
+      "outputType": "布尔",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "要检查的文本。"
+        },
+        {
+          "name": "part",
+          "description": "结尾应匹配的文本字面量，区分大小写。"
+        }
+      ]
     },
     {
       "name": "replace",
@@ -288,7 +520,21 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${replace($[0], \"Power\", \"Voltage\")}",
       "input": "Power: 8.12kv",
       "output": "Voltage: 8.12kv",
-      "outputType": "文本"
+      "outputType": "文本",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "要替换内容的文本。"
+        },
+        {
+          "name": "from",
+          "description": "要被替换的非空文本字面量，按普通文字匹配。"
+        },
+        {
+          "name": "to",
+          "description": "用于替换的文本字面量；空字符串表示删除匹配内容。"
+        }
+      ]
     },
     {
       "name": "split",
@@ -298,7 +544,17 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${split($.line, \",\")}",
       "input": "{\"line\":\"a,b,,c\"}",
       "output": "[\"a\",\"b\",\"\",\"c\"]",
-      "outputType": "JSON 文本"
+      "outputType": "JSON 文本",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "要拆分的文本。"
+        },
+        {
+          "name": "separator",
+          "description": "非空分隔文本字面量；相邻分隔符产生的空项会保留。"
+        }
+      ]
     },
     {
       "name": "trim",
@@ -308,7 +564,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${trim($.label)}",
       "input": "{\"label\":\"  铜锭  \"}",
       "output": "铜锭",
-      "outputType": "文本"
+      "outputType": "文本",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "要去除两端空白的文本，中间的空白保留。"
+        }
+      ]
     },
     {
       "name": "lower",
@@ -318,7 +580,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${lower($[0])}",
       "input": "MiXeD",
       "output": "mixed",
-      "outputType": "文本"
+      "outputType": "文本",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "要转为小写的文本。"
+        }
+      ]
     },
     {
       "name": "upper",
@@ -328,7 +596,13 @@ window.AFN_SYNTAX_CATALOG = {
       "example": "${upper($[0])}",
       "input": "MiXeD",
       "output": "MIXED",
-      "outputType": "文本"
+      "outputType": "文本",
+      "parameters": [
+        {
+          "name": "x",
+          "description": "要转为大写的文本。"
+        }
+      ]
     }
   ],
   "examples": [
